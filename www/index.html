@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    ons.ready(function() {
+      console.log("Onsen UI is ready!");
+    });
+
+    window.fn = {};
+    window.fn.open = function() {
+      var menu = document.getElementById('menu');
+      menu.open();
+    };
+    window.fn.load = function(page) {
+      var content = document.getElementById('content');
+      var menu = document.getElementById('menu');
+      content
+        .load(page)
+        .then(menu.close.bind(menu));
+    };
+
+  </script>
+</head>
+<body>
+  <ons-splitter>
+    <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+      <ons-page>
+        <div class="list-title"><ons-icon icon="md-calendar"> Livelog</div>
+        <ons-list>
+          <ons-list-item onclick="fn.load('home.html')" tappable>
+            2017
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('2016.html')" tappable>
+            2016
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('2015.html')" tappable>
+            2015
+          </ons-list-item>
+        </ons-list>
+        <div class="list-title"><ons-icon icon="md-download"> データ管理</div>
+        <ons-list>
+          <ons-list-item onclick="" tappable>
+            データクリア
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('export.html')" tappable>
+            エクスポート
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('import.html')" tappable>
+            インポート
+          </ons-list-item>
+        </ons-list>
+      </ons-page>
+    </ons-splitter-side>
+    <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+  </ons-splitter>
+
+  <ons-template id="home.html">
+    <ons-page>
+      <div class="toolbar toolbar--material">
+        <div class="toolbar__left toolbar--material__left">
+          <span class="toolbar-button toolbar-button--material" onclick="fn.open()">
+            <i class="zmdi zmdi-menu"></i>
+          </span>
+        </div>
+        <div class="toolbar__center toolbar--material__center">
+          2017
+        </div>
+      </div>
+    <ul class="list list--material">
+      <li class="list-item list-item--material  list-item--tappable">
+        <div class="list-item__center list-item--material__center">
+          <div class="list-item__title list-item--material__title">ワンマンライブ初音茶屋vol.51＠原宿ストロボカフェ</div>
+          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/08 OPEN 14:30 / START 15:00<br><ons-icon icon="md-face"></ons-icon> 初音<br><ons-icon icon="md-ticket-star"></ons-icon> 注文済</div>
+        </div>
+      </li>
+      <li class="list-item list-item--material  list-item--tappable">
+        <div class="list-item__center list-item--material__center">
+          <div class="list-item__title list-item--material__title">Make Happy Special !!＠代官山LOOP</div>
+          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/06 OPEN 17:00 / START 17:30<br><ons-icon icon="md-face"></ons-icon> 初音, 凸凹凸凹 ‐ルリロリ‐, caho, 瀬川あやか, BAND PASSPO☆, GIVE ME OW, 門脇更紗<br><ons-icon icon="md-ticket-star"></ons-icon> 予約済 <ons-icon icon="md-check-square"></ons-icon> 参加済</div>
+        </div>
+      </li>
+      <li class="list-item list-item--material  list-item--tappable">
+        <div class="list-item__center list-item--material__center">
+          <div class="list-item__title list-item--material__title">南るみレコ発 『そのうちなんてありえない』＠六本木morph-tokyo</div>
+          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 09/30 OPEN 18:00 / START 18:30<br><ons-icon icon="md-face"></ons-icon> 初音, 南るみ, yucat<br><ons-icon icon="md-ticket-star"></ons-icon> 予約済</div>
+        </div>
+      </li>
+    </ul>
+      <button class="fab fab--material fab--bottom__right"><i class="zmdi zmdi-plus"></i></button>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="2016.html">
+  <ons-page>
+      <div class="toolbar toolbar--material">
+        <div class="toolbar__left toolbar--material__left">
+          <span class="toolbar-button toolbar-button--material" onclick="fn.open()">
+            <i class="zmdi zmdi-menu"></i>
+          </span>
+        </div>
+        <div class="toolbar__center toolbar--material__center">
+          2016
+        </div>
+      </div>
+  </ons-page>
+  </ons-template>
+
+  <ons-template id="2015.html">
+  <ons-page>
+      <div class="toolbar toolbar--material">
+        <div class="toolbar__left toolbar--material__left">
+          <span class="toolbar-button toolbar-button--material" onclick="fn.open()">
+            <i class="zmdi zmdi-menu"></i>
+          </span>
+        </div>
+        <div class="toolbar__center toolbar--material__center">
+          2015
+        </div>
+      </div>
+  </ons-page>
+  </ons-template>
+
+</body>
+</html>
