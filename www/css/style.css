@@ -1,9 +1,17 @@
 /**/
 
-.toolbar--material {
-     background: #E91E63;
+.toolbar--livelog {
+    background: #E91E63;
 }
 
-.fab {
+.fab--livelog {
     background: #FFC107;
+}
+
+.fab--livelog:active {
+    background-color: rgba(254, 208, 24, .85);
+}
+
+.attendance {
+    color: #FF0000;
 }
