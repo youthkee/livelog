@@ -30,11 +30,24 @@
         .then(menu.close.bind(menu));
     };
 
+    document.addEventListener('init', function(event) {
+      var page = event.target;
+
+      if (page.id === 'list') {
+        page.querySelector('#push-button').onclick = function() {
+          document.querySelector('#myNavigator').pushPage('detail.html', {data: {title: ''}});
+        };
+      } else if (page.id === 'detail') {
+        page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+      }
+    });
+
   </script>
 </head>
 <body>
+
   <ons-splitter>
-    <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+    <ons-splitter-side id="menu" side="left" width="220px" collapse>
       <ons-page>
         <div class="list-title"><ons-icon icon="md-calendar"> Livelog</div>
         <ons-list>
@@ -62,12 +75,19 @@
         </ons-list>
       </ons-page>
     </ons-splitter-side>
-    <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+    <ons-splitter-content id="content" page="home.html">
+    </ons-splitter-content>
   </ons-splitter>
 
   <ons-template id="home.html">
-    <ons-page>
- 
+    <ons-page id="home">
+      <ons-navigator id="myNavigator" page="list.html"></ons-navigator>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="list.html">
+    <ons-page id="list">
+
       <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
         <div class="left">
           <ons-toolbar-button class="toolbar-button--material" onclick="fn.open()">
@@ -78,43 +98,43 @@
       </ons-toolbar>
 
     <ul class="list list--material">
-      <li class="list-item list-item--material  list-item--tappable">
+      <li class="list-item list-item--material list-item--tappable" id="push-button">
         <div class="list-item__center list-item--material__center">
           <div class="list-item__title list-item--material__title">ハピコレ×初音＠六本木morph-tokyo</div>
           <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/26 OPEN 18:00 / START 18:30<br><ons-icon icon="md-face"></ons-icon> 初音, 瀬川あやか, secondrate, immortal noctiluca, 珠麟-しゅりん-<br><ons-icon icon="md-ticket-star"></ons-icon> 未入手</div>
         </div>
       </li>
-      <li class="list-item list-item--material  list-item--tappable">
+      <li class="list-item list-item--material list-item--tappable">
         <div class="list-item__center list-item--material__center">
           <div class="list-item__title list-item--material__title">マリフェス〜ハロウィンナイト〜＠六本木morph-tokyo</div>
           <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/25 OPEN 18:30 / START 19:00<br><ons-icon icon="md-face"></ons-icon> 初音, 斉藤麻里, GIVE ME OW, マキアダチ<br><ons-icon icon="md-ticket-star"></ons-icon> 未入手</div>
         </div>
       </li>
-      <li class="list-item list-item--material  list-item--tappable">
+      <li class="list-item list-item--material list-item--tappable">
         <div class="list-item__center list-item--material__center">
           <div class="list-item__title list-item--material__title">HUG ROCK FESTIVAL 2017 体育の日＠渋谷宇田川町界隈 全12会場</div>
           <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/09 OPEN 12:30 / START 13:00<br><ons-icon icon="md-face"></ons-icon> 初音<br><ons-icon icon="md-ticket-star"></ons-icon> 入手済</div>
         </div>
       </li>
-      <li class="list-item list-item--material  list-item--tappable">
+      <li class="list-item list-item--material list-item--tappable">
         <div class="list-item__center list-item--material__center">
           <div class="list-item__title list-item--material__title">ワンマンライブ初音茶屋vol.51＠原宿ストロボカフェ</div>
           <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/08 OPEN 14:30 / START 15:00<br><ons-icon icon="md-face"></ons-icon> 初音<br><ons-icon icon="md-ticket-star"></ons-icon> 注文済</div>
         </div>
       </li>
-      <li class="list-item list-item--material  list-item--tappable">
+      <li class="list-item list-item--material list-item--tappable">
         <div class="list-item__center list-item--material__center">
           <div class="list-item__title list-item--material__title">Make Happy Special !!＠代官山LOOP</div>
           <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/06 OPEN 17:00 / START 17:30<br><ons-icon icon="md-face"></ons-icon> 初音, 凸凹凸凹 ‐ルリロリ‐, caho, 瀬川あやか, BAND PASSPO☆, GIVE ME OW, 門脇更紗<br><ons-icon icon="md-ticket-star"></ons-icon> 予約済</div>
         </div>
       </li>
-      <li class="list-item list-item--material  list-item--tappable">
+      <li class="list-item list-item--material list-item--tappable">
         <div class="list-item__center list-item--material__center">
           <div class="list-item__title list-item--material__title">南るみレコ発 『そのうちなんてありえない』＠六本木morph-tokyo</div>
           <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 09/30 OPEN 18:00 / START 18:30<br><ons-icon icon="md-face"></ons-icon> 初音, 南るみ, yucat<br><ons-icon icon="md-ticket-star"></ons-icon> 予約済 <span class="attendance"><ons-icon icon="md-check-square"></ons-icon> 参加済</span></div>
         </div>
       </li>
-      <li class="list-item list-item--material  list-item--tappable">
+      <li class="list-item list-item--material list-item--tappable">
         <div class="list-item__center list-item--material__center">
           <div class="list-item__title list-item--material__title">3 colors 〜瀬戸山清香×初音×宮﨑薫〜＠代官山LOOP</div>
           <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 09/26 OPEN 19:00 / START 18:30<br><ons-icon icon="md-face"></ons-icon> 初音, 宮﨑薫, 瀬戸山清香<br><ons-icon icon="md-ticket-star"></ons-icon> 予約済 <span class="attendance"><ons-icon icon="md-check-square"></ons-icon> 参加済</span></div>
@@ -154,6 +174,244 @@
           2015
         </div>
       </div>
+  </ons-page>
+  </ons-template>
+
+  <ons-template id="detail.html">
+  <ons-page id="detail">
+      <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
+        <div class="left">
+          <ons-back-button modifier="material"></ons-back-button>
+        </div>
+        <div class="center"></div>
+        <div class="right">
+          <ons-toolbar-button class="toolbar-button--material">
+            <ons-icon icon="md-edit"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+      <div class="list-title"><h3>ハピコレ×初音</h3></div>
+      <ul class="list">
+        <li class="list-item">
+          <div class="list-item__center">DATE</div>
+          <div class="list-item__right">
+            <div class="list-item__label">2017/10/26</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">OPEN</div>
+          <div class="list-item__right">
+            <div class="list-item__label">18:00</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">START</div>
+          <div class="list-item__right">
+            <div class="list-item__label">18:30</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">ADV</div>
+          <div class="list-item__right">
+            <div class="list-item__label">3000円</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">DOOR</div>
+          <div class="list-item__right">
+            <div class="list-item__label">3500円</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">AREA</div>
+          <div class="list-item__right">
+            <div class="list-item__label">六本木</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">PLACE</div>
+          <div class="list-item__right">
+            <div class="list-item__label">morph-tokyo</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">ADDRESS</div>
+          <div class="list-item__right">
+            <div class="list-item__label">東京都港区六本木4-11-11</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">TYPE</div>
+          <div class="list-item__right">
+            <div class="list-item__label">イベントライブ</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">GENRE</div>
+          <div class="list-item__right">
+            <div class="list-item__label">バンド</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">TICKET</div>
+          <div class="list-item__right">
+            <div class="list-item__label">未入手</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">ATTENDANCE</div>
+          <div class="list-item__right">
+            <div class="list-item__label"></div>
+          </div>
+        </li>
+      </ul>
+      <div class="list-title">INFO</div>
+      <ul class="list">
+        <li class="list-item list-item--tappable">
+          <div class="list-item__center">
+              https://ameblo.jp/koi-tsumugi/entry-12310813602.html
+          </div>
+          <div class="list-item__right">
+            <div class="list-item__label">
+              <ons-icon icon="md-collection-item"></ons-icon>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="list-title">ARTIST</div>
+      <ul class="list">
+        <li class="list-item">
+          <div class="list-item__center">初音</div>
+        </li>
+        <li class="list-item list-item--nodivider list-item--tappable">
+          <div class="list-item__center list-item--nodivider__center">
+            <div class="list-item__title">
+              SETLIST
+            </div>
+          </div>
+          <div class="list-item__right list-item--nodivider__right">
+            <div class="list-item__label">
+              <ons-icon icon="md-edit"></ons-icon>
+            </div>
+          </div>
+        </li>
+        <li class="list-item list-item--nodivider">
+          <div class="list-item__center list-item--nodivider__center">
+            1
+          </div>
+          <div class="list-item__right list-item--nodivider__right">
+            <div class="list-item__label">TRACK0</div>
+          </div>
+        </li>
+        <li class="list-item list-item--nodivider">
+          <div class="list-item__center list-item--nodivider__center">
+            2
+          </div>
+          <div class="list-item__right list-item--nodivider__right">
+            <div class="list-item__label">TRACK1</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center">
+            3
+          </div>
+          <div class="list-item__right">
+            <div class="list-item__label">TRACK2</div>
+          </div>
+        </li>
+        <li class="list-item list-item--nodivider list-item--tappable">
+          <div class="list-item__center list-item--nodivider__center">
+            <div class="list-item__title">
+              MEMBER
+            </div>
+          </div>
+          <div class="list-item__right list-item--nodivider__right">
+            <div class="list-item__label">
+              <ons-icon icon="md-edit"></ons-icon>
+            </div>
+          </div>
+        </li>
+        <li class="list-item list-item--nodivider">
+          <div class="list-item__center list-item--nodivider__center">
+            Vo.&Key.
+          </div>
+          <div class="list-item__right list-item--nodivider__right">
+            <div class="list-item__label">初音</div>
+          </div>
+        </li>
+        <li class="list-item list-item--nodivider">
+          <div class="list-item__center list-item--nodivider__center">
+            Gt.
+          </div>
+          <div class="list-item__right list-item--nodivider__right">
+            <div class="list-item__label">Sena</div>
+          </div>
+        </li>
+        <li class="list-item list-item--nodivider">
+          <div class="list-item__center list-item--nodivider__center">
+            Ba.
+          </div>
+          <div class="list-item__right list-item--nodivider__right">
+            <div class="list-item__label">夏海ルイ</div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__center list-item--nodivider__center">
+            Dr.
+          </div>
+          <div class="list-item__right">
+            <div class="list-item__label">U</div>
+          </div>
+        </li>
+      </ul>
+      <ul class="list">
+        <li class="list-item">
+          <div class="list-item__center">初音</div>
+        </li>
+        <li class="list-item list-item--tappable">
+          <div class="list-item__center">
+            <div class="list-item__title">
+              SETLIST
+            </div>
+          </div>
+          <div class="list-item__right">
+            <div class="list-item__label">
+              <ons-icon icon="md-edit"></ons-icon>
+            </div>
+          </div>
+        </li>
+        <li class="list-item list-item--tappable">
+          <div class="list-item__center">
+            <div class="list-item__title">
+              MEMBER
+            </div>
+          </div>
+          <div class="list-item__right">
+            <div class="list-item__label">
+              <ons-icon icon="md-edit"></ons-icon>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="list-title">MEMO</div>
+      <ul class="list">
+        <li class="list-item">
+          <div class="list-item__center">メモメモメモ</div>
+        </li>
+      </ul>
+      <div class="list-title">REPORT</div>
+      <ul class="list">
+        <li class="list-item list-item--tappable">
+          <div class="list-item__center">
+              https://ameblo.jp/koi-tsumugi/entry-12310813602.html
+          </div>
+          <div class="list-item__right">
+            <div class="list-item__label">
+              <ons-icon icon="md-collection-item"></ons-icon>
+            </div>
+          </div>
+        </li>
+      </ul>
   </ons-page>
   </ons-template>
 
