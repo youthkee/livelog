@@ -35,10 +35,12 @@
 
       if (page.id === 'list') {
         page.querySelector('#push-button').onclick = function() {
-          document.querySelector('#myNavigator').pushPage('detail.html', {data: {title: ''}});
+          document.querySelector('#myNavigator').pushPage('detail.html');
         };
       } else if (page.id === 'detail') {
-        page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+        page.querySelector('#push-button').onclick = function() {
+          document.querySelector('#myNavigator').pushPage('edit.html');
+        };
       }
     });
 
@@ -80,13 +82,13 @@
   </ons-splitter>
 
   <ons-template id="home.html">
-    <ons-page id="home">
-      <ons-navigator id="myNavigator" page="list.html"></ons-navigator>
-    </ons-page>
+  <ons-page id="home">
+    <ons-navigator id="myNavigator" page="list.html"></ons-navigator>
+  </ons-page>
   </ons-template>
 
   <ons-template id="list.html">
-    <ons-page id="list">
+  <ons-page id="list">
 
       <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
         <div class="left">
@@ -144,274 +146,571 @@
     <ons-fab position="bottom right" class="fab--material fab--livelog">
         <ons-icon icon="md-plus"></ons-icon>
     </ons-fab>
-    </ons-page>
+  </ons-page>
   </ons-template>
 
   <ons-template id="2016.html">
   <ons-page>
-      <div class="toolbar toolbar--material">
-        <div class="toolbar__left toolbar--material__left">
-          <span class="toolbar-button toolbar-button--material" onclick="fn.open()">
-            <i class="zmdi zmdi-menu"></i>
-          </span>
-        </div>
-        <div class="toolbar__center toolbar--material__center">
-          2016
-        </div>
+    <div class="toolbar toolbar--material">
+      <div class="toolbar__left toolbar--material__left">
+        <span class="toolbar-button toolbar-button--material" onclick="fn.open()">
+          <i class="zmdi zmdi-menu"></i>
+        </span>
       </div>
+      <div class="toolbar__center toolbar--material__center">
+        2016
+      </div>
+    </div>
   </ons-page>
   </ons-template>
 
   <ons-template id="2015.html">
   <ons-page>
-      <div class="toolbar toolbar--material">
-        <div class="toolbar__left toolbar--material__left">
-          <span class="toolbar-button toolbar-button--material" onclick="fn.open()">
-            <i class="zmdi zmdi-menu"></i>
-          </span>
-        </div>
-        <div class="toolbar__center toolbar--material__center">
-          2015
-        </div>
+    <div class="toolbar toolbar--material">
+      <div class="toolbar__left toolbar--material__left">
+        <span class="toolbar-button toolbar-button--material" onclick="fn.open()">
+          <i class="zmdi zmdi-menu"></i>
+        </span>
       </div>
+      <div class="toolbar__center toolbar--material__center">
+        2015
+      </div>
+    </div>
   </ons-page>
   </ons-template>
 
   <ons-template id="detail.html">
   <ons-page id="detail">
-      <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
-        <div class="left">
-          <ons-back-button modifier="material"></ons-back-button>
+    <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
+      <div class="left">
+        <ons-back-button modifier="material"></ons-back-button>
+      </div>
+      <div class="center"></div>
+      <div class="right">
+        <ons-toolbar-button class="toolbar-button--material" id="push-button">
+          <ons-icon icon="md-edit"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+    <div class="list-title"><h3>ハピコレ×初音</h3></div>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">DATE</div>
+        <div class="list-item__right">
+          <div class="list-item__label">2017/10/26</div>
         </div>
-        <div class="center"></div>
-        <div class="right">
-          <ons-toolbar-button class="toolbar-button--material">
-            <ons-icon icon="md-edit"></ons-icon>
-          </ons-toolbar-button>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">OPEN</div>
+        <div class="list-item__right">
+          <div class="list-item__label">18:00</div>
         </div>
-      </ons-toolbar>
-      <div class="list-title"><h3>ハピコレ×初音</h3></div>
-      <ul class="list">
-        <li class="list-item">
-          <div class="list-item__center">DATE</div>
-          <div class="list-item__right">
-            <div class="list-item__label">2017/10/26</div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">START</div>
+        <div class="list-item__right">
+          <div class="list-item__label">18:30</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">ADV</div>
+        <div class="list-item__right">
+          <div class="list-item__label">3000円</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">DOOR</div>
+        <div class="list-item__right">
+          <div class="list-item__label">3500円</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">AREA</div>
+        <div class="list-item__right">
+          <div class="list-item__label">六本木</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">PLACE</div>
+        <div class="list-item__right">
+          <div class="list-item__label">morph-tokyo</div>
+        </div>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__center">ADDRESS</div>
+        <div class="list-item__right">
+          <div class="list-item__label">東京都港区六本木4-11-11 <ons-icon icon="md-pin"></ons-icon></div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">INFO</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable">
+        <div class="list-item__center">
+            <div class="list-item__label">https://ameblo.jp/koi-tsumugi/entry-12310813602.html</div>
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-collection-item"></ons-icon>
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">OPEN</div>
-          <div class="list-item__right">
-            <div class="list-item__label">18:00</div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">ARTIST</div>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">初音</div>
+      </li>
+      <li class="list-item list-item--nodivider">
+        <div class="list-item__center list-item--nodivider__center">
+          <div class="list-item__title">
+            SETLIST
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">START</div>
-          <div class="list-item__right">
-            <div class="list-item__label">18:30</div>
+        </div>
+        <div class="list-item__right list-item--nodivider__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-edit" size="20px"></ons-icon>
+            <ons-icon icon="md-twitter" size="20px"></ons-icon>
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">ADV</div>
-          <div class="list-item__right">
-            <div class="list-item__label">3000円</div>
+        </div>
+      </li>
+      <li class="list-item list-item--nodivider">
+        <div class="list-item__center list-item--nodivider__center">
+          1
+        </div>
+        <div class="list-item__right list-item--nodivider__right">
+          <div class="list-item__label">TRACK0</div>
+        </div>
+      </li>
+      <li class="list-item list-item--nodivider">
+        <div class="list-item__center list-item--nodivider__center">
+          2
+        </div>
+        <div class="list-item__right list-item--nodivider__right">
+          <div class="list-item__label">TRACK1</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+          3
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">TRACK2</div>
+        </div>
+      </li>
+      <li class="list-item list-item--nodivider list-item--tappable">
+        <div class="list-item__center list-item--nodivider__center">
+          <div class="list-item__title">
+            MEMBER
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">DOOR</div>
-          <div class="list-item__right">
-            <div class="list-item__label">3500円</div>
+        </div>
+        <div class="list-item__right list-item--nodivider__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-edit" size="20px"></ons-icon>
+            <ons-icon icon="md-twitter" size="20px"></ons-icon>
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">AREA</div>
-          <div class="list-item__right">
-            <div class="list-item__label">六本木</div>
+        </div>
+      </li>
+      <li class="list-item list-item--nodivider">
+        <div class="list-item__center list-item--nodivider__center">
+          Vo.&Key.
+        </div>
+        <div class="list-item__right list-item--nodivider__right">
+          <div class="list-item__label">初音</div>
+        </div>
+      </li>
+      <li class="list-item list-item--nodivider">
+        <div class="list-item__center list-item--nodivider__center">
+          Gt.
+        </div>
+        <div class="list-item__right list-item--nodivider__right">
+          <div class="list-item__label">Sena</div>
+        </div>
+      </li>
+      <li class="list-item list-item--nodivider">
+        <div class="list-item__center list-item--nodivider__center">
+          Ba.
+        </div>
+        <div class="list-item__right list-item--nodivider__right">
+          <div class="list-item__label">夏海ルイ</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center list-item--nodivider__center">
+          Dr.
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">U</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">初音</div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+          <div class="list-item__title">
+            SETLIST
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">PLACE</div>
-          <div class="list-item__right">
-            <div class="list-item__label">morph-tokyo</div>
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-edit" size="20px"></ons-icon>
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">ADDRESS</div>
-          <div class="list-item__right">
-            <div class="list-item__label">東京都港区六本木4-11-11</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+          <div class="list-item__title">
+            MEMBER
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">TYPE</div>
-          <div class="list-item__right">
-            <div class="list-item__label">イベントライブ</div>
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-edit" size="20px"></ons-icon>
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">GENRE</div>
-          <div class="list-item__right">
-            <div class="list-item__label">バンド</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">TYPE</div>
+        <div class="list-item__right">
+          <div class="list-item__label">イベントライブ</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">GENRE</div>
+        <div class="list-item__right">
+          <div class="list-item__label">バンド</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">TICKET</div>
+        <div class="list-item__right">
+          <div class="list-item__label">未入手</div>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">ATTENDANCE</div>
+        <div class="list-item__right">
+          <div class="list-item__label"></div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">MEMO</div>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">メモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモ</div>
+      </li>
+    </ul>
+    <div class="list-title">REPORT</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable">
+        <div class="list-item__center">
+            https://ameblo.jp/koi-tsumugi/entry-12310813602.html
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-collection-item"></ons-icon>
           </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">TICKET</div>
-          <div class="list-item__right">
-            <div class="list-item__label">未入手</div>
-          </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">ATTENDANCE</div>
-          <div class="list-item__right">
-            <div class="list-item__label"></div>
-          </div>
-        </li>
-      </ul>
-      <div class="list-title">INFO</div>
-      <ul class="list">
-        <li class="list-item list-item--tappable">
-          <div class="list-item__center">
-              https://ameblo.jp/koi-tsumugi/entry-12310813602.html
-          </div>
-          <div class="list-item__right">
-            <div class="list-item__label">
-              <ons-icon icon="md-collection-item"></ons-icon>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <div class="list-title">ARTIST</div>
-      <ul class="list">
-        <li class="list-item">
-          <div class="list-item__center">初音</div>
-        </li>
-        <li class="list-item list-item--nodivider list-item--tappable">
-          <div class="list-item__center list-item--nodivider__center">
-            <div class="list-item__title">
-              SETLIST
-            </div>
-          </div>
-          <div class="list-item__right list-item--nodivider__right">
-            <div class="list-item__label">
-              <ons-icon icon="md-edit"></ons-icon>
-            </div>
-          </div>
-        </li>
-        <li class="list-item list-item--nodivider">
-          <div class="list-item__center list-item--nodivider__center">
-            1
-          </div>
-          <div class="list-item__right list-item--nodivider__right">
-            <div class="list-item__label">TRACK0</div>
-          </div>
-        </li>
-        <li class="list-item list-item--nodivider">
-          <div class="list-item__center list-item--nodivider__center">
-            2
-          </div>
-          <div class="list-item__right list-item--nodivider__right">
-            <div class="list-item__label">TRACK1</div>
-          </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center">
-            3
-          </div>
-          <div class="list-item__right">
-            <div class="list-item__label">TRACK2</div>
-          </div>
-        </li>
-        <li class="list-item list-item--nodivider list-item--tappable">
-          <div class="list-item__center list-item--nodivider__center">
-            <div class="list-item__title">
-              MEMBER
-            </div>
-          </div>
-          <div class="list-item__right list-item--nodivider__right">
-            <div class="list-item__label">
-              <ons-icon icon="md-edit"></ons-icon>
-            </div>
-          </div>
-        </li>
-        <li class="list-item list-item--nodivider">
-          <div class="list-item__center list-item--nodivider__center">
-            Vo.&Key.
-          </div>
-          <div class="list-item__right list-item--nodivider__right">
-            <div class="list-item__label">初音</div>
-          </div>
-        </li>
-        <li class="list-item list-item--nodivider">
-          <div class="list-item__center list-item--nodivider__center">
-            Gt.
-          </div>
-          <div class="list-item__right list-item--nodivider__right">
-            <div class="list-item__label">Sena</div>
-          </div>
-        </li>
-        <li class="list-item list-item--nodivider">
-          <div class="list-item__center list-item--nodivider__center">
-            Ba.
-          </div>
-          <div class="list-item__right list-item--nodivider__right">
-            <div class="list-item__label">夏海ルイ</div>
-          </div>
-        </li>
-        <li class="list-item">
-          <div class="list-item__center list-item--nodivider__center">
-            Dr.
-          </div>
-          <div class="list-item__right">
-            <div class="list-item__label">U</div>
-          </div>
-        </li>
-      </ul>
-      <ul class="list">
-        <li class="list-item">
-          <div class="list-item__center">初音</div>
-        </li>
-        <li class="list-item list-item--tappable">
-          <div class="list-item__center">
-            <div class="list-item__title">
-              SETLIST
-            </div>
-          </div>
-          <div class="list-item__right">
-            <div class="list-item__label">
-              <ons-icon icon="md-edit"></ons-icon>
-            </div>
-          </div>
-        </li>
-        <li class="list-item list-item--tappable">
-          <div class="list-item__center">
-            <div class="list-item__title">
-              MEMBER
-            </div>
-          </div>
-          <div class="list-item__right">
-            <div class="list-item__label">
-              <ons-icon icon="md-edit"></ons-icon>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <div class="list-title">MEMO</div>
-      <ul class="list">
-        <li class="list-item">
-          <div class="list-item__center">メモメモメモ</div>
-        </li>
-      </ul>
-      <div class="list-title">REPORT</div>
-      <ul class="list">
-        <li class="list-item list-item--tappable">
-          <div class="list-item__center">
-              https://ameblo.jp/koi-tsumugi/entry-12310813602.html
-          </div>
-          <div class="list-item__right">
-            <div class="list-item__label">
-              <ons-icon icon="md-collection-item"></ons-icon>
-            </div>
-          </div>
-        </li>
-      </ul>
+        </div>
+      </li>
+    </ul>
+  </ons-page>
+  </ons-template>
+
+  <ons-template id="edit.html">
+  <ons-page id="edit">
+    <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
+      <div class="left">
+        <ons-back-button modifier="material"></ons-back-button>
+      </div>
+    </ons-toolbar>
+    <div class="list-title">
+      <h3>
+        <input type="text" class="text-input" placeholder="TITLE">
+      </h3>
+    </div>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">DATE</div>
+        <div class="list-item__right">
+          <select class="select-input">
+            <option>2017</option>
+            <option>2016</option>
+            <option>2015</option>
+          </select>
+          <select class="select-input">
+            <option>01</option>
+            <option>02</option>
+            <option>03</option>
+          </select>
+          <select class="select-input">
+            <option>01</option>
+            <option>02</option>
+            <option>03</option>
+          </select>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">OPEN</div>
+        <div class="list-item__right">
+          <select class="select-input">
+            <option>00</option>
+            <option>01</option>
+            <option>02</option>
+          </select>:
+          <select class="select-input">
+            <option>00</option>
+            <option>01</option>
+            <option>02</option>
+          </select>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">START</div>
+        <div class="list-item__right">
+          <select class="select-input">
+            <option>00</option>
+            <option>01</option>
+            <option>02</option>
+          </select>:
+          <select class="select-input">
+            <option>00</option>
+            <option>01</option>
+            <option>02</option>
+          </select>
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" placeholder="ADV">
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" placeholder="DOOR">
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" placeholder="AREA">
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" placeholder="PLACE">
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" placeholder="ADRESS">
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" placeholder="INFO(URL)">
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">ARTIST</div>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">
+          <input type="text" class="text-input" placeholder="Name">
+        </div>
+        <div class="list-item__right">
+          <ons-icon icon="md-plus"></ons-icon> 
+          <ons-icon icon="md-minus"></ons-icon>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">TYPE</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="type0" class="radio-button__input" name="type" checked="checked">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="type0" class="list-item__center">
+          イベントライブ
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="type1" class="radio-button__input" name="type">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="type1" class="list-item__center">
+          ワンマンライブ
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="type2" class="radio-button__input" name="type">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="type2" class="list-item__center">
+          フェス
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="type3" class="radio-button__input" name="type">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="type3" class="list-item__center">
+          ツアー
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="type4" class="radio-button__input" name="type">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="type4" class="list-item__center">
+          その他
+        </label>
+      </li>
+    </ul>
+    <div class="list-title">GENRE</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="genre0" class="radio-button__input" name="genre" checked="checked">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="genre0" class="list-item__center">
+          弾き語り
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="genre1" class="radio-button__input" name="genre">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="genre1" class="list-item__center">
+          アコースティック
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="genre2" class="radio-button__input" name="genre">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="genre2" class="list-item__center">
+          バンド
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="genre3" class="radio-button__input" name="genre">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="genre3" class="list-item__center">
+          その他
+        </label>
+      </li>
+    </ul>
+    <div class="list-title">TICKET</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="ticket0" class="radio-button__input" name="ticket" checked="checked">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="ticket0" class="list-item__center">
+          未入手
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="ticket1" class="radio-button__input" name="ticket">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="ticket1" class="list-item__center">
+          予約済
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="ticket2" class="radio-button__input" name="ticket">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="ticket2" class="list-item__center">
+          注文済
+        </label>
+      </li>
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="radio-button">
+            <input type="radio" id="ticket3" class="radio-button__input" name="ticket">
+            <div class="radio-button__checkmark"></div>
+          </label>
+        </div>
+        <label for="ticket3" class="list-item__center">
+          入手済
+        </label>
+      </li>
+    </ul>
+    <div class="list-title">ATTENDANCE</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable">
+        <div class="list-item__left">
+          <label class="checkbox checkbox--noborder">
+            <input id="attendance" type="checkbox" class="checkbox__input checkbox--noborder__input">
+            <div class="checkbox__checkmark checkbox--noborder checkbox--noborder__checkmark"></div>
+          </label>
+        </div>
+        <label for="attendance" class="list-item__center">
+          参加済
+        </label>
+      </li>
+    </ul>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">
+          <textarea class="textarea textarea--transparent" placeholder="MEMO"></textarea>
+        </div>
+      </li>
+    </ul>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" placeholder="REPORT(URL)">
+        </div>
+      </li>
+    </ul>
+    <div class="center" style="padding: 8px">
+      <ons-button modifier="large" class="button--livelog button--resist">登録</ons-button>
+      <ons-button modifier="large light" class="button--light--livelog">ライブ情報を削除</ons-button>
+    </div>
   </ons-page>
   </ons-template>
 
