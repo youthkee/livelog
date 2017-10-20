@@ -29,12 +29,23 @@
     margin-bottom: 8px;
 }
 
-.button--outline--livelog {
-    color: #FFC107;
-    border-color: #FFC107;
-}
-
 .button--light--livelog:active {
     background-color: rgba(0, 0, 0, .05);
     opacity: 1;
+}
+
+.icon--tappable {
+    margin-left: 10px;
+}
+
+.select-input--livelog {
+    margin-left: 5px;
+}
+
+.select-input--separator {
+    margin-left: 5px;
+}
+
+.text-input--half {
+    width: 100px;
 }
