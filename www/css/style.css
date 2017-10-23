@@ -49,3 +49,7 @@
 .text-input--half {
     width: 100px;
 }
+
+.textarea--livelog {
+    width: 100%; 
+}
