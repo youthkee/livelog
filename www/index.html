@@ -69,7 +69,7 @@
             2015
           </ons-list-item>
         </ons-list>
-        <div class="list-title"><ons-icon icon="md-download"> データ管理</div>
+        <div class="list-title"><ons-icon icon="md-settings"> Setting</div>
         <ons-list>
           <ons-list-item onclick="" tappable>
             データクリア
@@ -79,6 +79,15 @@
           </ons-list-item>
           <ons-list-item onclick="fn.load('import.html')" tappable>
             インポート
+          </ons-list-item>
+        </ons-list>
+        <div class="list-title"><ons-icon icon="md-info-outline"> Info</div>
+        <ons-list>
+          <ons-list-item onclick="" tappable>
+            おすすめライブ情報
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('about.html')" tappable>
+            Livelogについて
           </ons-list-item>
         </ons-list>
       </ons-page>
@@ -1142,6 +1151,64 @@
     </ul>
     <div class="center" style="padding: 8px">
       <ons-button modifier="large" class="button--livelog button--resist">読み込む</ons-button>
+    </div>
+  </ons-page>
+  </ons-template>
+
+  <ons-template id="about.html">
+  <ons-page id="about">
+    <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
+      <div class="left">
+        <ons-toolbar-button class="toolbar-button--material" onclick="fn.open()">
+          <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">Livelogについて</div>
+    </ons-toolbar>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">バージョン</div>
+        <div class="list-item__right">
+          <div class="list-item__label">0.0.1</div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">ウェブサイト</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable">
+        <div class="list-item__center">
+            https://livelogjp.github.io/livelog/
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-collection-item"></ons-icon>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">開発元</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable">
+        <div class="list-item__center">
+            http://littlebird.mobi/
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-collection-item"></ons-icon>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">サポート</div>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">
+            <div class="list-item__subtitle">このアプリに関するご質問やご意見・ご感想は、以下のお問い合わせフォームまでご連絡ください。</div>
+        </div>
+      </li>
+    </ul>
+    <div class="center" style="padding: 8px">
+      <ons-button modifier="large" class="button--livelog button--resist">お問い合わせフォームへ</ons-icon></ons-button>
     </div>
   </ons-page>
   </ons-template>
