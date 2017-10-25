@@ -37,6 +37,9 @@
         page.querySelector('#push-button').onclick = function() {
           document.querySelector('#myNavigator').pushPage('detail.html');
         };
+        page.querySelector('#add-button').onclick = function() {
+          document.querySelector('#myNavigator').pushPage('edit.html');
+        };
       } else if (page.id === 'detail') {
         page.querySelector('#push-button').onclick = function() {
           document.querySelector('#myNavigator').pushPage('edit.html');
@@ -47,8 +50,44 @@
         page.querySelector('#push-member').onclick = function() {
           document.querySelector('#myNavigator').pushPage('member.html');
         };
+      } else if (page.id === 'edit') {
+        page.querySelector('#resist-button').onclick = function() {
+          document.querySelector('#myNavigator').popPage({animation: 'fade'});
+        };
+      } else if (page.id === 'setlist') {
+        page.querySelector('#resist-button').onclick = function() {
+          document.querySelector('#myNavigator').popPage({animation: 'fade'});
+        };
+      } else if (page.id === 'member') {
+        page.querySelector('#resist-button').onclick = function() {
+          document.querySelector('#myNavigator').popPage({animation: 'fade'});
+        };
       }
     });
+    
+    var showDialog = function (id) {
+      document
+        .getElementById(id)
+        .show();
+    };
+
+    var hideDialog = function (id) {
+      document
+        .getElementById(id)
+        .hide();
+    };
+
+    var popPageFade = function (id) {
+      document
+        .getElementById(id)
+        .popPage({animation: 'fade'});
+    };
+
+    var resetToPageFade = function (id) {
+      document
+        .getElementById(id)
+        .resetToPage('home.html' , {animation: 'fade'});
+    };
 
   </script>
 </head>
@@ -71,7 +110,7 @@
         </ons-list>
         <div class="list-title"><ons-icon icon="md-settings"> Setting</div>
         <ons-list>
-          <ons-list-item onclick="" tappable>
+          <ons-list-item onclick="showDialog('dialog-1')" tappable>
             データクリア
           </ons-list-item>
           <ons-list-item onclick="fn.load('export.html')" tappable>
@@ -158,7 +197,7 @@
         </div>
       </li>
     </ul>
-    <ons-fab position="bottom right" class="fab--material fab--livelog">
+    <ons-fab position="bottom right" class="fab--material fab--livelog" id="add-button">
         <ons-icon icon="md-plus"></ons-icon>
     </ons-fab>
   </ons-page>
@@ -727,8 +766,8 @@
       </li>
     </ul>
     <div class="center" style="padding: 8px">
-      <ons-button modifier="large" class="button--livelog button--resist">登録</ons-button>
-      <ons-button modifier="large light" class="button--light--livelog">ライブ情報を削除</ons-button>
+      <ons-button modifier="large" class="button--livelog button--resist" id="resist-button">登録</ons-button>
+      <ons-button modifier="large light" class="button--light--livelog" onclick="showDialog('dialog-2')">ライブ情報を削除</ons-button>
     </div>
   </ons-page>
   </ons-template>
@@ -758,8 +797,8 @@
       </li>
     </ul>
     <div class="center" style="padding: 8px">
-      <ons-button modifier="large" class="button--livelog button--resist">登録</ons-button>
-      <ons-button modifier="large light" class="button--light--livelog">セットリストを削除</ons-button>
+      <ons-button modifier="large" class="button--livelog button--resist" id="resist-button">登録</ons-button>
+      <ons-button modifier="large light" class="button--light--livelog" onclick="showDialog('dialog-3')">セットリストを削除</ons-button>
     </div>
   </ons-page>
   </ons-template>
@@ -789,8 +828,8 @@
       </li>
     </ul>
     <div class="center" style="padding: 8px">
-      <ons-button modifier="large" class="button--livelog button--resist">登録</ons-button>
-      <ons-button modifier="large light" class="button--light--livelog">メンバーを削除</ons-button>
+      <ons-button modifier="large" class="button--livelog button--resist" id="resist-button">登録</ons-button>
+      <ons-button modifier="large light" class="button--light--livelog" onclick="showDialog('dialog-4')">メンバーを削除</ons-button>
     </div>
   </ons-page>
   </ons-template>
@@ -1212,6 +1251,46 @@
     </div>
   </ons-page>
   </ons-template>
+
+  <ons-alert-dialog modifier="material" id="dialog-1">
+    <div class="alert-dialog-content alert-dialog-content--material">
+      全てのライブ情報を削除してよろしいですか？
+    </div>
+    <div class="alert-dialog-footer alert-dialog-footer--material">
+      <button class="alert-dialog-button alert-dialog-button--material alert-dialog-button--livelog" onclick="hideDialog('dialog-1');fn.load('home.html');">OK</button>
+      <button class="alert-dialog-button alert-dialog-button--material alert-dialog-button--livelog" onclick="hideDialog('dialog-1')">Cancel</button>
+    </div>
+  </ons-alert-dialog>
+
+  <ons-alert-dialog modifier="material" id="dialog-2">
+    <div class="alert-dialog-content">
+      ライブ情報を削除してよろしいですか？
+    </div>
+    <div class="alert-dialog-footer">
+      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-2');fn.load('home.html');">OK</button>
+      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-2')">Cancel</button>
+    </div>
+  </ons-alert-dialog>
+
+  <ons-alert-dialog modifier="material" id="dialog-3">
+    <div class="alert-dialog-content">
+      セットリストを削除してよろしいですか？
+    </div>
+    <div class="alert-dialog-footer">
+      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-3');popPageFade('myNavigator');">OK</button>
+      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-3')">Cancel</button>
+    </div>
+  </ons-alert-dialog>
+
+  <ons-alert-dialog modifier="material" id="dialog-4">
+    <div class="alert-dialog-content">
+      メンバーを削除してよろしいですか？
+    </div>
+    <div class="alert-dialog-footer">
+      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-4');popPageFade('myNavigator');">OK</button>
+      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-4')">Cancel</button>
+    </div>
+  </ons-alert-dialog>
 
 </body>
 </html>

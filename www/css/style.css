@@ -53,3 +53,7 @@
 .textarea--livelog {
     width: 100%; 
 }
+
+.alert-dialog-button--livelog {
+    color: #E91E63;
+}
