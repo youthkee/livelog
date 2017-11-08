@@ -6,90 +6,13 @@
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="js/app.js"></script>
 
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
 
-  <script>
-    ons.ready(function() {
-      console.log("Onsen UI is ready!");
-    });
-
-    window.fn = {};
-    window.fn.open = function() {
-      var menu = document.getElementById('menu');
-      menu.open();
-    };
-    window.fn.load = function(page) {
-      var content = document.getElementById('content');
-      var menu = document.getElementById('menu');
-      content
-        .load(page)
-        .then(menu.close.bind(menu));
-    };
-
-    document.addEventListener('init', function(event) {
-      var page = event.target;
-
-      if (page.id === 'list') {
-        page.querySelector('#push-button').onclick = function() {
-          document.querySelector('#myNavigator').pushPage('detail.html');
-        };
-        page.querySelector('#add-button').onclick = function() {
-          document.querySelector('#myNavigator').pushPage('edit.html');
-        };
-      } else if (page.id === 'detail') {
-        page.querySelector('#push-button').onclick = function() {
-          document.querySelector('#myNavigator').pushPage('edit.html');
-        };
-        page.querySelector('#push-setlist').onclick = function() {
-          document.querySelector('#myNavigator').pushPage('setlist.html');
-        };
-        page.querySelector('#push-member').onclick = function() {
-          document.querySelector('#myNavigator').pushPage('member.html');
-        };
-      } else if (page.id === 'edit') {
-        page.querySelector('#resist-button').onclick = function() {
-          document.querySelector('#myNavigator').popPage({animation: 'fade'});
-        };
-      } else if (page.id === 'setlist') {
-        page.querySelector('#resist-button').onclick = function() {
-          document.querySelector('#myNavigator').popPage({animation: 'fade'});
-        };
-      } else if (page.id === 'member') {
-        page.querySelector('#resist-button').onclick = function() {
-          document.querySelector('#myNavigator').popPage({animation: 'fade'});
-        };
-      }
-    });
-    
-    var showDialog = function (id) {
-      document
-        .getElementById(id)
-        .show();
-    };
-
-    var hideDialog = function (id) {
-      document
-        .getElementById(id)
-        .hide();
-    };
-
-    var popPageFade = function (id) {
-      document
-        .getElementById(id)
-        .popPage({animation: 'fade'});
-    };
-
-    var resetToPageFade = function (id) {
-      document
-        .getElementById(id)
-        .resetToPage('home.html' , {animation: 'fade'});
-    };
-
-  </script>
 </head>
 <body>
 
@@ -153,47 +76,10 @@
         <div class="center">2017</div>
       </ons-toolbar>
 
-    <ul class="list list--material">
-      <li class="list-item list-item--material list-item--tappable" id="push-button">
-        <div class="list-item__center list-item--material__center">
-          <div class="list-item__title list-item--material__title">ハピコレ×初音＠六本木morph-tokyo</div>
-          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/26 OPEN 18:00 / START 18:30<br><ons-icon icon="md-face"></ons-icon> 初音, 瀬川あやか, secondrate, immortal noctiluca, 珠麟-しゅりん-<br><ons-icon icon="md-ticket-star"></ons-icon> 未入手</div>
-        </div>
-      </li>
-      <li class="list-item list-item--material list-item--tappable">
-        <div class="list-item__center list-item--material__center">
-          <div class="list-item__title list-item--material__title">マリフェス〜ハロウィンナイト〜＠六本木morph-tokyo</div>
-          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/25 OPEN 18:30 / START 19:00<br><ons-icon icon="md-face"></ons-icon> 初音, 斉藤麻里, GIVE ME OW, マキアダチ<br><ons-icon icon="md-ticket-star"></ons-icon> 未入手</div>
-        </div>
-      </li>
-      <li class="list-item list-item--material list-item--tappable">
-        <div class="list-item__center list-item--material__center">
-          <div class="list-item__title list-item--material__title">HUG ROCK FESTIVAL 2017 体育の日＠渋谷宇田川町界隈 全12会場</div>
-          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/09 OPEN 12:30 / START 13:00<br><ons-icon icon="md-face"></ons-icon> 初音<br><ons-icon icon="md-ticket-star"></ons-icon> 入手済</div>
-        </div>
-      </li>
-      <li class="list-item list-item--material list-item--tappable">
-        <div class="list-item__center list-item--material__center">
-          <div class="list-item__title list-item--material__title">ワンマンライブ初音茶屋vol.51＠原宿ストロボカフェ</div>
-          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/08 OPEN 14:30 / START 15:00<br><ons-icon icon="md-face"></ons-icon> 初音<br><ons-icon icon="md-ticket-star"></ons-icon> 注文済</div>
-        </div>
-      </li>
-      <li class="list-item list-item--material list-item--tappable">
-        <div class="list-item__center list-item--material__center">
-          <div class="list-item__title list-item--material__title">Make Happy Special !!＠代官山LOOP</div>
-          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 10/06 OPEN 17:00 / START 17:30<br><ons-icon icon="md-face"></ons-icon> 初音, 凸凹凸凹 ‐ルリロリ‐, caho, 瀬川あやか, BAND PASSPO☆, GIVE ME OW, 門脇更紗<br><ons-icon icon="md-ticket-star"></ons-icon> 予約済</div>
-        </div>
-      </li>
-      <li class="list-item list-item--material list-item--tappable">
-        <div class="list-item__center list-item--material__center">
-          <div class="list-item__title list-item--material__title">南るみレコ発 『そのうちなんてありえない』＠六本木morph-tokyo</div>
-          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 09/30 OPEN 18:00 / START 18:30<br><ons-icon icon="md-face"></ons-icon> 初音, 南るみ, yucat<br><ons-icon icon="md-ticket-star"></ons-icon> 予約済 <span class="attendance"><ons-icon icon="md-check-square"></ons-icon> 参加済</span></div>
-        </div>
-      </li>
-      <li class="list-item list-item--material list-item--tappable">
-        <div class="list-item__center list-item--material__center">
-          <div class="list-item__title list-item--material__title">3 colors 〜瀬戸山清香×初音×宮﨑薫〜＠代官山LOOP</div>
-          <div class="list-item__subtitle list-item--material__subtitle"><ons-icon icon="md-time"></ons-icon> 09/26 OPEN 19:00 / START 18:30<br><ons-icon icon="md-face"></ons-icon> 初音, 宮﨑薫, 瀬戸山清香<br><ons-icon icon="md-ticket-star"></ons-icon> 予約済 <span class="attendance"><ons-icon icon="md-check-square"></ons-icon> 参加済</span></div>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">
+          ライブが登録されていません。
         </div>
       </li>
     </ul>
@@ -484,90 +370,53 @@
     </ons-toolbar>
     <div class="list-title">
       <h3>
-        <input type="text" class="text-input" placeholder="TITLE">
+        <input type="text" class="text-input" id="title" placeholder="TITLE">
       </h3>
     </div>
     <ul class="list">
       <li class="list-item">
-        <div class="list-item__center">DATE</div>
-        <div class="list-item__right">
-          <select class="select-input select-input--livelog">
-            <option>2017</option>
-            <option>2016</option>
-            <option>2015</option>
-          </select>
-          <select class="select-input select-input--livelog">
-            <option>01</option>
-            <option>02</option>
-            <option>03</option>
-          </select>
-          <select class="select-input select-input--livelog">
-            <option>01</option>
-            <option>02</option>
-            <option>03</option>
-          </select>
-        </div>
-      </li>
-      <li class="list-item">
-        <div class="list-item__center">OPEN</div>
-        <div class="list-item__right">
-          <select class="select-input select-input--livelog">
-            <option>00</option>
-            <option>01</option>
-            <option>02</option>
-          </select>
-          <span class="select-input--separator">:</span>
-          <select class="select-input select-input--livelog">
-            <option>00</option>
-            <option>01</option>
-            <option>02</option>
-          </select>
-        </div>
-      </li>
-      <li class="list-item">
-        <div class="list-item__center">START</div>
-        <div class="list-item__right">
-          <select class="select-input select-input--livelog">
-            <option>00</option>
-            <option>01</option>
-            <option>02</option>
-          </select>
-          <span class="select-input--separator">:</span>
-          <select class="select-input select-input--livelog">
-            <option>00</option>
-            <option>01</option>
-            <option>02</option>
-          </select>
+        <div class="list-item__center">
+            <input type="text" class="text-input" id="date" placeholder="DATE（例：2007/09/05）">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" placeholder="ADV">
+            <input type="text" class="text-input" id="open" placeholder="OPEN（例：18:30）">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" placeholder="DOOR">
+            <input type="text" class="text-input" id="start" placeholder="START（例：19:00）">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" placeholder="AREA">
+            <input type="text" class="text-input" id="adv" placeholder="ADV">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" placeholder="PLACE">
+            <input type="text" class="text-input" id="door" placeholder="DOOR">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" placeholder="ADRESS">
+            <input type="text" class="text-input" id="area" placeholder="AREA">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" placeholder="INFO(URL)">
+            <input type="text" class="text-input" id="place" placeholder="PLACE">
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" id="address" placeholder="ADDRESS">
+        </div>
+      </li>
+      <li class="list-item">
+        <div class="list-item__center">
+            <input type="text" class="text-input" id="info" placeholder="INFO(URL)">
         </div>
       </li>
     </ul>
@@ -575,7 +424,7 @@
     <ul class="list">
       <li class="list-item">
         <div class="list-item__center">
-          <input type="text" class="text-input" placeholder="Name">
+          <input type="text" class="text-input artist" id="artist0" placeholder="NAME">
         </div>
         <div class="list-item__right">
           <div class="list-item__label">
@@ -590,7 +439,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="type0" class="radio-button__input" name="type" checked="checked">
+            <input type="radio" id="type0" class="radio-button__input" name="type" value="イベントライブ">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -601,7 +450,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="type1" class="radio-button__input" name="type">
+            <input type="radio" id="type1" class="radio-button__input" name="type" value="ワンマンライブ">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -612,7 +461,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="type2" class="radio-button__input" name="type">
+            <input type="radio" id="type2" class="radio-button__input" name="type" value="フェス">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -623,7 +472,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="type3" class="radio-button__input" name="type">
+            <input type="radio" id="type3" class="radio-button__input" name="type" value="ツアー">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -634,7 +483,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="type4" class="radio-button__input" name="type">
+            <input type="radio" id="type4" class="radio-button__input" name="type" value="その他">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -648,7 +497,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="genre0" class="radio-button__input" name="genre" checked="checked">
+            <input type="radio" id="genre0" class="radio-button__input" name="genre" value="弾き語り">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -659,7 +508,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="genre1" class="radio-button__input" name="genre">
+            <input type="radio" id="genre1" class="radio-button__input" name="genre" value="アコースティック">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -670,7 +519,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="genre2" class="radio-button__input" name="genre">
+            <input type="radio" id="genre2" class="radio-button__input" name="genre" value="バンド">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -681,7 +530,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="genre3" class="radio-button__input" name="genre">
+            <input type="radio" id="genre3" class="radio-button__input" name="genre" value="その他">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -695,7 +544,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="ticket0" class="radio-button__input" name="ticket" checked="checked">
+            <input type="radio" id="ticket0" class="radio-button__input" name="ticket" value="未入手">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -706,7 +555,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="ticket1" class="radio-button__input" name="ticket">
+            <input type="radio" id="ticket1" class="radio-button__input" name="ticket" value="予約済">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -717,7 +566,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="ticket2" class="radio-button__input" name="ticket">
+            <input type="radio" id="ticket2" class="radio-button__input" name="ticket" value="注文済">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -728,7 +577,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="radio-button">
-            <input type="radio" id="ticket3" class="radio-button__input" name="ticket">
+            <input type="radio" id="ticket3" class="radio-button__input" name="ticket" value="入手済">
             <div class="radio-button__checkmark"></div>
           </label>
         </div>
@@ -754,19 +603,19 @@
     <ul class="list">
       <li class="list-item">
         <div class="list-item__center">
-          <textarea class="textarea textarea--transparent" placeholder="MEMO"></textarea>
+          <textarea class="textarea textarea--transparent" id="memo" placeholder="MEMO"></textarea>
         </div>
       </li>
     </ul>
     <ul class="list">
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" placeholder="REPORT(URL)">
+            <input type="text" class="text-input" id="report" placeholder="REPORT(URL)">
         </div>
       </li>
     </ul>
     <div class="center" style="padding: 8px">
-      <ons-button modifier="large" class="button--livelog button--resist" id="resist-button">登録</ons-button>
+      <ons-button modifier="large" class="button--livelog button--resist" id="resist-button" onclick="liveDataSave();">登録</ons-button>
       <ons-button modifier="large light" class="button--light--livelog" onclick="showDialog('dialog-2')">ライブ情報を削除</ons-button>
     </div>
   </ons-page>
