@@ -2,6 +2,68 @@ function $(id){return document.getElementById(id);}
 
 ons.ready(function() {
   console.log("Onsen UI is ready!");
+
+  //☆localStorageにデータが登録されていたらサイドバーにメニューを表示する処理
+  if(localStorage.length > 0) {
+
+    //localStorageのKey-Valueを格納するための配列を生成
+    var key = new Array();
+    var allItem = new Array();
+
+    for(var i=0; i<localStorage.length; i++) {
+      //localStorageのKey-Value値を各配列に代入
+      key[i] = localStorage.key(i);
+      allItem[i] = JSON.parse(
+        localStorage.getItem(key[i])
+      );
+    }
+
+    //allItemにdateとopen/startを繋げた日時の項目を追加
+    for (item in allItem) {
+      allItem[item].dateOpen = allItem[item].date + ' ' + allItem[item].open;
+      allItem[item].dateStart = allItem[item].date + ' ' + allItem[item].start;
+    }
+
+    //open日時を第1キー、start日時を第2キーとしてallItemを降順にソート
+    ObjArraySort2(allItem, 'dateOpen', 'desc', 'dateStart', 'desc');
+
+    //localStorageに登録されている全ての年を格納する配列を生成
+    var allYearList = new Array();
+
+    //日時のうち年（YYYY）の部分だけ切り出してallYearListに格納
+    for(var i=0; i<allItem.length; i++) {
+      var dateString = allItem[i].date;
+      var yearString = dateString.slice(0, 4);
+      allYearList[i] = yearString;
+    }
+
+    //allYearListから重複分を除いてユニークな年の一覧を取得
+    var yearList = allYearList.filter(function (x, i, self) {
+      return self.indexOf(x) === i;
+    });
+
+    //年の一覧をソートして、逆順に並べ替え
+    yearList.sort();
+    yearList.reverse();
+
+    //サイドバーに見出しを挿入
+    $('year-menu-wrap').innerHTML += '<div class="list-title"><ons-icon icon="md-calendar"> Livelog</div>';
+
+    //メニュー用のons-list要素を挿入
+    var yearMenu = document.createElement('ons-list');
+    $('year-menu-wrap').appendChild(yearMenu);
+
+    //メニューの中に表示する年ごとのリンクを追加
+    for(var i=0; i<yearList.length; i++) {
+      var yearMenuItem = document.createElement('ons-list-item');
+      yearMenuItem.innerText = yearList[i];
+      yearMenuItem.setAttribute("onclick", "fn.load('" + yearList[i] + ".html')");
+      yearMenuItem.setAttribute("tappable", "");
+      yearMenu.appendChild(yearMenuItem);
+    }
+
+  }
+
 });
 
 window.fn = {};
@@ -71,6 +133,44 @@ var resetToPageFade = function (id) {
     .getElementById(id)
     .resetToPage('home.html' , {animation: 'fade'});
 };
+
+//連想配列の値を指定した文字列で連結する関数
+function arrayJoin(delimiter, object) {
+  var ret = '';
+  var lastkey = Object.keys(object).pop();
+  for (var k in object) {
+    ret += object[k] + (lastkey !== k ? delimiter : '');
+  }
+  return ret;
+}
+
+//2つのキーで連想配列をソートする関数
+function ObjArraySort2(ary, key1, order1, key2, order2) {
+  var reverse1 = 1;
+  var reverse2 = 1;
+  if(order1 && order1.toLowerCase() == 'desc')
+    reverse1 = -1;
+  if(order2 && order2.toLowerCase() == 'desc')
+    reverse2 = -1;
+
+  ary.sort(function(a, b) {
+    // Compare 1st key
+    if(a[key1] < b[key1])
+      return -1 * reverse1;
+    else if(a[key1] > b[key1])
+      return 1 * reverse1;
+    else
+    {
+    // Compare 2nd key
+    if(a[key2] < b[key2])
+      return -1 * reverse2;
+    else if(a[key2] > b[key2])
+      return 1 * reverse2;
+    else
+      return 0;
+    }
+  });
+}
 
 //☆「登録」ボタンが押された時の処理
 function liveDataSave() {

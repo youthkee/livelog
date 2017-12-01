@@ -19,18 +19,8 @@
   <ons-splitter>
     <ons-splitter-side id="menu" side="left" width="220px" collapse>
       <ons-page>
-        <div class="list-title"><ons-icon icon="md-calendar"> Livelog</div>
-        <ons-list>
-          <ons-list-item onclick="fn.load('home.html')" tappable>
-            2017
-          </ons-list-item>
-          <ons-list-item onclick="fn.load('2016.html')" tappable>
-            2016
-          </ons-list-item>
-          <ons-list-item onclick="fn.load('2015.html')" tappable>
-            2015
-          </ons-list-item>
-        </ons-list>
+        <div id="year-menu-wrap">
+        </div>
         <div class="list-title"><ons-icon icon="md-settings"> Setting</div>
         <ons-list>
           <ons-list-item onclick="showDialog('dialog-1')" tappable>
@@ -86,6 +76,21 @@
     <ons-fab position="bottom right" class="fab--material fab--livelog" id="add-button">
         <ons-icon icon="md-plus"></ons-icon>
     </ons-fab>
+  </ons-page>
+  </ons-template>
+
+  <ons-template id="2017.html">
+  <ons-page>
+    <div class="toolbar toolbar--material">
+      <div class="toolbar__left toolbar--material__left">
+        <span class="toolbar-button toolbar-button--material" onclick="fn.open()">
+          <i class="zmdi zmdi-menu"></i>
+        </span>
+      </div>
+      <div class="toolbar__center toolbar--material__center">
+        2017
+      </div>
+    </div>
   </ons-page>
   </ons-template>
 
