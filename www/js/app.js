@@ -2,68 +2,6 @@ function $(id){return document.getElementById(id);}
 
 ons.ready(function() {
   console.log("Onsen UI is ready!");
-
-  //☆localStorageにデータが登録されていたらサイドバーにメニューを表示する処理
-  if(localStorage.length > 0) {
-
-    //localStorageのKey-Valueを格納するための配列を生成
-    var key = new Array();
-    var allItem = new Array();
-
-    for(var i=0; i<localStorage.length; i++) {
-      //localStorageのKey-Value値を各配列に代入
-      key[i] = localStorage.key(i);
-      allItem[i] = JSON.parse(
-        localStorage.getItem(key[i])
-      );
-    }
-
-    //allItemにdateとopen/startを繋げた日時の項目を追加
-    for (item in allItem) {
-      allItem[item].dateOpen = allItem[item].date + ' ' + allItem[item].open;
-      allItem[item].dateStart = allItem[item].date + ' ' + allItem[item].start;
-    }
-
-    //open日時を第1キー、start日時を第2キーとしてallItemを降順にソート
-    ObjArraySort2(allItem, 'dateOpen', 'desc', 'dateStart', 'desc');
-
-    //localStorageに登録されている全ての年を格納する配列を生成
-    var allYearList = new Array();
-
-    //日時のうち年（YYYY）の部分だけ切り出してallYearListに格納
-    for(var i=0; i<allItem.length; i++) {
-      var dateString = allItem[i].date;
-      var yearString = dateString.slice(0, 4);
-      allYearList[i] = yearString;
-    }
-
-    //allYearListから重複分を除いてユニークな年の一覧を取得
-    var yearList = allYearList.filter(function (x, i, self) {
-      return self.indexOf(x) === i;
-    });
-
-    //年の一覧をソートして、逆順に並べ替え
-    yearList.sort();
-    yearList.reverse();
-
-    //サイドバーに見出しを挿入
-    $('year-menu-wrap').innerHTML += '<div class="list-title"><ons-icon icon="md-calendar"> Livelog</div>';
-
-    //メニュー用のons-list要素を挿入
-    var yearMenu = document.createElement('ons-list');
-    $('year-menu-wrap').appendChild(yearMenu);
-
-    //メニューの中に表示する年ごとのリンクを追加
-    for(var i=0; i<yearList.length; i++) {
-      var yearMenuItem = document.createElement('ons-list-item');
-      yearMenuItem.innerText = yearList[i];
-      yearMenuItem.setAttribute("onclick", "fn.load('" + yearList[i] + ".html')");
-      yearMenuItem.setAttribute("tappable", "");
-      yearMenu.appendChild(yearMenuItem);
-    }
-
-  }
-
 });
 
 window.fn = {};
@@ -82,11 +20,129 @@ window.fn.load = function(page) {
 document.addEventListener('init', function(event) {
   var page = event.target;
 
-  if (page.id === 'list') {
+  if (page.id === 'home') {
+
+  } else if (page.id === 'list') {
+
     page.querySelector('#add-button').onclick = function() {
       document.querySelector('#myNavigator').pushPage('edit.html');
     };
-    console.log(page.data.year);
+
+    //☆localStorageにデータが登録されていたら一覧表示する処理
+    if(localStorage.length > 0) {
+
+      //localStorageのKey-Valueを格納するための配列を生成
+      var key = new Array();
+      var allItem = new Array();
+
+      for(var i=0; i<localStorage.length; i++) {
+        //localStorageのKey-Value値を各配列に代入
+        key[i] = localStorage.key(i);
+        allItem[i] = JSON.parse(
+          localStorage.getItem(key[i])
+        );
+      }
+
+      //allItemにdateとopen/startを繋げた日時の項目を追加
+      for (item in allItem) {
+        allItem[item].dateOpen = allItem[item].date + ' ' + allItem[item].open;
+        allItem[item].dateStart = allItem[item].date + ' ' + allItem[item].start;
+      }
+
+      //open日時を第1キー、start日時を第2キーとしてallItemを降順にソート
+      ObjArraySort2(allItem, 'dateOpen', 'desc', 'dateStart', 'desc');
+
+      //localStorageに登録されている全ての年を格納する配列を生成
+      var allYearList = new Array();
+
+      //日時のうち年（YYYY）の部分だけ切り出してallYearListに格納
+      for(var i=0; i<allItem.length; i++) {
+        var dateString = allItem[i].date;
+        var yearString = dateString.slice(0, 4);
+        allYearList[i] = yearString;
+      }
+
+      //allYearListから重複分を除いてユニークな年の一覧を取得
+      var yearList = allYearList.filter(function (x, i, self) {
+        return self.indexOf(x) === i;
+      });
+
+      //年の一覧をソートして、逆順に並べ替え
+      yearList.sort();
+      yearList.reverse();
+
+      //登録されている年の中から一番新しい年を取得
+      var maxYear = Math.max.apply(null, yearList);
+
+      //現在の年を取得
+      var now = new Date();
+      var currentYear = now.getFullYear();
+
+      if (page.data.year) {
+        //年パラメータが指定されていたら、それをselectedYearにする
+        var selectedYear = page.data.year;
+      } else if (maxYear >= currentYear) {
+        //現在よりも未来の年が登録されている場合は、今年をselectedYearにする
+        var selectedYear = currentYear;
+      } else {
+        //現在よりも過去の年しか登録されていない場合は、その中で一番新しい年をselectedYearにする
+        var selectedYear = maxYear;
+      }
+
+      //年のプルダウンを格納するためのセレクトボックスを生成
+      var yearSelect = document.createElement('ons-select');
+      yearSelect.setAttribute('id', 'select-year');
+      yearSelect.setAttribute('onChange', 'changeYear(this);');
+      $('list-title').appendChild(yearSelect);
+
+      //セレクトボックスの中に登録されている年のプルダウンを追加
+      for(var i=0; i<yearList.length; i++) {
+        var yearOption = document.createElement('option');
+        yearOption.innerText = yearList[i];
+        yearOption.setAttribute('value', yearList[i]);
+        //selectedYearと同じ値があったら選択状態にする
+        if (yearList[i] == selectedYear) {
+          yearOption.setAttribute('selected', 'selected');
+        }
+        yearSelect.appendChild(yearOption);
+      }
+
+      //localStorageから読み込んだデータから、選択中の年のデータだけ抽出
+      var currentItem = allItem.filter(function(item, index){
+        if ((item.date).indexOf(selectedYear) >= 0) return true;
+      });
+
+      //プルダウンで選択された年にライブが登録されていたら、日付が新しい順に一覧表示
+      for(var i=0; i<currentItem.length; i++) {
+
+        //artist0〜artist*の値を配列で取得
+        var artistsItemLabel = Object.keys(currentItem[i].artists);
+
+        //アーティスト名一覧を格納するための配列を作成
+        var artistsItem = [];
+
+        //アーティスト用の配列に登録されている分だけのアーティスト名を入力
+        for (j = 0; j < artistsItemLabel.length; j++) {
+          var currentArtsitLabel = 'artist' + j;
+          artistsItem[j] = currentItem[i].artists[currentArtsitLabel].name;
+        }
+
+        //アーティスト名の配列をつなげて文字列に変換
+        var artistsItemJoin = arrayJoin(', ', artistsItem);
+        
+        //日付から年号を削除して変数に代入
+        var currentDay = currentItem[i].date.slice(5, 10);
+
+        $('live-list').innerHTML += '<ons-list-item tappable><div class="center"><span class="list-item__title">' + currentItem[i].title + '＠' + currentItem[i].area + ' ' + currentItem[i].place + '</span><span class="list-item__subtitle"><ons-icon icon="md-time"></ons-icon> ' + currentDay + ' OPEN ' + currentItem[i].open + ' / START ' + currentItem[i].start + '<br><ons-icon icon="md-face"></ons-icon> ' + artistsItemJoin + '<br><ons-icon icon="md-ticket-star"></ons-icon> ' + currentItem[i].ticket + ' <span class="attendance">' + currentItem[i].attendance + '</span></span></div></ons-list-item>';
+
+      }
+
+    } else {
+      //データが登録されていなかったら文言を表示
+      $('list-title').innerHTML = 'Livelog';
+      $('live-list').innerHTML = '<ons-list-item><div class="center">ライブが登録されていません。</div></ons-list-item>';
+    }
+
   } else if (page.id === 'detail') {
     page.querySelector('#push-button').onclick = function() {
       document.querySelector('#myNavigator').pushPage('edit.html');
@@ -98,7 +154,7 @@ document.addEventListener('init', function(event) {
       document.querySelector('#myNavigator').pushPage('member.html');
     };
   } else if (page.id === 'edit') {
-
+    console.log(page.data.year);
   } else if (page.id === 'setlist') {
     page.querySelector('#resist-button').onclick = function() {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
@@ -170,6 +226,12 @@ function ObjArraySort2(ary, key1, order1, key2, order2) {
       return 0;
     }
   });
+}
+
+//☆年のプルダウンを選択した時の処理
+function changeYear(obj){
+  console.log(obj.value);
+  document.querySelector('#myNavigator').resetToPage('list.html', {data: {year: obj.value}});
 }
 
 //☆「登録」ボタンが押された時の処理

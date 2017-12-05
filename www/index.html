@@ -4,9 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-  <script src="components/loader.js"></script>
-  <script src="lib/onsenui/js/onsenui.min.js"></script>
-  <script src="js/app.js"></script>
 
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
@@ -63,16 +60,11 @@
             <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
           </ons-toolbar-button>
         </div>
-        <div class="center">2017</div>
+        <div class="center" id="list-title"></div>
       </ons-toolbar>
 
-    <ul class="list">
-      <li class="list-item">
-        <div class="list-item__center">
-          ライブが登録されていません。
-        </div>
-      </li>
-    </ul>
+    <ons-list id="live-list">
+    </ons-list>
     <ons-fab position="bottom right" class="fab--material fab--livelog" id="add-button">
         <ons-icon icon="md-plus"></ons-icon>
     </ons-fab>
@@ -1148,5 +1140,8 @@
     </div>
   </ons-alert-dialog>
 
+<script src="components/loader.js"></script>
+<script src="lib/onsenui/js/onsenui.min.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
