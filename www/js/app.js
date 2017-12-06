@@ -134,7 +134,7 @@ document.addEventListener('init', function(event) {
         //日付から年号を削除して変数に代入
         var currentDay = currentItem[i].date.slice(5, 10);
 
-        $('live-list').innerHTML += '<ons-list-item tappable><div class="center"><span class="list-item__title">' + currentItem[i].title + '＠' + currentItem[i].area + ' ' + currentItem[i].place + '</span><span class="list-item__subtitle"><ons-icon icon="md-time"></ons-icon> ' + currentDay + ' OPEN ' + currentItem[i].open + ' / START ' + currentItem[i].start + '<br><ons-icon icon="md-face"></ons-icon> ' + artistsItemJoin + '<br><ons-icon icon="md-ticket-star"></ons-icon> ' + currentItem[i].ticket + ' <span class="attendance">' + currentItem[i].attendance + '</span></span></div></ons-list-item>';
+        $('live-list').innerHTML += '<ons-list-item class="live-list-item" data-id="live' + currentItem[i].id + '" tappable><div class="center"><span class="list-item__title">' + currentItem[i].title + '＠' + currentItem[i].area + ' ' + currentItem[i].place + '</span><span class="list-item__subtitle"><ons-icon icon="md-time"></ons-icon> ' + currentDay + ' OPEN ' + currentItem[i].open + ' / START ' + currentItem[i].start + '<br><ons-icon icon="md-face"></ons-icon> ' + artistsItemJoin + '<br><ons-icon icon="md-ticket-star"></ons-icon> ' + currentItem[i].ticket + ' <span class="attendance">' + currentItem[i].attendance + '</span></span></div></ons-list-item>';
 
       }
 
@@ -144,7 +144,17 @@ document.addEventListener('init', function(event) {
       $('live-list').innerHTML = '<ons-list-item><div class="center">ライブが登録されていません。</div></ons-list-item>';
     }
 
+    var listItems = page.getElementsByClassName('live-list-item');
+    for (item in listItems) {
+      var currentListItem = listItems[item];
+      currentListItem.onclick = function() {
+        var currentListId = this.getAttribute('data-id');
+        document.querySelector('#myNavigator').pushPage('detail.html', {data: {live: currentListId}});
+      }
+    }
+
   } else if (page.id === 'detail') {
+    console.log(page.data.live);
     page.querySelector('#push-button').onclick = function() {
       document.querySelector('#myNavigator').pushPage('edit.html');
     };
