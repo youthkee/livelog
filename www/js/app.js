@@ -144,8 +144,10 @@ document.addEventListener('init', function(event) {
       $('live-list').innerHTML = '<ons-list-item><div class="center">ライブが登録されていません。</div></ons-list-item>';
     }
 
+    //一覧リストの項目を配列として取得
     var listItems = page.getElementsByClassName('live-list-item');
     for (item in listItems) {
+      //一覧リストの各項目をタップしたらライブIDを渡してdetail.htmlへ遷移
       var currentListItem = listItems[item];
       currentListItem.onclick = function() {
         var currentListId = this.getAttribute('data-id');
