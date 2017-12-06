@@ -91,6 +91,7 @@ document.addEventListener('init', function(event) {
 
       //年のプルダウンを格納するためのセレクトボックスを生成
       var yearSelect = document.createElement('ons-select');
+      yearSelect.setAttribute('class', 'select--livelog');
       yearSelect.setAttribute('id', 'select-year');
       yearSelect.setAttribute('onChange', 'changeYear(this);');
       $('list-title').appendChild(yearSelect);
