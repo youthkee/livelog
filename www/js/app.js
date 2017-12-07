@@ -156,18 +156,63 @@ document.addEventListener('init', function(event) {
     }
 
   } else if (page.id === 'detail') {
+      
     console.log(page.data.live);
-    page.querySelector('#push-button').onclick = function() {
-      document.querySelector('#myNavigator').pushPage('edit.html');
+
+    //ページ遷移時に受け取ったライブIDを変数に代入
+    var liveId = page.data.live;
+    // そのIDのデータを取り出してitemオブジェクトへ一次保存
+    item = JSON.parse(
+      localStorage.getItem(liveId)
+    );
+
+    // itemオブジェクトの内容を取り出してページ上に表示する
+    $('title').innerHTML = item.title;
+    $('date').innerHTML = item.date;
+    $('open').innerHTML = item.open;
+    $('start').innerHTML = item.start;
+    $('adv').innerHTML = item.adv;
+    $('door').innerHTML = item.door;
+    $('area').innerHTML = item.area;
+    $('place').innerHTML = item.place;
+    $('address').innerHTML = item.address;
+    $('info').innerHTML = item.info;
+
+    var dataArtistsNum = Object.keys(item.artists).length;
+    //アーティストが1人以上登録されていたら、1人目のアーティスト名を表示
+    if(dataArtistsNum > 0) {
+      //1人目のアーティスト名を表示
+      $('artist0').innerHTML = item.artists.artist0.name;
+    }
+
+    $('type').innerHTML = item.type;
+    $('genre').innerHTML = item.genre;
+    $('ticket').innerHTML = item.ticket;
+    $('attendance').innerHTML = item.attendance;
+    $('memo').innerHTML = item.memo;
+    $('report').innerHTML = item.report;
+
+    //編集ボタンをタップしたらライブIDを渡してedit.htmlへ遷移
+    page.querySelector('#edit-button').onclick = function() {
+      document.querySelector('#myNavigator').pushPage('edit.html', {data: {live: liveId}});
     };
-    page.querySelector('#push-setlist').onclick = function() {
-      document.querySelector('#myNavigator').pushPage('setlist.html');
-    };
-    page.querySelector('#push-member').onclick = function() {
-      document.querySelector('#myNavigator').pushPage('member.html');
-    };
+
+    //INFOにURLが登録されていたら、タップ時にInAppBrowserで開く
+    if (item.info) {
+      page.querySelector('#info-link').onclick = function() {
+        window.open(item.info, '_blank');
+      };
+    }
+
+    //REPORTにURLが登録されていたら、タップ時にInAppBrowserで開く
+    if (item.report) {
+      page.querySelector('#report-link').onclick = function() {
+        window.open(item.report, '_blank');
+      };
+    }
+
   } else if (page.id === 'edit') {
-    console.log(page.data.year);
+    console.log(page.data.live);
   } else if (page.id === 'setlist') {
     page.querySelector('#resist-button').onclick = function() {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
