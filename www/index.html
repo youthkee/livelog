@@ -212,53 +212,53 @@
     <form name="form" onsubmit="return false;">
     <div class="list-title">
       <h3>
-        <input type="text" class="text-input" id="title" placeholder="TITLE">
+        <input type="text" class="text-input" id="title-input" placeholder="TITLE">
       </h3>
     </div>
     <ul class="list">
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="date" placeholder="DATE（例：2007/09/05）">
+            <input type="text" class="text-input" id="date-input" placeholder="DATE（例：2007/09/05）">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="open" placeholder="OPEN（例：18:30）">
+            <input type="text" class="text-input" id="open-input" placeholder="OPEN（例：18:30）">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="start" placeholder="START（例：19:00）">
+            <input type="text" class="text-input" id="start-input" placeholder="START（例：19:00）">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="adv" placeholder="ADV">
+            <input type="text" class="text-input" id="adv-input" placeholder="ADV">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="door" placeholder="DOOR">
+            <input type="text" class="text-input" id="door-input" placeholder="DOOR">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="area" placeholder="AREA">
+            <input type="text" class="text-input" id="area-input" placeholder="AREA">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="place" placeholder="PLACE">
+            <input type="text" class="text-input" id="place-input" placeholder="PLACE">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="address" placeholder="ADDRESS">
+            <input type="text" class="text-input" id="address-input" placeholder="ADDRESS">
         </div>
       </li>
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="info" placeholder="INFO(URL)">
+            <input type="text" class="text-input" id="info-input" placeholder="INFO(URL)">
         </div>
       </li>
     </ul>
@@ -266,7 +266,7 @@
     <ul class="list">
       <li class="list-item">
         <div class="list-item__center">
-          <input type="text" class="text-input artist" id="artist0" placeholder="NAME">
+          <input type="text" class="text-input artist-input" id="artist0-input" placeholder="NAME">
         </div>
         <div class="list-item__right">
           <div class="list-item__label">
@@ -433,7 +433,7 @@
       <li class="list-item list-item--tappable">
         <div class="list-item__left">
           <label class="checkbox checkbox--noborder">
-            <input id="attendance" type="checkbox" class="checkbox__input checkbox--noborder__input" value="参加済">
+            <input id="attendance-input" type="checkbox" class="checkbox__input checkbox--noborder__input" value="参加済">
             <div class="checkbox__checkmark checkbox--noborder checkbox--noborder__checkmark"></div>
           </label>
         </div>
@@ -445,19 +445,19 @@
     <ul class="list">
       <li class="list-item">
         <div class="list-item__center">
-          <textarea class="textarea textarea--transparent" id="memo" placeholder="MEMO"></textarea>
+          <textarea class="textarea textarea--transparent" id="memo-input" placeholder="MEMO"></textarea>
         </div>
       </li>
     </ul>
     <ul class="list">
       <li class="list-item">
         <div class="list-item__center">
-            <input type="text" class="text-input" id="report" placeholder="REPORT(URL)">
+            <input type="text" class="text-input" id="report-input" placeholder="REPORT(URL)">
         </div>
       </li>
     </ul>
     <div class="center" style="padding: 8px">
-      <ons-button modifier="large" class="button--livelog button--resist" id="resist-button" onclick="liveDataSave();">登録</ons-button>
+      <ons-button modifier="large" class="button--livelog button--resist" id="resist-button">登録</ons-button>
       <ons-button modifier="large light" class="button--light--livelog" onclick="showDialog('dialog-2')">ライブ情報を削除</ons-button>
     </div>
     </form>

@@ -212,7 +212,183 @@ document.addEventListener('init', function(event) {
     }
 
   } else if (page.id === 'edit') {
-    console.log(page.data.live);
+      
+    //ページ遷移時に受け取ったライブIDを変数に代入
+    var liveId = page.data.live;
+
+    //☆新規登録時の登録番号を決める処理
+    if(localStorage.length > 0) {
+
+      //localStorageのKeyの一覧を格納する配列を生成
+      var key = new Array();
+      //配列keyにライブ番号の一覧を格納
+      for(var i=0; i<localStorage.length; i++) {
+        var currentLiveId = localStorage.key(i);
+        key[i] = Number(currentLiveId.replace('live', ''));
+      }
+      //保存されているlivexxの番号のうち最大の整数を取得
+      var maxLiveNum = Math.max.apply(null, key);
+      //最大値+1を次の登録番号として設定
+      var count = maxLiveNum + 1;
+
+    } else {
+
+      // localStorageにデータが登録されていない場合、番号を0にする
+      var count = 0;
+
+    }
+
+    //再編集時に既存のデータを読み込む処理
+    if (liveId) {
+
+      //既存のライブIDが存在する場合は、その値を登録番号にする
+      var count = Number(liveId.replace('live', ''));
+
+      // その番号のデータを取り出してitemオブジェクトへ一次保存
+      item = JSON.parse(
+        localStorage.getItem('live' + count)
+      );
+      // itemオブジェクトの内容を取り出して各フォームに入力状態にする
+      $('title-input').value = item.title;
+      $('date-input').value = item.date;
+      $('open-input').value = item.open;
+      $('start-input').value = item.start;
+      $('adv-input').value = item.adv;
+      $('door-input').value = item.door;
+      $('area-input').value = item.area;
+      $('place-input').value = item.place;
+      $('address-input').value = item.address;
+      $('info-input').value = item.info;
+      $('artist0-input').value = item.artists.artist0.name;
+
+      //typeラジオボタンのvalueとitemオブジェクト内の値が一致したらチェックを入れる
+      for(var i=0; i<document.form.type.length;i++){
+          if(document.form.type[i].value == item.type){
+              document.form.type[i].checked = true;
+          }
+      }
+
+      //genreラジオボタンのvalueとitemオブジェクト内の値が一致したらチェックを入れる
+      for(var i=0; i<document.form.genre.length;i++){
+          if(document.form.genre[i].value == item.genre){
+              document.form.genre[i].checked = true;
+          }
+      }
+
+      //ticketラジオボタンのvalueとitemオブジェクト内の値が一致したらチェックを入れる
+      for(var i=0; i<document.form.ticket.length;i++){
+          if(document.form.ticket[i].value == item.ticket){
+              document.form.ticket[i].checked = true;
+          }
+      }
+
+      //attendanceチェックボックスのvalueとitemオブジェクト内の値が一致したらチェックを入れる
+      if($('attendance-input').value == item.attendance){
+        $('attendance-input').checked = true;
+      }
+
+      // itemオブジェクトの内容を取り出して各フォームに入力状態にする
+      $('memo-input').value = item.memo;
+      $('report-input').value = item.report;
+
+    } else {
+      //ライブIDがなかったら、登録用のオブジェクトを初期化
+      var item = {};
+    }
+    
+    //☆「登録」ボタンが押された時の処理
+    page.querySelector('#resist-button').onclick = function() {
+
+      //登録用のオブジェクトに各フォームの値を代入
+      item.id = Number(count);
+      item.title = $('title-input').value;
+      item.date = $('date-input').value;
+      item.open = $('open-input').value;
+      item.start = $('start-input').value;
+      item.adv = $('adv-input').value;
+      item.door = $('door-input').value;
+      item.area = $('area-input').value;
+      item.place = $('place-input').value;
+      item.address = $('address-input').value;
+      item.info = $('info-input').value;
+
+      //URLにパラメータがない場合は、artists欄を多次元配列として初期化
+      item.artists = {};
+      //一人目のアーティストも多次元配列として初期化
+      item.artists.artist0 = {};
+
+      //一人目のアーティスト名をフォームの値から代入
+      item.artists.artist0.name = $('artist0-input').value;
+
+      //一人目のアーティストのセットリストも多次元配列として初期化
+      item.artists.artist0.setlist = {};
+      item.artists.artist0.members = {};
+
+      //type用のフラグを設定
+      var typeFlag = false;
+      //typeラジオボタンを１つずつ調べてチェックされていたらvalueの値を代入する
+      for(var i=0; i<document.form.type.length;i++){
+          if(document.form.type[i].checked){
+              typeFlag = true;
+              item.type = document.form.type[i].value;
+          }
+      }
+      //typeラジオボタンがチェックされていなかったら空文字を代入する
+      if(!typeFlag){
+        item.type = '';
+      }
+
+      //genre用のフラグを設定
+      var genreFlag = false;
+      //genreラジオボタンを１つずつ調べてチェックされていたらvalueの値を代入する
+      for(var i=0; i<document.form.genre.length;i++){
+          if(document.form.genre[i].checked){
+              genreFlag = true;
+              item.genre = document.form.genre[i].value;
+          }
+      }
+      //genreラジオボタンがチェックされていなかったら空文字を代入する
+      if(!genreFlag){
+        item.genre = '';
+      }
+
+      //ticket用のフラグを設定
+      var ticketFlag = false;
+      //ticketラジオボタンを１つずつ調べてチェックされていたらvalueの値を代入する
+      for(var i=0; i<document.form.ticket.length;i++){
+          if(document.form.ticket[i].checked){
+              ticketFlag = true;
+              item.ticket = document.form.ticket[i].value;
+          }
+      }
+      //ticketラジオボタンがチェックされていなかったら空文字を代入する
+      if(!ticketFlag){
+        item.ticket = '';
+      }
+
+      if($('attendance-input').checked){
+        //attendanceチェックボックスがチェックされていたらvalueの値を代入する
+        item.attendance = $('attendance-input').value;
+      } else {
+        //attendanceチェックボックスがチェックされていなかったら空文字を代入する
+        item.attendance = '';
+      }
+
+      //登録用のオブジェクトに各フォームの値を代入
+      item.memo = $('memo-input').value;
+      item.report = $('report-input').value;
+
+      //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
+      localStorage.setItem(
+        'live' + count,
+        JSON.stringify(item)
+      );
+      //登録後、一覧画面へ遷移
+       var itemYear = item.date.slice(0, 4);
+       document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+
+    };
+
   } else if (page.id === 'setlist') {
     page.querySelector('#resist-button').onclick = function() {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
@@ -284,6 +460,60 @@ function ObjArraySort2(ary, key1, order1, key2, order2) {
       return 0;
     }
   });
+}
+
+//日付型チェック関数（YYYY/MM/DD形式）
+function ckDate(datestr) {
+    // 正規表現による書式チェック
+    if(!datestr.match(/^\d{4}\/\d{2}\/\d{2}$/)){
+        return false;
+    }
+    var vYear = datestr.substr(0, 4) - 0;
+    var vMonth = datestr.substr(5, 2) - 1; // Javascriptは、0-11で表現
+    var vDay = datestr.substr(8, 2) - 0;
+    // 月,日の妥当性チェック
+    if(vMonth >= 0 && vMonth <= 11 && vDay >= 1 && vDay <= 31){
+        var vDt = new Date(vYear, vMonth, vDay);
+        if(isNaN(vDt)){
+            return false;
+        }else if(vDt.getFullYear() == vYear && vDt.getMonth() == vMonth && vDt.getDate() == vDay){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+}
+
+//時間型チェック関数（HH:MM形式）
+function ckTime(str) {
+    // 正規表現による書式チェック
+    if(!str.match(/^\d{2}\:\d{2}$/)){
+        return false;
+    }
+    var vHour = str.substr(0, 2) - 0;
+    var vMinutes = str.substr(3, 2) - 0;
+    if(vHour >= 0 && vHour <= 24 && vMinutes >= 0 && vMinutes <= 59){
+        return true;
+    }else{
+    }
+}
+
+//URL型チェック関数
+function isUrl(str) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+  if(!pattern.test(str)) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 //☆年のプルダウンを選択した時の処理
