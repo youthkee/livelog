@@ -518,3 +518,18 @@ function isUrl(str) {
 function changeYear(obj){
   document.querySelector('#myNavigator').resetToPage('list.html', {data: {year: obj.value}});
 }
+
+//☆データを全削除する処理
+function allDataClear() {
+
+  //localStorageをクリア
+  localStorage.clear();
+
+  //確認ダイアログを非表示
+  var dialog1 = document.getElementById('dialog-1');
+  dialog1.hide();
+
+  //ライブ一覧ページを再読み込み
+  fn.load('home.html');
+
+}
