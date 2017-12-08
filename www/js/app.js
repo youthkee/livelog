@@ -526,8 +526,7 @@ function allDataClear() {
   localStorage.clear();
 
   //確認ダイアログを非表示
-  var dialog1 = document.getElementById('dialog-1');
-  dialog1.hide();
+  hideDialog('dialog-1');
 
   //ライブ一覧ページを再読み込み
   fn.load('home.html');
