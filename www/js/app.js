@@ -288,6 +288,8 @@ document.addEventListener('init', function(event) {
       // itemオブジェクトの内容を取り出して各フォームに入力状態にする
       $('memo-input').value = item.memo;
       $('report-input').value = item.report;
+      
+      $('delete').innerHTML = '<ons-button modifier="large light" class="button--light--livelog" id="delete-button">ライブ情報を削除</ons-button>';
 
     } else {
       //ライブIDがなかったら、登録用のオブジェクトを初期化
@@ -387,6 +389,30 @@ document.addEventListener('init', function(event) {
 
     };
 
+    if (liveId) {
+        //☆「ライブ情報を削除」ボタンが押された時の処理
+        page.querySelector('#delete-button').onclick = function() {
+    
+          ons.notification.confirm({
+            message: 'ライブ情報を削除してよろしいですか？',
+            title: '',
+            primaryButtonIndex: 1,
+            cancelable: true,
+            callback: function(index) {
+                switch(index) {
+                  case 1:
+                    //該当のライブ情報をlocalStorageから削除
+                    localStorage.removeItem('live' + count);
+                    //ライブ一覧ページを再読み込み
+                    fn.load('home.html');
+                    break;
+                }
+            }
+          });
+    
+        };
+    }
+
   } else if (page.id === 'setlist') {
     page.querySelector('#resist-button').onclick = function() {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
@@ -396,6 +422,12 @@ document.addEventListener('init', function(event) {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
     };
   }
+});
+
+document.addEventListener('ons-alert-dialog:init', function(e) {
+    if (e.target.id == 'dialog-2') {
+      console.log(data.live)
+    }
 });
 
 var showDialog = function (id) {

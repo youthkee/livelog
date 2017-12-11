@@ -437,7 +437,7 @@
             <div class="checkbox__checkmark checkbox--noborder checkbox--noborder__checkmark"></div>
           </label>
         </div>
-        <label for="attendance" class="list-item__center">
+        <label for="attendance-input" class="list-item__center">
           参加済
         </label>
       </li>
@@ -458,7 +458,7 @@
     </ul>
     <div class="center" style="padding: 8px">
       <ons-button modifier="large" class="button--livelog button--resist" id="resist-button">登録</ons-button>
-      <ons-button modifier="large light" class="button--light--livelog" onclick="showDialog('dialog-2')">ライブ情報を削除</ons-button>
+      <span id="delete"></span>
     </div>
     </form>
   </ons-page>
@@ -956,10 +956,10 @@
 
   <ons-alert-dialog modifier="material" id="dialog-2">
     <div class="alert-dialog-content">
-      ライブ情報を削除してよろしいですか？
+      ライブ情報を削除してよろしいですか？data.live
     </div>
     <div class="alert-dialog-footer">
-      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-2');fn.load('home.html');">OK</button>
+      <button class="alert-dialog-button alert-dialog-button--livelog" id="delete-ok">OK</button>
       <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-2')">Cancel</button>
     </div>
   </ons-alert-dialog>
