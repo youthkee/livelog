@@ -16,16 +16,19 @@
   <ons-splitter>
     <ons-splitter-side id="menu" side="left" width="220px" collapse>
       <ons-page>
-        <div class="list-title"><ons-icon icon="md-settings"> Setting</div>
+        <div class="list-title"><ons-icon icon="md-headset"> Menu</div>
         <ons-list>
-          <ons-list-item onclick="showDialog('dialog-1')" tappable>
-            データクリア
+          <ons-list-item onclick="fn.load('home.html')" tappable>
+            ライブ一覧
           </ons-list-item>
           <ons-list-item onclick="fn.load('export.html')" tappable>
             エクスポート
           </ons-list-item>
           <ons-list-item onclick="fn.load('import.html')" tappable>
             インポート
+          </ons-list-item>
+          <ons-list-item onclick="showDialog('dialog-1')" tappable>
+            データクリア
           </ons-list-item>
         </ons-list>
         <div class="list-title"><ons-icon icon="md-info-outline"> Info</div>
