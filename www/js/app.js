@@ -398,6 +398,7 @@ document.addEventListener('init', function(event) {
             title: '',
             primaryButtonIndex: 1,
             cancelable: true,
+            modifier: 'material',
             callback: function(index) {
                 switch(index) {
                   case 1:
@@ -554,13 +555,22 @@ function changeYear(obj){
 //☆データを全削除する処理
 function allDataClear() {
 
-  //localStorageをクリア
-  localStorage.clear();
-
-  //確認ダイアログを非表示
-  hideDialog('dialog-1');
-
-  //ライブ一覧ページを再読み込み
-  fn.load('home.html');
+  ons.notification.confirm({
+    message: '全てのライブ情報を削除してよろしいですか？',
+    title: '',
+    primaryButtonIndex: 1,
+    cancelable: true,
+    modifier: 'material',
+    callback: function(index) {
+        switch(index) {
+          case 1:
+            //localStorageをクリア
+            localStorage.clear();
+            //ライブ一覧ページを再読み込み
+            fn.load('home.html');
+            break;
+        }
+    }
+  });
 
 }

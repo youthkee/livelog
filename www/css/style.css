@@ -54,7 +54,8 @@
     width: 100%; 
 }
 
-.alert-dialog-button--livelog {
+.alert-dialog-button--livelog,
+.alert-dialog-button--material {
     color: #E91E63;
 }
 
