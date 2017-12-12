@@ -266,19 +266,20 @@
       </li>
     </ul>
     <div class="list-title">ARTIST</div>
-    <ul class="list">
+    <div>
+    <ul class="list list--noborder">
       <li class="list-item">
         <div class="list-item__center">
-          <input type="text" class="text-input artist-input" id="artist0-input" placeholder="NAME">
+          <input type="text" class="text-input artist-input" id="artist-input0" placeholder="NAME">
         </div>
         <div class="list-item__right">
           <div class="list-item__label">
-            <ons-icon icon="md-plus" size="20px" class="icon--tappable"></ons-icon> 
-            <ons-icon icon="md-minus" size="20px" class="icon--tappable"></ons-icon>
+            <ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="artistInputAdd(this);"></ons-icon>
           </div>
         </div>
       </li>
     </ul>
+    </div>
     <div class="list-title">TYPE</div>
     <ul class="list">
       <li class="list-item list-item--tappable">

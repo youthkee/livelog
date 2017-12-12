@@ -257,7 +257,7 @@ document.addEventListener('init', function(event) {
       $('place-input').value = item.place;
       $('address-input').value = item.address;
       $('info-input').value = item.info;
-      $('artist0-input').value = item.artists.artist0.name;
+      $('artist-input0').value = item.artists.artist0.name;
 
       //typeラジオボタンのvalueとitemオブジェクト内の値が一致したらチェックを入れる
       for(var i=0; i<document.form.type.length;i++){
@@ -295,7 +295,7 @@ document.addEventListener('init', function(event) {
       //ライブIDがなかったら、登録用のオブジェクトを初期化
       var item = {};
     }
-    
+
     //☆「登録」ボタンが押された時の処理
     page.querySelector('#resist-button').onclick = function() {
 
@@ -318,7 +318,7 @@ document.addEventListener('init', function(event) {
       item.artists.artist0 = {};
 
       //一人目のアーティスト名をフォームの値から代入
-      item.artists.artist0.name = $('artist0-input').value;
+      item.artists.artist0.name = $('artist-input0').value;
 
       //一人目のアーティストのセットリストも多次元配列として初期化
       item.artists.artist0.setlist = {};
@@ -550,6 +550,50 @@ function isUrl(str) {
 //☆年のプルダウンを選択した時の処理
 function changeYear(obj){
   document.querySelector('#myNavigator').resetToPage('list.html', {data: {year: obj.value}});
+}
+
+//☆「+」ボタンが押された時の処理
+function artistInputAdd(obj) {
+  var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
+  var currentArtistNum = Number(currentInputId.replace('artist-input', ''));
+  //次の番号のアーティスト欄と「+」と「-」ボタンを生成し、下の段に挿入
+  var nextArtistInput = document.createElement('ul');
+  nextArtistInput.setAttribute('class', 'list');
+  nextArtistInput.innerHTML = '<li class="list-item"><div class="list-item__center"><input type="text" class="text-input artist-input" id="artist-input' + (currentArtistNum + 1) + '" placeholder="NAME"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="artistInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="artistInputDelete(this);"></ons-icon></div></li>';
+  obj.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(nextArtistInput);
+  //2回目以降については「+」ボタンの右横の「-」ボタンも削除する
+  var currentInputDelete = obj.nextElementSibling;
+  if (currentInputDelete){
+    obj.parentNode.removeChild(currentInputDelete);
+  }
+  //クリックされた「+」ボタン自体を削除する
+  obj.parentNode.removeChild(obj);
+}
+
+//☆「-」ボタンが押された時の処理
+function artistInputDelete(obj) {
+  var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
+  var currentArtistNum = Number(currentInputId.replace('artist-input', ''));
+  //1個前のアーティスト入力欄の隣に「+」ボタンを追加
+  var previousArtistInput = obj.parentNode.parentNode.parentNode.parentNode.previousElementSibling;
+  var previousArtistButton1 = document.createElement('ons-icon');
+  previousArtistButton1.setAttribute('icon', 'md-plus');
+  previousArtistButton1.setAttribute('size', '20px');
+  previousArtistButton1.setAttribute('class', 'icon--tappable');
+  previousArtistButton1.setAttribute('onclick', 'artistInputAdd(this);');
+  previousArtistInput.getElementsByTagName('div')[2].appendChild(previousArtistButton1);
+  //1個前のアーティスト入力欄の隣に「-」ボタンを追加（最初の入力欄の時は追加しない）
+  if (currentArtistNum > 1) {
+    var previousArtistButton2 = document.createElement('ons-icon');
+    previousArtistButton2.setAttribute('icon', 'md-minus');
+    previousArtistButton2.setAttribute('size', '20px');
+    previousArtistButton2.setAttribute('class', 'icon--tappable');
+    previousArtistButton2.setAttribute('onclick', 'artistInputDelete(this);');
+    previousArtistInput.getElementsByTagName('div')[2].appendChild(previousArtistButton2);
+  }
+  //該当のアーティスト入力欄を削除
+  var currentArtistInput = obj.parentNode.parentNode.parentNode.parentNode;
+  obj.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(currentArtistInput);
 }
 
 //☆データを全削除する処理
