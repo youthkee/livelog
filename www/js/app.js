@@ -259,6 +259,31 @@ document.addEventListener('init', function(event) {
       $('info-input').value = item.info;
       $('artist-input0').value = item.artists.artist0.name;
 
+      //複数アーティストが登録されていたら、artist1以降の分だけフォームを増やして値を入力
+      var dataArtistsNum = Object.keys(item.artists).length;
+      if(dataArtistsNum > 1) {
+        for(var i=1; i<dataArtistsNum; i++) {
+          var currentArtistInput = document.getElementsByClassName('artist-input')[i-1];
+          var artistAddButton = currentArtistInput.parentNode.nextElementSibling.firstElementChild.firstElementChild;
+          var artistAddButton2 = currentArtistInput.parentNode.nextElementSibling.firstElementChild.firstElementChild.nextElementSibling;
+          //次の番号のアーティスト欄と「+」「-」ボタンを生成し、一つ前のアーティストの下段に挿入
+          var nextArtistForm = document.createElement('ul');
+          nextArtistForm.setAttribute('class', 'list');
+          nextArtistForm.innerHTML = '<li class="list-item"><div class="list-item__center"><input type="text" class="text-input artist-input" id="artist-input' + i + '" placeholder="NAME"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="artistInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="artistInputDelete(this);"></ons-icon></div></div></li>';
+          currentArtistInput.parentNode.parentNode.parentNode.parentNode.appendChild(nextArtistForm);
+          //一つ前のアーティスト横の「+」ボタンを削除
+          currentArtistInput.parentNode.nextElementSibling.firstElementChild.removeChild(artistAddButton);
+          //一つ前のアーティスト横の「-」ボタンを削除
+          if(artistAddButton2){
+            currentArtistInput.parentNode.nextElementSibling.firstElementChild.removeChild(artistAddButton2);
+          }
+          var nextArtistId = 'artist' + i;
+          var nextArtistInput = document.getElementsByClassName('artist-input')[i];
+          //追加したアーティスト欄に既存の値を入力
+          nextArtistInput.value = item.artists[nextArtistId].name;
+        }
+      }
+
       //typeラジオボタンのvalueとitemオブジェクト内の値が一致したらチェックを入れる
       for(var i=0; i<document.form.type.length;i++){
           if(document.form.type[i].value == item.type){
@@ -312,17 +337,59 @@ document.addEventListener('init', function(event) {
       item.address = $('address-input').value;
       item.info = $('info-input').value;
 
-      //URLにパラメータがない場合は、artists欄を多次元配列として初期化
-      item.artists = {};
-      //一人目のアーティストも多次元配列として初期化
-      item.artists.artist0 = {};
+      if (!liveId) {
+        //URLにパラメータがない場合は、artists欄を多次元配列として初期化
+        item.artists = {};
+        //一人目のアーティストも多次元配列として初期化
+        item.artists.artist0 = {};
+      }
 
       //一人目のアーティスト名をフォームの値から代入
       item.artists.artist0.name = $('artist-input0').value;
 
-      //一人目のアーティストのセットリストも多次元配列として初期化
-      item.artists.artist0.setlist = {};
-      item.artists.artist0.members = {};
+      if (!liveId) {
+        //一人目のアーティストのセットリストも多次元配列として初期化
+        item.artists.artist0.setlist = {};
+        item.artists.artist0.members = {};
+      }
+
+      //フォームのアーティスト欄を配列として取得
+      var allArtistNum = document.getElementsByClassName('artist-input').length;
+      var artistList = document.getElementsByClassName('artist-input');
+
+      //localStorageに保存されているアーティスト一覧を配列として取得
+      var dataArtistNum = Object.keys(item.artists).length;
+      var dataArtistList = Object.keys(item.artists);
+
+      //複数のアーティスト欄が表示されている場合、artist1以降の値をオブジェクトに代入
+      if (allArtistNum > 1) {
+        for(var i=1; i<allArtistNum; i++) {
+          var targetArtistId = artistList[i].id.replace('-input', '');
+          //アーティストが未登録の場合artistオブジェクトを初期化
+          if (!item.artists[targetArtistId]) {
+            item.artists[targetArtistId] = {};
+          }
+          item.artists[targetArtistId].name = artistList[i].value;
+          //アーティストのセットリストが未登録の場合setlistオブジェクトを初期化
+          if (!item.artists[targetArtistId].setlist) {
+            item.artists[targetArtistId].setlist = {};
+          }
+          //アーティストのメンバーが未登録の場合membersオブジェクトを初期化
+          if (!item.artists[targetArtistId].members) {
+            item.artists[targetArtistId].members = {};
+          }
+        }
+      }
+
+      //アーティスト欄が削除されていたら、削除分のアーティストを登録用オブジェクトから削除
+      if (allArtistNum < dataArtistNum) {
+        var diffArtistNum = dataArtistNum - allArtistNum;
+        var deleteArtistList = dataArtistList.splice(allArtistNum, diffArtistNum);
+        for (var j in deleteArtistList) {
+          var deleteArtistId = deleteArtistList[j];
+          delete item.artists[deleteArtistId];
+        }
+      }
 
       //type用のフラグを設定
       var typeFlag = false;
@@ -384,8 +451,8 @@ document.addEventListener('init', function(event) {
         JSON.stringify(item)
       );
       //登録後、一覧画面へ遷移
-       var itemYear = item.date.slice(0, 4);
-       document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+      var itemYear = item.date.slice(0, 4);
+      document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
 
     };
 
