@@ -183,6 +183,20 @@ document.addEventListener('init', function(event) {
       $('artist0').innerHTML = item.artists.artist0.name;
     }
 
+    //複数アーティストが登録されていたら、artist1以降の分だけリスト要素を増やして内容を表示
+    if(dataArtistsNum > 1) {
+      for(var i=1; i<dataArtistsNum; i++) {
+        var nextArtistId = 'artist' + i;
+        var currentArtistId = 'artist' + (i - 1);
+        var currentArtistList = document.getElementById(currentArtistId).parentNode.parentNode;
+        //現在のアーティストの下に次のアーティストを追加
+        var nextArtistList = document.createElement('ul');
+        nextArtistList.setAttribute('class', 'list');
+        nextArtistList.innerHTML = '<li class="list-item"><div class="list-item__center" id="' + nextArtistId + '">' + item.artists[nextArtistId].name + '</div></li>';
+        currentArtistList.parentNode.appendChild(nextArtistList);
+      }
+    }
+
     $('type').innerHTML = item.type;
     $('genre').innerHTML = item.genre;
     $('ticket').innerHTML = item.ticket;
