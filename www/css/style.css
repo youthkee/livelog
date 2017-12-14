@@ -35,7 +35,7 @@
 }
 
 .icon--tappable {
-    margin-left: 10px;
+    margin-left: 15px;
 }
 
 .select-input--livelog {
@@ -64,4 +64,8 @@
     font-size: 20px;
     height: 56px;
     line-height: 56px;
+}
+
+#error .list-item {
+    color: #ff0000;
 }

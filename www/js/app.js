@@ -283,7 +283,7 @@ document.addEventListener('init', function(event) {
           //次の番号のアーティスト欄と「+」「-」ボタンを生成し、一つ前のアーティストの下段に挿入
           var nextArtistForm = document.createElement('ul');
           nextArtistForm.setAttribute('class', 'list');
-          nextArtistForm.innerHTML = '<li class="list-item"><div class="list-item__center"><input type="text" class="text-input artist-input" id="artist-input' + i + '" placeholder="NAME"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="artistInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="artistInputDelete(this);"></ons-icon></div></div></li>';
+          nextArtistForm.innerHTML = '<li class="list-item"><div class="list-item__center"><input type="text" class="text-input artist-input" id="artist-input' + i + '" placeholder="ARTIST' + (i+1) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="artistInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="artistInputDelete(this);"></ons-icon></div></div></li>';
           currentArtistInput.parentNode.parentNode.parentNode.parentNode.appendChild(nextArtistForm);
           //一つ前のアーティスト横の「+」ボタンを削除
           currentArtistInput.parentNode.nextElementSibling.firstElementChild.removeChild(artistAddButton);
@@ -337,6 +337,17 @@ document.addEventListener('init', function(event) {
 
     //☆「登録」ボタンが押された時の処理
     page.querySelector('#resist-button').onclick = function() {
+
+      //エラーメッセージの要素とその要素数を取得
+      var messageNum = document.getElementsByClassName('message').length;
+      var messageList = document.getElementsByClassName('message');
+        
+      //エラーメッセージが表示されていたら最初に全て消す（登録ボタンを複数回御した時の対策）
+      if (messageNum > 0) {
+          for(var i=0; i<messageNum; i++) {
+              $('error').removeChild(messageList[0]);
+          }
+      }
 
       //登録用のオブジェクトに各フォームの値を代入
       item.id = Number(count);
@@ -459,14 +470,118 @@ document.addEventListener('init', function(event) {
       item.memo = $('memo-input').value;
       item.report = $('report-input').value;
 
-      //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
-      localStorage.setItem(
-        'live' + count,
-        JSON.stringify(item)
-      );
-      //登録後、一覧画面へ遷移
-      var itemYear = item.date.slice(0, 4);
-      document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+      //入力エラー用のフラグを設定
+      var errorFlag = false;
+      var errorArea = $('error');
+
+      //TITLE欄が未入力だったら、エラー用フラグを立てて、エラーメッセージを表示
+      if($('title-input').value == '') {
+        var errorFlag = true;
+        var errorTitle = document.createElement('li');
+        errorTitle.setAttribute('class', 'list-item message');
+        errorTitle.innerHTML = '<div class="list-item__center">TITLEを入力してください。</div>';
+        errorArea.appendChild(errorTitle);
+      }
+
+      //日付の型チェックをして戻り値を変数に格納
+      var dateFormat = ckDate($('date-input').value);
+
+      if($('date-input').value == '') {
+        //DATE欄が未入力だったら、エラー用フラグを立てて、エラーメッセージを表示
+        var errorFlag = true;
+        var errorDate = document.createElement('li');
+        errorDate.setAttribute('class', 'list-item message');
+        errorDate.innerHTML = '<div class="list-item__center">DATEを入力してください。</div>';
+        errorArea.appendChild(errorDate);
+      } else if (!dateFormat) {
+        //DATEのフォーマットが不正だったら、エラー用フラグを立てて、エラーメッセージを表示
+        var errorFlag = true;
+        var errorDate = document.createElement('li');
+        errorDate.setAttribute('class', 'list-item message');
+        errorDate.innerHTML = '<div class="list-item__center">DATEは「YYYY/MM/DD」の形式（例：2007/09/05）で入力してください。</div>';
+        errorArea.appendChild(errorDate);
+      }
+
+      //時間の型チェックをして戻り値を変数に格納
+      var openFormat = ckTime($('open-input').value);
+      var startFormat = ckTime($('start-input').value);
+
+      //OPENが入力されていて、かつフォーマットが不正の場合は、エラー用フラグを立てて、エラーメッセージを表示
+      if($('open-input').value == '') {
+      } else if (!openFormat) {
+        var errorFlag = true;
+        var errorOpen = document.createElement('li');
+        errorOpen.setAttribute('class', 'list-item message');
+        errorOpen.innerHTML = '<div class="list-item__center">OPENは「HH:MM」の形式（例：18:30）で入力してください。</div>';
+        errorArea.appendChild(errorOpen);
+      }
+
+      //STARTが入力されていて、かつフォーマットが不正の場合は、エラー用フラグを立てて、エラーメッセージを表示
+      if($('start-input').value == '') {
+      } else if (!startFormat) {
+        var errorFlag = true;
+        var errorStart = document.createElement('li');
+        errorStart.setAttribute('class', 'list-item message');
+        errorStart.innerHTML = '<div class="list-item__center">STARTは「HH:MM」の形式（例：19:00）で入力してください。</div>';
+        errorArea.appendChild(errorStart);
+      } else if ($('open-input').value > $('start-input').value) {
+        var errorFlag = true;
+        var errorStart = document.createElement('li');
+        errorStart.setAttribute('class', 'list-item message');
+        errorStart.innerHTML = '<div class="list-item__center">STARTはOPENより後の時間にしてください。</div>';
+        errorArea.appendChild(errorStart);
+      }
+
+      //アーティスト欄の数だけ入力チェックして、未入力だったら、エラー用フラグを立てて、エラーメッセージを表示
+      for(var i=0; i<allArtistNum; i++) {
+        if(artistList[i].value == '') {
+          var errorFlag = true;
+          var errorArtist = document.createElement('li');
+          errorArtist.setAttribute('class', 'list-item message');
+          errorArtist.innerHTML = '<div class="list-item__center">ARTIST' + (i+1) + 'を入力してください。</div>';
+          errorArea.appendChild(errorArtist);
+        }
+      }
+
+      //URLの型チェックをして戻り値を変数に格納
+      var infoFormat = isUrl($('info-input').value);
+      var reportFormat = isUrl($('report-input').value);
+
+      //INFOが入力されていて、かつフォーマットが不正の場合は、エラー用フラグを立てて、エラーメッセージを表示
+      if($('info-input').value == '') {
+      } else if (!infoFormat) {
+        var errorFlag = true;
+        var errorInfo = document.createElement('li');
+        errorInfo.setAttribute('class', 'list-item message');
+        errorInfo.innerHTML = '<div class="list-item__center">INFOはURLの形式（例：http://hatsune-official.com）で入力してください。</div>';
+        errorArea.appendChild(errorInfo);
+      }
+
+      //REPORTが入力されていて、かつフォーマットが不正の場合は、エラー用フラグを立てて、エラーメッセージを表示
+      if($('report-input').value == '') {
+      } else if (!reportFormat) {
+        var errorFlag = true;
+        var errorReport = document.createElement('li');
+        errorReport.setAttribute('class', 'list-item message');
+        errorReport.innerHTML = '<div class="list-item__center">REPORTはURLの形式（例：http://hatsune-official.com）で入力してください。</div>';
+        errorArea.appendChild(errorReport);
+      }
+
+      //入力エラーがなかったら登録処理を実行
+      if(!errorFlag) {
+          //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
+          localStorage.setItem(
+            'live' + count,
+            JSON.stringify(item)
+          );
+          //登録後、一覧画面へ遷移
+          var itemYear = item.date.slice(0, 4);
+          document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+          //console.log('OK');
+      } else {
+        //入力エラーがあったら、ページ最上部へアンカー移動
+        location.href = '#error';
+      }
 
     };
 
@@ -504,12 +619,6 @@ document.addEventListener('init', function(event) {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
     };
   }
-});
-
-document.addEventListener('ons-alert-dialog:init', function(e) {
-    if (e.target.id == 'dialog-2') {
-      console.log(data.live)
-    }
 });
 
 var showDialog = function (id) {
@@ -640,7 +749,7 @@ function artistInputAdd(obj) {
   //次の番号のアーティスト欄と「+」と「-」ボタンを生成し、下の段に挿入
   var nextArtistInput = document.createElement('ul');
   nextArtistInput.setAttribute('class', 'list');
-  nextArtistInput.innerHTML = '<li class="list-item"><div class="list-item__center"><input type="text" class="text-input artist-input" id="artist-input' + (currentArtistNum + 1) + '" placeholder="NAME"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="artistInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="artistInputDelete(this);"></ons-icon></div></li>';
+  nextArtistInput.innerHTML = '<li class="list-item"><div class="list-item__center"><input type="text" class="text-input artist-input" id="artist-input' + (currentArtistNum + 1) + '" placeholder="ARTIST' + (currentArtistNum + 2) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="artistInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="artistInputDelete(this);"></ons-icon></div></li>';
   obj.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(nextArtistInput);
   //2回目以降については「+」ボタンの右横の「-」ボタンも削除する
   var currentInputDelete = obj.nextElementSibling;
