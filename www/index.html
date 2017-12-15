@@ -486,12 +486,12 @@
           1
         </div>
         <div class="list-item__center">
-          <input type="text" class="text-input" placeholder="TRACK0">
+          <input type="text" class="text-input setlist" id="track0" placeholder="TRACK1">
         </div>
         <div class="list-item__right">
           <div class="list-item__label">
-            <ons-icon icon="md-plus" size="20px" class="icon--tappable"></ons-icon>
-            <ons-icon icon="md-minus" size="20px" class="icon--tappable"></ons-icon>
+            <ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="trackInputAdd(this);"></ons-icon>
+            <ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="trackInputDelete(this);"></ons-icon>
           </div>
         </div>
       </li>
