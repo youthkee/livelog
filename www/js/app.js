@@ -134,7 +134,7 @@ document.addEventListener('init', function(event) {
         //日付から年号を削除して変数に代入
         var currentDay = currentItem[i].date.slice(5, 10);
 
-        $('live-list').innerHTML += '<ons-list-item class="live-list-item" data-id="live' + currentItem[i].id + '" tappable><div class="center"><span class="list-item__title">' + currentItem[i].title + '＠' + currentItem[i].area + ' ' + currentItem[i].place + '</span><span class="list-item__subtitle"><ons-icon icon="md-time"></ons-icon> ' + currentDay + ' OPEN ' + currentItem[i].open + ' / START ' + currentItem[i].start + '<br><ons-icon icon="md-face"></ons-icon> ' + artistsItemJoin + '<br><ons-icon icon="md-ticket-star"></ons-icon> ' + currentItem[i].ticket + ' <span class="attendance">' + currentItem[i].attendance + '</span></span></div></ons-list-item>';
+        $('live-list').innerHTML += '<ons-list-item class="live-list-item" data-live="live' + currentItem[i].id + '" tappable><div class="center"><span class="list-item__title">' + currentItem[i].title + '＠' + currentItem[i].area + ' ' + currentItem[i].place + '</span><span class="list-item__subtitle"><ons-icon icon="md-time"></ons-icon> ' + currentDay + ' OPEN ' + currentItem[i].open + ' / START ' + currentItem[i].start + '<br><ons-icon icon="md-face"></ons-icon> ' + artistsItemJoin + '<br><ons-icon icon="md-ticket-star"></ons-icon> ' + currentItem[i].ticket + ' <span class="attendance">' + currentItem[i].attendance + '</span></span></div></ons-list-item>';
 
       }
 
@@ -150,7 +150,7 @@ document.addEventListener('init', function(event) {
       //一覧リストの各項目をタップしたらライブIDを渡してdetail.htmlへ遷移
       var currentListItem = listItems[item];
       currentListItem.onclick = function() {
-        var currentListId = this.getAttribute('data-id');
+        var currentListId = this.getAttribute('data-live');
         document.querySelector('#myNavigator').pushPage('detail.html', {data: {live: currentListId}});
       }
     }
@@ -181,6 +181,44 @@ document.addEventListener('init', function(event) {
     if(dataArtistsNum > 0) {
       //1人目のアーティスト名を表示
       $('artist0').innerHTML = item.artists.artist0.name;
+
+      //1人目のセットリストの内容をオブジェクトとして取得
+      var firstSetlistNum = Object.keys(item.artists.artist0.setlist).length;
+      var firstSetlistItem = Object.keys(item.artists.artist0.setlist).map(function(key) {
+          return item.artists.artist0.setlist[key];
+      });
+
+      //1人目のアーティスト名の下にセットリスト欄を追加
+      var firstArtistList = document.getElementById('artist0').parentNode.parentNode;
+      var firstSetlistTitle = document.createElement('li');
+      firstSetlistTitle.setAttribute('class', 'list-item list-item--nodivider');
+      firstSetlistTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title">SETLIST</div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable setlist-button" data-artist="artist0"></ons-icon></div></div>';
+      firstArtistList.appendChild(firstSetlistTitle);
+
+      //1人目のセットリストのツイート文言用の変数を生成
+      var firstTwTxt1 = item.title + '＠' + item.area + item.place + '%0d%0a%23' + item.artists.artist0.name + '%20さんのセットリスト' + '%0d%0a%0d%0a';
+      var firstTwTxt2 = '';
+      var firstTwTxt3 = '%0d%0a%23ライブ%20%23' + item.genre;
+      
+      //セットリストが登録されていたら、セットリストの内容をリスト表示
+      if (firstSetlistNum > 0) {
+        for (track in firstSetlistItem) {
+          var trackId = track.replace('track', '');
+          var additionalTrack = document.createElement('li');
+          additionalTrack.setAttribute('class', 'list-item list-item--nodivider');
+          additionalTrack.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + trackId + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + firstSetlistItem[track] + '</div></div>';
+          firstArtistList.appendChild(additionalTrack);
+          //ツイート文言用の変数にもセットリストを追加
+          firstTwTxt2 += firstSetlistItem[track] + '%0d%0a';
+        }
+        //1人目のセットリストの下にツイート用のリンクを追加
+        var firstSetlistTweet = document.createElement('a');
+        firstSetlistTweet.setAttribute('href', 'https://twitter.com/intent/tweet?text=' + firstTwTxt1 + firstTwTxt2 + firstTwTxt3);
+        firstSetlistTweet.setAttribute('target', '_blank');
+        firstSetlistTweet.innerHTML = '<ons-icon icon="md-twitter" size="20px" class="icon--tappable"></ons-icon>';
+        firstSetlistTitle.getElementsByTagName('div')[3].appendChild(firstSetlistTweet);
+      }
+
     }
 
     //複数アーティストが登録されていたら、artist1以降の分だけリスト要素を増やして内容を表示
@@ -221,6 +259,17 @@ document.addEventListener('init', function(event) {
       page.querySelector('#report-link').onclick = function() {
         window.open(item.report, '_blank');
       };
+    }
+
+    //一覧リストの項目を配列として取得
+    var setlistButtons = page.getElementsByClassName('setlist-button');
+    for (button in setlistButtons) {
+      //一覧リストの各項目をタップしたらライブIDを渡してdetail.htmlへ遷移
+      var currentSetlistButton = setlistButtons[button];
+      currentSetlistButton.onclick = function() {
+        var currentArtistId = this.getAttribute('data-artist');
+        document.querySelector('#myNavigator').pushPage('setlist.html', {data: {live: liveId, artist: currentArtistId}});
+      }
     }
 
   } else if (page.id === 'edit') {
@@ -611,6 +660,8 @@ document.addEventListener('init', function(event) {
     }
 
   } else if (page.id === 'setlist') {
+    console.log(page.data.live);
+    console.log(page.data.artist);
     page.querySelector('#resist-button').onclick = function() {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
     };
