@@ -69,3 +69,11 @@
 #error .list-item {
     color: #ff0000;
 }
+
+.list-item__left--livelog {
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-image: -webkit-linear-gradient(bottom, #ccc, #ccc 100%);
+    background-image: linear-gradient(0deg, #ccc, #ccc 100%);
+}

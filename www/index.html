@@ -510,23 +510,23 @@
     </ons-toolbar>
     <ul class="list">
       <li class="list-item">
-        <div class="list-item__left">
-          <input type="text" class="text-input text-input--half" placeholder="PART0">
+        <div class="list-item__left list-item__left--livelog">
+          <input type="text" class="text-input text-input--half part" id="part0" placeholder="PART1">
         </div>
         <div class="list-item__center">
-          <input type="text" class="text-input text-input--half" placeholder="MEMBER0">
+          <input type="text" class="text-input text-input--half member" id="member0" placeholder="MEMBER1">
         </div>
         <div class="list-item__right">
           <div class="list-item__label">
-            <ons-icon icon="md-plus" size="20px" class="icon--tappable"></ons-icon>
-            <ons-icon icon="md-minus" size="20px" class="icon--tappable"></ons-icon>
+            <ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="memberInputAdd(this);"></ons-icon>
+            <ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="memberInputDelete(this);"></ons-icon>
           </div>
         </div>
       </li>
     </ul>
     <div class="center" style="padding: 8px">
-      <ons-button modifier="large" class="button--livelog button--resist" id="resist-button">登録</ons-button>
-      <ons-button modifier="large light" class="button--light--livelog" onclick="showDialog('dialog-4')">メンバーを削除</ons-button>
+      <ons-button modifier="large" class="button--livelog button--resist" id="member-resist">登録</ons-button>
+      <ons-button modifier="large light" class="button--light--livelog" id="member-delete">メンバーを削除</ons-button>
     </div>
   </ons-page>
   </ons-template>
@@ -948,26 +948,6 @@
     </div>
   </ons-page>
   </ons-template>
-
-  <ons-alert-dialog modifier="material" id="dialog-3">
-    <div class="alert-dialog-content">
-      セットリストを削除してよろしいですか？
-    </div>
-    <div class="alert-dialog-footer">
-      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-3');popPageFade('myNavigator');">OK</button>
-      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-3')">Cancel</button>
-    </div>
-  </ons-alert-dialog>
-
-  <ons-alert-dialog modifier="material" id="dialog-4">
-    <div class="alert-dialog-content">
-      メンバーを削除してよろしいですか？
-    </div>
-    <div class="alert-dialog-footer">
-      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-4');popPageFade('myNavigator');">OK</button>
-      <button class="alert-dialog-button alert-dialog-button--livelog" onclick="hideDialog('dialog-4')">Cancel</button>
-    </div>
-  </ons-alert-dialog>
 
 <script src="components/loader.js"></script>
 <script src="lib/onsenui/js/onsenui.min.js"></script>

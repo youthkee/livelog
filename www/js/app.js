@@ -232,8 +232,9 @@ document.addEventListener('init', function(event) {
       if (firstMemberNum > 0) {
         for (member in firstMemberItem) {
           var additionalMember = document.createElement('li');
+          var additionalMemberId = firstMemberItem[member];
           additionalMember.setAttribute('class', 'list-item list-item--nodivider');
-          additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + member + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + firstMemberItem[member] + '</div></div>';
+          additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + item.artists.artist0.members[additionalMemberId].part + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + item.artists.artist0.members[additionalMemberId].name + '</div></div>';
           firstArtistList.appendChild(additionalMember);
         }
       }
@@ -298,8 +299,9 @@ document.addEventListener('init', function(event) {
         if (nextMemberNum > 0) {
           for (member in nextMemberItem) {
             var additionalMember = document.createElement('li');
+            var additionalMemberId = nextMemberItem[member];
             additionalMember.setAttribute('class', 'list-item list-item--nodivider');
-            additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + member + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + nextMemberItem[member] + '</div></div>';
+            additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + item.artists[nextArtistId].members[additionalMemberId].part + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + item.artists[nextArtistId].members[additionalMemberId].name + '</div></div>';
             nextArtistList.appendChild(additionalMember);
           }
         }
@@ -854,11 +856,128 @@ document.addEventListener('init', function(event) {
     };
 
   } else if (page.id === 'member') {
-    console.log(page.data.live);
-    console.log(page.data.artist);
-    page.querySelector('#resist-button').onclick = function() {
-      document.querySelector('#myNavigator').popPage({animation: 'fade'});
+
+    // 遷移時に受け取ったライブIDとアーティストIDをカウント番号に代入
+    var liveId = page.data.live;
+    var artistId = page.data.artist;
+
+    // その番号のデータを取り出してitemオブジェクトへ一次保存
+    item = JSON.parse(
+      localStorage.getItem(liveId)
+    );
+
+    var dataMemberNum = Object.keys(item.artists[artistId].members).length;
+    //メンバーが1つ以上登録されていたら、1つ目の入力欄に値を挿入
+    if (dataMemberNum > 0) {
+      $('part0').value = item.artists[artistId].members.member0.part;
+      $('member0').value = item.artists[artistId].members.member0.name;
+    }
+    if(dataMemberNum > 1) {
+      for(var i=1; i<dataMemberNum; i++) {
+        var currentMemberInput = document.getElementsByClassName('member')[i-1];
+        var memberAddButton = currentMemberInput.parentNode.nextElementSibling.firstElementChild.firstElementChild;
+        var memberAddButton2 = currentMemberInput.parentNode.nextElementSibling.firstElementChild.firstElementChild.nextElementSibling;
+        //次の番号のメンバー欄と「+」「-」ボタンを生成し、一つ前のメンバーの下段に挿入
+        var nextMemberForm = document.createElement('li');
+        nextMemberForm.setAttribute('class', 'list-item');
+        nextMemberForm.innerHTML = '<div class="list-item__left list-item__left--livelog"><input type="text" class="text-input text-input--half part" id="part' + i + '" placeholder="PART' + (i + 1) + '"></div><div class="list-item__center"><input type="text" class="text-input text-input--half member" id="member' + i + '" placeholder="MEMBER' + (i + 1) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="memberInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="memberInputDelete(this);"></ons-icon></div></div>';
+        currentMemberInput.parentNode.parentNode.parentNode.appendChild(nextMemberForm);
+        //一つ前のメンバー横の「+」ボタンを削除
+        currentMemberInput.parentNode.nextElementSibling.firstElementChild.removeChild(memberAddButton);
+        //一つ前のメンバー横の「-」ボタンを削除
+        if(memberAddButton2){
+          currentMemberInput.parentNode.nextElementSibling.firstElementChild.removeChild(memberAddButton2);
+        }
+        var nextMemberId = 'member' + i;
+        var nextPartId = 'part' + i;
+        var nextMemberInput = document.getElementsByClassName('member')[i];
+        var nextPartInput = document.getElementsByClassName('part')[i];
+        //追加したメンバー欄に既存の値を入力
+        nextPartInput.value = item.artists[artistId].members[nextMemberId].part;
+        nextMemberInput.value = item.artists[artistId].members[nextMemberId].name;
+      }
+    }
+
+    page.querySelector('#member-resist').onclick = function() {
+
+      //フォームのメンバー欄を配列として取得
+      var allMemberNum = document.getElementsByClassName('member').length;
+      var memberList = document.getElementsByClassName('member');
+
+      //localStorageに保存されているメンバー一覧を配列として取得
+      var dataMemberNum = Object.keys(item.artists[artistId].members).length;
+      var dataMemberList = Object.keys(item.artists[artistId].members);
+
+      if (!item.artists[artistId].members.member0) {
+        item.artists[artistId].members.member0 = {};
+      }
+
+      //一人目のメンバーをフォームの値から代入
+      item.artists[artistId].members.member0.part = $('part0').value;
+      item.artists[artistId].members.member0.name = $('member0').value;
+
+      //複数のメンバー欄が表示されている場合、member1以降の値をオブジェクトに代入
+      if (allMemberNum > 1) {
+        for(var i=1; i<allMemberNum; i++) {
+          var targetMemberId = memberList[i].id;
+          var targetPartId =  memberList[i].id.replace('member', 'part');
+          if (!item.artists[artistId].members[targetMemberId]) {
+            item.artists[artistId].members[targetMemberId] = {};
+          }
+          item.artists[artistId].members[targetMemberId].part = $(targetPartId).value;
+          item.artists[artistId].members[targetMemberId].name = $(targetMemberId).value;
+        }
+      }
+
+      //メンバー欄が削除されていたら、削除分のメンバーを登録用オブジェクトから削除
+      if (allMemberNum < dataMemberNum) {
+        var diffMemberNum = dataMemberNum - allMemberNum;
+        var deleteMemberList = dataMemberList.splice(allMemberNum, diffMemberNum);
+        for (var j in deleteMemberList) {
+          var deleteMemberId = deleteMemberList[j];
+          delete item.artists[artistId].members[deleteMemberId];
+        }
+      }
+
+      //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
+      localStorage.setItem(
+        liveId,
+        JSON.stringify(item)
+      );
+      //登録後、一覧画面へ遷移
+      var itemYear = item.date.slice(0, 4);
+      document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+
     };
+
+    page.querySelector('#member-delete').onclick = function() {
+
+      ons.notification.confirm({
+        message: 'メンバーを削除してよろしいですか？',
+        title: '',
+        primaryButtonIndex: 1,
+        cancelable: true,
+        modifier: 'material',
+        callback: function(index) {
+            switch(index) {
+              case 1:
+                //該当のアーティストのセットリストを初期化
+                item.artists[artistId].members = {};
+                //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
+                localStorage.setItem(
+                  liveId,
+                  JSON.stringify(item)
+                );
+                //ライブ一覧ページを再読み込み
+                var itemYear = item.date.slice(0, 4);
+                document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+                break;
+            }
+        }
+      });
+
+    };
+    
   }
 });
 
@@ -983,7 +1102,7 @@ function changeYear(obj){
   document.querySelector('#myNavigator').resetToPage('list.html', {data: {year: obj.value}});
 }
 
-//☆「+」ボタンが押された時の処理
+//☆アーティストの「+」ボタンが押された時の処理
 function artistInputAdd(obj) {
   var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
   var currentArtistNum = Number(currentInputId.replace('artist-input', ''));
@@ -1001,7 +1120,7 @@ function artistInputAdd(obj) {
   obj.parentNode.removeChild(obj);
 }
 
-//☆「-」ボタンが押された時の処理
+//☆アーティストの「-」ボタンが押された時の処理
 function artistInputDelete(obj) {
   var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
   var currentArtistNum = Number(currentInputId.replace('artist-input', ''));
@@ -1045,7 +1164,7 @@ function trackInputAdd(obj) {
   obj.parentNode.removeChild(obj);
 }
 
-//☆「-」ボタンが押された時の処理
+//☆セットリストの「-」ボタンが押された時の処理
 function trackInputDelete(obj) {
   var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
   var currentTrackNum = Number(currentInputId.replace('track', ''));
@@ -1069,6 +1188,50 @@ function trackInputDelete(obj) {
   //該当のセットリスト入力欄を削除
   var currentTrackInput = obj.parentNode.parentNode.parentNode;
   obj.parentNode.parentNode.parentNode.parentNode.removeChild(currentTrackInput);
+}
+
+//☆メンバーの「+」ボタンが押された時の処理
+function memberInputAdd(obj) {
+  var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
+  var currentMemberNum = Number(currentInputId.replace('member', ''));
+  //次の番号の入力欄と「+」ボタンを生成し、下の段に挿入
+  var nextMemberInput = document.createElement('li');
+  nextMemberInput.setAttribute('class', 'list-item');
+  nextMemberInput.innerHTML = '<div class="list-item__left list-item__left--livelog"><input type="text" class="text-input text-input--half part" id="part' + (currentMemberNum + 1) + '" placeholder="PART' + (currentMemberNum + 2) + '"></div><div class="list-item__center"><input type="text" class="text-input text-input--half member" id="member' + (currentMemberNum + 1) + '" placeholder="MEMBER' + (currentMemberNum + 2) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="memberInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="memberInputDelete(this);"></ons-icon></div></div>';
+  obj.parentNode.parentNode.parentNode.parentNode.appendChild(nextMemberInput);
+  //2回目以降については「+」ボタンの右横の「-」ボタンも削除する
+  var currentInputDelete = obj.nextElementSibling;
+  if (currentInputDelete){
+    obj.parentNode.removeChild(currentInputDelete);
+  }
+  //クリックされた「+」ボタン自体は削除する
+  obj.parentNode.removeChild(obj);
+}
+
+//☆メンバーの「-」ボタンが押された時の処理
+function memberInputDelete(obj) {
+  var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
+  var currentMemberNum = Number(currentInputId.replace('member', ''));
+  //1個前のメンバー入力欄の隣に「+」ボタンを追加
+  var previousMemberInput = obj.parentNode.parentNode.parentNode.previousElementSibling;
+  var previousMemberButton1 = document.createElement('ons-icon');
+  previousMemberButton1.setAttribute('icon', 'md-plus');
+  previousMemberButton1.setAttribute('size', '20px');
+  previousMemberButton1.setAttribute('class', 'icon--tappable');
+  previousMemberButton1.setAttribute('onclick', 'memberInputAdd(this);');
+  previousMemberInput.getElementsByTagName('div')[3].appendChild(previousMemberButton1);
+  //1個前のセットリスト入力欄の隣に「-」ボタンを追加（最初の入力欄の時は追加しない）
+  if (currentMemberNum > 1) {
+    var previousMemberButton2 = document.createElement('ons-icon');
+    previousMemberButton2.setAttribute('icon', 'md-minus');
+    previousMemberButton2.setAttribute('size', '20px');
+    previousMemberButton2.setAttribute('class', 'icon--tappable');
+    previousMemberButton2.setAttribute('onclick', 'memberInputDelete(this);');
+    previousMemberInput.getElementsByTagName('div')[3].appendChild(previousMemberButton2);
+  }
+  //該当のメンバー入力欄を削除
+  var currentMemberInput = obj.parentNode.parentNode.parentNode;
+  obj.parentNode.parentNode.parentNode.parentNode.removeChild(currentMemberInput);
 }
 
 //☆データを全削除する処理
