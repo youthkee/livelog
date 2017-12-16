@@ -232,6 +232,41 @@ document.addEventListener('init', function(event) {
         nextArtistList.setAttribute('class', 'list');
         nextArtistList.innerHTML = '<li class="list-item"><div class="list-item__center" id="' + nextArtistId + '">' + item.artists[nextArtistId].name + '</div></li>';
         currentArtistList.parentNode.appendChild(nextArtistList);
+
+        //次のアーティストのセットリストの内容をオブジェクトとして取得
+        var nextSetlistNum = Object.keys(item.artists[nextArtistId].setlist).length;
+        var nextSetlistItem = Object.keys(item.artists[nextArtistId].setlist).map(function(key) {
+            return item.artists[nextArtistId].setlist[key];
+        });
+        //次のアーティスト名の下にセットリスト欄を追加
+        var nextSetlistTitle = document.createElement('li');
+        nextSetlistTitle.setAttribute('class', 'list-item list-item--nodivider');
+        nextSetlistTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title">SETLIST</div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable setlist-button" data-artist="artist' + i + '"></ons-icon></div></div>';
+        nextArtistList.appendChild(nextSetlistTitle);
+
+        //次のアーティストのツイート文言用の変数を生成
+        var nextTwTxt1 = item.title + '＠' + item.area + item.place + '%0d%0a%23' + item.artists[nextArtistId].name + '%20さんのセットリスト' + '%0d%0a%0d%0a';
+        var nextTwTxt2 = '';
+        var nextTwTxt3 = '%0d%0a%23ライブ%20%23' + item.genre;
+        //セットリストが登録されていたら、セットリストの内容をリスト表示
+        if (nextSetlistNum > 0) {
+          for (track in nextSetlistItem) {
+            var trackId = track.replace('track', '');
+            var additionalTrack = document.createElement('li');
+            additionalTrack.setAttribute('class', 'list-item list-item--nodivider');
+            additionalTrack.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + trackId + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + nextSetlistItem[track] + '</div></div>';
+            nextArtistList.appendChild(additionalTrack);
+            //ツイート文言用の変数にもセットリストを追加
+            nextTwTxt2 += nextSetlistItem[track] + '%0d%0a';
+          }
+          //次のアーティストのセットリストの下にツイート用のリンクを追加
+          var nextSetlistTweet = document.createElement('a');
+          nextSetlistTweet.setAttribute('href', 'https://twitter.com/intent/tweet?text=' + nextTwTxt1 + nextTwTxt2 + nextTwTxt3);
+          nextSetlistTweet.setAttribute('target', '_blank');
+          nextSetlistTweet.innerHTML = '<ons-icon icon="md-twitter" size="20px" class="icon--tappable"></ons-icon>';
+          nextSetlistTitle.getElementsByTagName('div')[3].appendChild(nextSetlistTweet);
+        }
+
       }
     }
 
@@ -717,7 +752,6 @@ document.addEventListener('init', function(event) {
       if (allTrackNum > 1) {
         for(var i=1; i<allTrackNum; i++) {
           targetTrackId = trackList[i].id;
-          console.log(typeof(targetTrackId));
           item.artists[artistId].setlist[targetTrackId] = $(targetTrackId).value;
         }
       }
