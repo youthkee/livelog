@@ -660,9 +660,6 @@ document.addEventListener('init', function(event) {
     }
 
   } else if (page.id === 'setlist') {
-      
-    console.log(page.data.live);
-    console.log(page.data.artist);
     
     // 遷移時に受け取ったライブIDとアーティストIDをカウント番号に代入
     var liveId = page.data.live;
@@ -683,12 +680,12 @@ document.addEventListener('init', function(event) {
     if(dataSetlistNum > 1) {
       for(var i=1; i<dataSetlistNum; i++) {
         var currentTrackInput = document.getElementsByClassName('setlist')[i-1];
-        var trackAddButton = currentTrackInput.parentNode.nextElementSibling.firstElementChild;
-        var trackAddButton2 = currentTrackInput.parentNode.nextElementSibling.firstElementChild.nextElementSibling;
+        var trackAddButton = currentTrackInput.parentNode.nextElementSibling.firstElementChild.firstElementChild;
+        var trackAddButton2 = currentTrackInput.parentNode.nextElementSibling.firstElementChild.firstElementChild.nextElementSibling;
         //次の番号のセットリスト欄と「+」「-」ボタンを生成し、一つ前のセットリストの下段に挿入
         var nextTrackForm = document.createElement('li');
         nextTrackForm.setAttribute('class', 'list-item');
-        nextTrackForm.innerHTML = '<div class="list-item__left">' + i + '</div><div class="list-item__center"><input type="text" class="text-input setlist" id="track' + i + ' placeholder="TRACK' + (i + 1) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="trackInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="trackInputDelete(this);"></ons-icon></div></div>';
+        nextTrackForm.innerHTML = '<div class="list-item__center"><input type="text" class="text-input setlist" id="track' + i + '" placeholder="TRACK' + (i + 1) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="trackInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="trackInputDelete(this);"></ons-icon></div></div>';
         currentTrackInput.parentNode.parentNode.parentNode.appendChild(nextTrackForm);
         //一つ前のセットリスト横の「+」ボタンを削除
         currentTrackInput.parentNode.nextElementSibling.firstElementChild.removeChild(trackAddButton);
@@ -703,10 +700,77 @@ document.addEventListener('init', function(event) {
       }
     }
 
-    page.querySelector('#resist-button').onclick = function() {
-      document.querySelector('#myNavigator').popPage({animation: 'fade'});
+    page.querySelector('#setlist-resist').onclick = function() {
+
+      //一曲目のセットリストをフォームの値から代入
+      item.artists[artistId].setlist.track0 = $('track0').value;
+
+      //フォームのセットリスト欄を配列として取得
+      var allTrackNum = document.getElementsByClassName('setlist').length;
+      var trackList = document.getElementsByClassName('setlist');
+
+      //localStorageに保存されているセットリスト一覧を配列として取得
+      var dataTrackNum = Object.keys(item.artists[artistId].setlist).length;
+      var dataTrackList = Object.keys(item.artists[artistId].setlist);
+
+      //複数のセットリスト欄が表示されている場合、track1以降の値をオブジェクトに代入
+      if (allTrackNum > 1) {
+        for(var i=1; i<allTrackNum; i++) {
+          targetTrackId = trackList[i].id;
+          console.log(typeof(targetTrackId));
+          item.artists[artistId].setlist[targetTrackId] = $(targetTrackId).value;
+        }
+      }
+
+      //セットリスト欄が削除されていたら、削除分のセットリストを登録用オブジェクトから削除
+      if (allTrackNum < dataTrackNum) {
+        diffTrackNum = dataTrackNum - allTrackNum;
+        deleteTrackList = dataTrackList.splice(allTrackNum, diffTrackNum);
+        for (var j in deleteTrackList) {
+          var deleteTrackId = deleteTrackList[j];
+          delete item.artists[artistId].setlist[deleteTrackId];
+        }
+      }
+
+      //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
+      localStorage.setItem(
+        liveId,
+        JSON.stringify(item)
+      );
+      //登録後、一覧画面へ遷移
+      var itemYear = item.date.slice(0, 4);
+      document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+
     };
-    
+
+    page.querySelector('#setlist-delete').onclick = function() {
+
+      ons.notification.confirm({
+        message: 'セットリストを削除してよろしいですか？',
+        title: '',
+        primaryButtonIndex: 1,
+        cancelable: true,
+        modifier: 'material',
+        callback: function(index) {
+            switch(index) {
+              case 1:
+                //該当のアーティストのセットリストを初期化
+                item.artists[artistId].setlist = {};
+                //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
+                localStorage.setItem(
+                  liveId,
+                  JSON.stringify(item)
+                );
+                //ライブ一覧ページを再読み込み
+                var itemYear = item.date.slice(0, 4);
+                document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+                break;
+            }
+        }
+      });
+
+    };
+
   } else if (page.id === 'member') {
     page.querySelector('#resist-button').onclick = function() {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
@@ -877,6 +941,50 @@ function artistInputDelete(obj) {
   //該当のアーティスト入力欄を削除
   var currentArtistInput = obj.parentNode.parentNode.parentNode.parentNode;
   obj.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(currentArtistInput);
+}
+
+//☆セットリストの「+」ボタンが押された時の処理
+function trackInputAdd(obj) {
+  var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
+  var currentTrackNum = Number(currentInputId.replace('track', ''));
+  //次の番号の入力欄と「+」「-」ボタンを生成し、下の段に挿入
+  var nextTrackInput = document.createElement('li');
+  nextTrackInput.setAttribute('class', 'list-item');
+  nextTrackInput.innerHTML = '<div class="list-item__center"><input type="text" class="text-input setlist" id="track' + (currentTrackNum + 1) + '" placeholder="TRACK' + (currentTrackNum + 2) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="trackInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="trackInputDelete(this);"></ons-icon></div></div>';
+  obj.parentNode.parentNode.parentNode.parentNode.appendChild(nextTrackInput);
+  //2回目以降については「+」ボタンの右横の「-」ボタンも削除する
+  var currentInputDelete = obj.nextElementSibling;
+  if (currentInputDelete){
+    obj.parentNode.removeChild(currentInputDelete);
+  }
+  //クリックされた「+」ボタン自体は削除する
+  obj.parentNode.removeChild(obj);
+}
+
+//☆「-」ボタンが押された時の処理
+function trackInputDelete(obj) {
+  var currentInputId = obj.parentNode.parentNode.previousElementSibling.firstElementChild.getAttribute('id');
+  var currentTrackNum = Number(currentInputId.replace('track', ''));
+  //1個前のセットリスト入力欄の隣に「+」ボタンを追加
+  var previousTrackInput = obj.parentNode.parentNode.parentNode.previousElementSibling;
+  var previousTrackButton1 = document.createElement('ons-icon');
+  previousTrackButton1.setAttribute('icon', 'md-plus');
+  previousTrackButton1.setAttribute('size', '20px');
+  previousTrackButton1.setAttribute('class', 'icon--tappable');
+  previousTrackButton1.setAttribute('onclick', 'trackInputAdd(this);');
+  previousTrackInput.getElementsByTagName('div')[2].appendChild(previousTrackButton1);
+  //1個前のセットリスト入力欄の隣に「-」ボタンを追加（最初の入力欄の時は追加しない）
+  if (currentTrackNum > 1) {
+    var previousTrackButton2 = document.createElement('ons-icon');
+    previousTrackButton2.setAttribute('icon', 'md-minus');
+    previousTrackButton2.setAttribute('size', '20px');
+    previousTrackButton2.setAttribute('class', 'icon--tappable');
+    previousTrackButton2.setAttribute('onclick', 'trackInputDelete(this);');
+    previousTrackInput.getElementsByTagName('div')[2].appendChild(previousTrackButton2);
+  }
+  //該当のセットリスト入力欄を削除
+  var currentTrackInput = obj.parentNode.parentNode.parentNode;
+  obj.parentNode.parentNode.parentNode.parentNode.removeChild(currentTrackInput);
 }
 
 //☆データを全削除する処理
