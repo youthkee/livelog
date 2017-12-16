@@ -219,6 +219,25 @@ document.addEventListener('init', function(event) {
         firstSetlistTitle.getElementsByTagName('div')[3].appendChild(firstSetlistTweet);
       }
 
+      //1人目のメンバーの内容をオブジェクトとして取得
+      var firstMemberNum = Object.keys(item.artists.artist0.members).length;
+      var firstMemberItem = Object.keys(item.artists.artist0.members);
+      //1人目のアーティスト名の下にメンバー欄を追加
+      var firstMemberTitle = document.createElement('li');
+      firstMemberTitle.setAttribute('class', 'list-item list-item--nodivider');
+      firstMemberTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title">MEMBER</div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable member-button" data-artist="artist0"></ons-icon></div></div>';
+      firstArtistList.appendChild(firstMemberTitle);
+
+      //メンバーが登録されていたら、メンバーの内容をリスト表示
+      if (firstMemberNum > 0) {
+        for (member in firstMemberItem) {
+          var additionalMember = document.createElement('li');
+          additionalMember.setAttribute('class', 'list-item list-item--nodivider');
+          additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + member + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + firstMemberItem[member] + '</div></div>';
+          firstArtistList.appendChild(additionalMember);
+        }
+      }
+
     }
 
     //複数アーティストが登録されていたら、artist1以降の分だけリスト要素を増やして内容を表示
@@ -265,6 +284,24 @@ document.addEventListener('init', function(event) {
           nextSetlistTweet.setAttribute('target', '_blank');
           nextSetlistTweet.innerHTML = '<ons-icon icon="md-twitter" size="20px" class="icon--tappable"></ons-icon>';
           nextSetlistTitle.getElementsByTagName('div')[3].appendChild(nextSetlistTweet);
+        }
+
+        //次のアーティストのメンバーの内容をオブジェクトとして取得
+        var nextMemberNum = Object.keys(item.artists[nextArtistId].members).length;
+        var nextMemberItem = Object.keys(item.artists[nextArtistId].members);
+        //次のアーティスト名の下にメンバー欄を追加
+        var nextMemberTitle = document.createElement('li');
+        nextMemberTitle.setAttribute('class', 'list-item list-item--nodivider');
+        nextMemberTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title">MEMBER</div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable member-button" data-artist="artist' + i + '"></ons-icon></div></div>';
+        nextArtistList.appendChild(nextMemberTitle);
+        //メンバーが登録されていたら、メンバーの内容をリスト表示
+        if (nextMemberNum > 0) {
+          for (member in nextMemberItem) {
+            var additionalMember = document.createElement('li');
+            additionalMember.setAttribute('class', 'list-item list-item--nodivider');
+            additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + member + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + nextMemberItem[member] + '</div></div>';
+            nextArtistList.appendChild(additionalMember);
+          }
         }
 
       }
