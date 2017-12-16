@@ -2,7 +2,7 @@
  * Monaca Core Utility Library
  * This library requires cordova.js
  *
- * @version 2.0.6
+ * @version 2.0.7
  * @author  Asial Corporation
  */
 window.monaca = window.monaca || {};
@@ -201,6 +201,9 @@ window.monaca = window.monaca || {};
                 message = arguments[i];
             } else {
                 message = JSON.stringify(arguments[i]);
+            }
+            if (message === undefined) {
+                message = "undefined";
             }
 
             if (isIOS) {

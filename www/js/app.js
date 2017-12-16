@@ -978,7 +978,52 @@ document.addEventListener('init', function(event) {
 
     };
     
+  } else if (page.id === 'export') {
+
+    //☆localStorageにデータが登録されていたらエクスポート用のリンクを表示する処理
+    if(localStorage.length > 0) {
+
+      //localStorageのkeyを格納する配列を生成
+      var key = new Array();
+      //エクスポート用のデータを格納する連想配列を生成
+      var saveData = {};
+
+      //localStorageの全データをsaveDataオブジェクトに格納
+      for(var i=0; i<localStorage.length; i++) {
+
+        key[i] = localStorage.key(i);
+        saveData[key[i]] = JSON.parse(
+          localStorage.getItem(key[i])
+        );
+
+      }
+
+      //saveDataオブジェクトを整形済みのJSON文字列に変換
+      var saveData = JSON.stringify(saveData, null , "\t");
+
+      //テキストエリアにエクスポート用データを挿入
+      $('copyArea').value = saveData;
+
+    } else {
+
+    }
+
+    page.querySelector('#copy-button').onclick = function() {
+
+      //テキストエリアに入力された文字列を選択
+      $('copyArea').select();
+      //iOSの場合うまく選択できないのでその対応
+      //$('copyArea').get(0).setSelectionRange(0,9999);
+      //選択された内容をクリップボードへコピー
+      document.execCommand('copy');
+
+    };
+
+  } else if (page.id === 'import') {
+
+
   }
+
 });
 
 var showDialog = function (id) {
