@@ -344,6 +344,17 @@ document.addEventListener('init', function(event) {
       }
     }
 
+    //一覧リストの項目を配列として取得
+    var memberButtons = page.getElementsByClassName('member-button');
+    for (button in memberButtons) {
+      //一覧リストの各項目をタップしたらライブIDを渡してdetail.htmlへ遷移
+      var currentSetlistButton = memberButtons[button];
+      currentSetlistButton.onclick = function() {
+        var currentArtistId = this.getAttribute('data-artist');
+        document.querySelector('#myNavigator').pushPage('member.html', {data: {live: liveId, artist: currentArtistId}});
+      }
+    }
+
   } else if (page.id === 'edit') {
       
     //ページ遷移時に受け取ったライブIDを変数に代入
@@ -843,6 +854,8 @@ document.addEventListener('init', function(event) {
     };
 
   } else if (page.id === 'member') {
+    console.log(page.data.live);
+    console.log(page.data.artist);
     page.querySelector('#resist-button').onclick = function() {
       document.querySelector('#myNavigator').popPage({animation: 'fade'});
     };
