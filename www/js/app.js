@@ -850,9 +850,9 @@ document.addEventListener('init', function(event) {
             JSON.stringify(item)
           );
           //登録後、一覧画面へ遷移
-          //var itemYear = item.date.slice(0, 4);
-          //document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
-          console.log('OK');
+          var itemYear = item.date.slice(0, 4);
+          document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+          //console.log('OK');
       } else {
         //入力エラーがあったら、ページ最上部へアンカー移動
         location.href = '#error-setlist';
@@ -933,6 +933,17 @@ document.addEventListener('init', function(event) {
 
     page.querySelector('#member-resist').onclick = function() {
 
+      //エラーメッセージの要素とその要素数を取得
+      var messageNum = document.getElementsByClassName('message-member').length;
+      var messageList = document.getElementsByClassName('message-member');
+
+      //エラーメッセージが表示されていたら最初に全て消す（登録ボタンを複数回御した時の対策）
+      if (messageNum > 0) {
+          for(var i=0; i<messageNum; i++) {
+              $('error-member').removeChild(messageList[0]);
+          }
+      }
+
       //フォームのメンバー欄を配列として取得
       var allMemberNum = document.getElementsByClassName('member').length;
       var memberList = document.getElementsByClassName('member');
@@ -972,14 +983,45 @@ document.addEventListener('init', function(event) {
         }
       }
 
-      //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
-      localStorage.setItem(
-        liveId,
-        JSON.stringify(item)
-      );
-      //登録後、一覧画面へ遷移
-      var itemYear = item.date.slice(0, 4);
-      document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+      //入力エラー用のフラグを設定
+      var errorFlag = false;
+      var errorArea = $('error-member');
+
+      //セットリスト欄の数だけ入力チェックして、未入力だったら、エラー用フラグを立てて、エラーメッセージを表示
+      for(var i=0; i<allMemberNum; i++) {
+        var targetMemberId = memberList[i].id;
+        var targetPartId =  memberList[i].id.replace('member', 'part');
+        if($(targetPartId).value == '') {
+          var errorFlag = true;
+          var errorPart = document.createElement('li');
+          errorPart.setAttribute('class', 'list-item message-member');
+          errorPart.innerHTML = '<div class="list-item__center">PART' + (i+1) + 'を入力してください。</div>';
+          errorArea.appendChild(errorPart);
+        }
+        if($(targetMemberId).value == '') {
+          var errorFlag = true;
+          var errorMember = document.createElement('li');
+          errorMember.setAttribute('class', 'list-item message-member');
+          errorMember.innerHTML = '<div class="list-item__center">MEMBER' + (i+1) + 'を入力してください。</div>';
+          errorArea.appendChild(errorMember);
+        }
+      }
+
+      //入力エラーがなかったら登録処理を実行
+      if(!errorFlag) {
+          //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
+          localStorage.setItem(
+            liveId,
+            JSON.stringify(item)
+          );
+          //登録後、一覧画面へ遷移
+          var itemYear = item.date.slice(0, 4);
+          document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+          //console.log('OK');
+      } else {
+        //入力エラーがあったら、ページ最上部へアンカー移動
+        location.href = '#error-member';
+      }
 
     };
 
