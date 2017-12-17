@@ -1021,6 +1021,65 @@ document.addEventListener('init', function(event) {
 
   } else if (page.id === 'import') {
 
+    page.querySelector('#import-button').onclick = function() {
+
+      if ($('import-input').value == '') {
+
+        ons.notification.alert({
+          message: 'データを入力してください。',
+          title: '',
+          buttonLabel: 'OK',
+          modifier: 'material',
+        });
+
+      } else {
+
+        try{
+
+          var loadData = JSON.parse($('import-input').value);
+
+          //オブジェクトに登録されているデータの個数を取得
+          var loadDataNum = Object.keys(loadData).length;
+          //localStorageのkeyを格納するための配列を生成
+          var key = Object.keys(loadData);
+          //localStorageのvalueを格納するための配列を生成
+          var value = Object.keys(loadData).map(function(key) {
+              return loadData[key];
+          });
+
+          //JSONチェック用の関数にkey, valueを渡して結果を変数に代入
+          var checkImport = jsonCheck(key, value);
+
+          if(!checkImport) {
+            //falseが返ってきたら、読み込みを中止し、エラーメッセージを表示する
+            displayError();
+          } else {
+            //trueが返ってきたら、インポートを実行する
+
+            //インポートする前にlocalStorageの中身を全削除
+            window.localStorage.clear();
+            //オブジェクトから読み取ったKey-ValueをlocalStorageへ保存
+            for(var i=0; i<loadDataNum; i++) {
+              localStorage.setItem(
+                key[i],
+                JSON.stringify(value[i])
+              );
+            }
+            displayResult();
+
+          }
+
+        }catch(e){
+
+          displayError();
+          console.log(e);
+          //$('error').firstElementChild.firstElementChild.innerText = e;
+
+        }
+
+      }
+
+    };
 
   }
 
@@ -1300,4 +1359,222 @@ function allDataClear() {
     }
   });
 
+}
+
+//☆JSONのフォーマットをチェックする関数
+function jsonCheck(key, value) {
+
+  //エラー用のフラグを初期化
+  var errorFlag = false;
+
+  //読み込んだデータのkeyが「live0, live1, live2...」の形式かどうかチェックし、間違った形式が含まれていたらエラー用フラグを立てる
+  keyFormat = new RegExp('^(live)([0-9]*)$');
+  for(var i=0; i<key.length; i++) {
+    if (!keyFormat.test(key[i])) {
+      var errorFlag = true;
+    }
+  }
+
+  //チェック用の正しいkey一覧を配列として定義
+  var keyList = ['address', 'adv', 'area', 'artists', 'attendance', 'date', 'door', 'genre', 'id', 'info', 'memo', 'open', 'place', 'report', 'start', 'ticket', 'title', 'type'];
+  var artistKeyList = ['members', 'name', 'setlist'];
+  var memberKeyList = ['name', 'part'];
+
+  for(var i=0; i<value.length; i++) {
+
+    //登録されているデータのkey一覧をチェックし、項目に過不足があったらエラー用フラグを立てる
+    var checkKeys = Object.keys(value[i]).sort();
+    if (checkKeys.toString() !== keyList.toString()) {
+      var errorFlag = true;
+    }
+
+    //各keyの値から番号だけを取り出す
+    var checkId = key[i].replace('live', '');
+
+    //keyとidの番号が違っていたら、エラー用フラグを立てる
+    if (value[i].id.toString() !== checkId) {
+      var errorFlag = true;
+    }
+
+    //各データのartistsのkey一覧を配列として取得
+    var checkArtistKeys = Object.keys(value[i].artists).sort();
+
+    //正しいartistsのkey一覧を格納する配列を生成
+    var artistLabels = new Array();
+
+    //checkArtistKeysの長さの分だけ「artist0, artist1, artist2...」の形式で値を格納
+    for(var j=0; j<checkArtistKeys.length; j++) {
+      artistLabels[j] = 'artist' + j;
+    }
+
+    //正しいartistsのkey一覧をソート
+    var artistLabels = artistLabels.sort();
+
+    //artistsのkeyの一覧が「artist0, artist1, artist2...」の形式と違っていたら、エラー用フラグを立てる
+    if (checkArtistKeys.toString() !== artistLabels.toString()) {
+      var errorFlag = true;
+    }
+
+    //各データのartist内の配列を取得
+    var artist = Object.keys(value[i].artists).map(function(key) {
+        return value[i].artists[key];
+    });
+
+    //各データのartists内の項目チェック
+    for (obj in artist) {
+
+      //登録されているデータのartistsのkey一覧をチェックし、項目に過不足があったらエラー用フラグを立てる
+      var artistKeys = Object.keys(artist[obj]).sort();
+      if (artistKeys.toString() !== artistKeyList.toString()) {
+        var errorFlag = true;
+      }
+
+      //artists内のsetlistオブジェクトを取得
+      var setlist = artist[obj].setlist;
+      var setlistKeys = Object.keys(setlist).sort();
+
+      var setlistValues = Object.keys(setlist).map(function(key) {
+          return setlist[key];
+      });
+
+      if (!setlistValues.length) {
+
+      } else {
+
+        //正しいsetlistのkey一覧を格納する配列を生成
+        var setlistLabels = new Array();
+
+        //setlistKeysの長さの分だけ「track0, track1, track2...」の形式で値を格納
+        for(var j=0; j<setlistKeys.length; j++) {
+          setlistLabels[j] = 'track' + j;
+        }
+        setlistLabels.sort();
+
+        //setlistのkeyの一覧が「track0, track1, track2...」の形式と違っていたら、エラー用フラグを立てる
+        if (setlistKeys.toString() !== setlistLabels.toString()) {
+          var errorFlag = true;
+        }
+
+      }
+
+      //artists内のmembersオブジェクトを取得
+      var members = artist[obj].members;
+      var membersKeys = Object.keys(members).sort();
+
+      var memberValues = Object.keys(members).map(function(key) {
+          return members[key];
+      });
+
+      if (!memberValues.length) {
+
+      } else {
+
+        //正しいmembersのkey一覧を格納する配列を生成
+        var memberLabels = new Array();
+
+        //membersKeysの長さの分だけ「member0, member1, member2...」の形式で値を格納
+        for(var j=0; j<membersKeys.length; j++) {
+          memberLabels[j] = 'member' + j;
+        }
+        memberLabels.sort();
+
+        //membersのkeyの一覧が「member0, member1, member2...」の形式と違っていたら、エラー用フラグを立てる
+        if (membersKeys.toString() !== memberLabels.toString()) {
+          var errorFlag = true;
+        }
+
+      }
+
+      for (obj2 in memberValues) {
+        //members内のkeyの一覧を取得
+        var memberKeys = Object.keys(memberValues[obj2]).sort();
+        //登録されているデータのmembersのkey一覧をチェックし、項目に過不足があったらエラー用フラグを立てる
+        if (memberKeys.toString() !== memberKeyList.toString()) {
+          var errorFlag = true;
+        }
+      }
+
+    }
+
+    //titleが空文字（未入力）だったらエラー用フラグを立てる
+    if (!value[i].title.length) {
+      var errorFlag = true;
+    }
+
+    //日付の型チェックをして戻り値を変数に格納
+    var dateFormat = ckDate(value[i].date);
+
+    if (!value[i].date.length) {
+      //dateが空文字（未入力）だったらエラー用フラグを立てる
+      var errorFlag = true;
+    } else if (!dateFormat) {
+      //dateのフォーマットが不正だったら、エラー用フラグを立てる
+      var errorFlag = true;
+    }
+
+    //時間の型チェックをして戻り値を変数に格納
+    var openFormat = ckTime(value[i].open);
+    var startFormat = ckTime(value[i].start);
+
+    if (!value[i].open.length) {
+    } else if (!openFormat) {
+      //openが入力されていて、かつフォーマットが不正の場合は、エラー用フラグを立てる
+      var errorFlag = true;
+    }
+
+    if (!value[i].start.length) {
+    } else if (!startFormat) {
+      //startが入力されていて、かつフォーマットが不正の場合は、エラー用フラグを立てる
+      var errorFlag = true;
+    }
+
+    //URLの型チェックをして戻り値を変数に格納
+    var infoFormat = isUrl(value[i].info);
+    var reportFormat = isUrl(value[i].report);
+
+    if (!value[i].info.length) {
+    } else if (!infoFormat) {
+      //infoが入力されていて、かつフォーマットが不正の場合は、エラー用フラグを立てる
+      var errorFlag = true;
+    }
+
+    if (!value[i].report.length) {
+    } else if (!reportFormat) {
+      //reportが入力されていて、かつフォーマットが不正の場合は、エラー用フラグを立てる
+      var errorFlag = true;
+    }
+
+  }
+
+  if (!errorFlag) {
+    //エラー用フラグが立ってなかったら、trueを返す
+    return true;
+  } else {
+    //エラー用フラグが立っていたら、falseを返す
+    return false;
+  }
+
+}
+
+//☆読み込み完了した時に結果を表示する関数
+function displayResult() {
+  ons.notification.alert({
+    message: 'データが正常に読み込まれました。',
+    title: '',
+    buttonLabel: 'OK',
+    modifier: 'material',
+    callback: function() {
+      fn.load('home.html');
+    }
+  });
+}
+
+//☆読み込み失敗した時にエラーを表示する関数
+function displayError() {
+  ons.notification.alert({
+    message: 'データが正常に読み込まれませんでした。<br>JSONファイルを確認してから再度お試しください。',
+    title: '',
+    buttonLabel: 'OK',
+    modifier: 'material',
+  });
 }
