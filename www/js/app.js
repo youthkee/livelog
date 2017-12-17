@@ -1578,3 +1578,9 @@ function displayError() {
     modifier: 'material',
   });
 }
+
+//☆URLリンクをクリックした時にアプリ内ブラウザを開く関数
+function openAppinBrowser(obj) {
+  var url = obj.getAttribute('data-url');
+  window.open(url, '_blank');
+};

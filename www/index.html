@@ -33,9 +33,9 @@
         </ons-list>
         <div class="list-title"><ons-icon icon="md-info-outline"> Info</div>
         <ons-list>
-          <ons-list-item onclick="" tappable>
+          <!--<ons-list-item onclick="" tappable>
             おすすめライブ情報
-          </ons-list-item>
+          </ons-list-item>-->
           <ons-list-item onclick="fn.load('about.html')" tappable>
             Livelogについて
           </ons-list-item>
@@ -601,13 +601,13 @@
       <li class="list-item">
         <div class="list-item__center">バージョン</div>
         <div class="list-item__right">
-          <div class="list-item__label">0.0.1</div>
+          <div class="list-item__label">1.0.0</div>
         </div>
       </li>
     </ul>
     <div class="list-title">ウェブサイト</div>
-    <ul class="list">
-      <li class="list-item list-item--tappable">
+    <ul class="list"> 
+      <li class="list-item list-item--tappable" data-url="https://livelogjp.github.io/livelog/" onclick="openAppinBrowser(this);">
         <div class="list-item__center">
             https://livelogjp.github.io/livelog/
         </div>
@@ -620,7 +620,7 @@
     </ul>
     <div class="list-title">開発元</div>
     <ul class="list">
-      <li class="list-item list-item--tappable">
+      <li class="list-item list-item--tappable" data-url="http://littlebird.mobi/" onclick="openAppinBrowser(this);">
         <div class="list-item__center">
             http://littlebird.mobi/
         </div>
@@ -640,7 +640,7 @@
       </li>
     </ul>
     <div class="center" style="padding: 8px">
-      <ons-button modifier="large" class="button--livelog button--resist">お問い合わせフォームへ</ons-icon></ons-button>
+      <ons-button modifier="large" class="button--livelog button--resist" data-url="http://littlebird.mobi/" onclick="openAppinBrowser(this);">お問い合わせフォームへ</ons-icon></ons-button>
     </div>
   </ons-page>
   </ons-template>
