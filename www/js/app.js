@@ -745,7 +745,7 @@ document.addEventListener('init', function(event) {
     }
 
   } else if (page.id === 'setlist') {
-    
+
     // 遷移時に受け取ったライブIDとアーティストIDをカウント番号に代入
     var liveId = page.data.live;
     var artistId = page.data.artist;
@@ -787,6 +787,17 @@ document.addEventListener('init', function(event) {
 
     page.querySelector('#setlist-resist').onclick = function() {
 
+      //エラーメッセージの要素とその要素数を取得
+      var messageNum = document.getElementsByClassName('message-setlist').length;
+      var messageList = document.getElementsByClassName('message-setlist');
+
+      //エラーメッセージが表示されていたら最初に全て消す（登録ボタンを複数回御した時の対策）
+      if (messageNum > 0) {
+          for(var i=0; i<messageNum; i++) {
+              $('error-setlist').removeChild(messageList[0]);
+          }
+      }
+
       //一曲目のセットリストをフォームの値から代入
       item.artists[artistId].setlist.track0 = $('track0').value;
 
@@ -816,14 +827,36 @@ document.addEventListener('init', function(event) {
         }
       }
 
-      //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
-      localStorage.setItem(
-        liveId,
-        JSON.stringify(item)
-      );
-      //登録後、一覧画面へ遷移
-      var itemYear = item.date.slice(0, 4);
-      document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+      //入力エラー用のフラグを設定
+      var errorFlag = false;
+      var errorArea = $('error-setlist');
+
+      //セットリスト欄の数だけ入力チェックして、未入力だったら、エラー用フラグを立てて、エラーメッセージを表示
+      for(var i=0; i<allTrackNum; i++) {
+        if(trackList[i].value == '') {
+          var errorFlag = true;
+          var errorTrack = document.createElement('li');
+          errorTrack.setAttribute('class', 'list-item message-setlist');
+          errorTrack.innerHTML = '<div class="list-item__center">TRACK' + (i+1) + 'を入力してください。</div>';
+          errorArea.appendChild(errorTrack);
+        }
+      }
+
+      //入力エラーがなかったら登録処理を実行
+      if(!errorFlag) {
+          //登録用オブジェクトの内容をcount番号のlocalStorageへ上書き保存
+          localStorage.setItem(
+            liveId,
+            JSON.stringify(item)
+          );
+          //登録後、一覧画面へ遷移
+          //var itemYear = item.date.slice(0, 4);
+          //document.querySelector('#myNavigator').resetToPage('list.html',{data: {year: itemYear}});
+          console.log('OK');
+      } else {
+        //入力エラーがあったら、ページ最上部へアンカー移動
+        location.href = '#error-setlist';
+      }
 
     };
 
