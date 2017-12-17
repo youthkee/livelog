@@ -192,7 +192,7 @@ document.addEventListener('init', function(event) {
       var firstArtistList = document.getElementById('artist0').parentNode.parentNode;
       var firstSetlistTitle = document.createElement('li');
       firstSetlistTitle.setAttribute('class', 'list-item list-item--nodivider');
-      firstSetlistTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title">SETLIST</div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable setlist-button" data-artist="artist0"></ons-icon></div></div>';
+      firstSetlistTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title"><div class="list-item__label">SETLIST</div></div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable setlist-button" data-artist="artist0"></ons-icon></div></div>';
       firstArtistList.appendChild(firstSetlistTitle);
 
       //1人目のセットリストのツイート文言用の変数を生成
@@ -203,10 +203,10 @@ document.addEventListener('init', function(event) {
       //セットリストが登録されていたら、セットリストの内容をリスト表示
       if (firstSetlistNum > 0) {
         for (track in firstSetlistItem) {
-          var trackId = track.replace('track', '');
+          var trackId = Number(track.replace('track', ''));
           var additionalTrack = document.createElement('li');
           additionalTrack.setAttribute('class', 'list-item list-item--nodivider');
-          additionalTrack.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + trackId + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + firstSetlistItem[track] + '</div></div>';
+          additionalTrack.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__label">' + (trackId + 1) + '</div></div><div class="list-item__right list-item--nodivider__right">' + firstSetlistItem[track] + '</div>';
           firstArtistList.appendChild(additionalTrack);
           //ツイート文言用の変数にもセットリストを追加
           firstTwTxt2 += firstSetlistItem[track] + '%0d%0a';
@@ -215,6 +215,7 @@ document.addEventListener('init', function(event) {
         var firstSetlistTweet = document.createElement('a');
         firstSetlistTweet.setAttribute('href', 'https://twitter.com/intent/tweet?text=' + firstTwTxt1 + firstTwTxt2 + firstTwTxt3);
         firstSetlistTweet.setAttribute('target', '_blank');
+        firstSetlistTweet.setAttribute('class', 'icon-link');
         firstSetlistTweet.innerHTML = '<ons-icon icon="md-twitter" size="20px" class="icon--tappable"></ons-icon>';
         firstSetlistTitle.getElementsByTagName('div')[3].appendChild(firstSetlistTweet);
       }
@@ -225,7 +226,7 @@ document.addEventListener('init', function(event) {
       //1人目のアーティスト名の下にメンバー欄を追加
       var firstMemberTitle = document.createElement('li');
       firstMemberTitle.setAttribute('class', 'list-item list-item--nodivider');
-      firstMemberTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title">MEMBER</div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable member-button" data-artist="artist0"></ons-icon></div></div>';
+      firstMemberTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title"><div class="list-item__label">MEMBER</div></div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable member-button" data-artist="artist0"></ons-icon></div></div>';
       firstArtistList.appendChild(firstMemberTitle);
 
       //メンバーが登録されていたら、メンバーの内容をリスト表示
@@ -234,7 +235,7 @@ document.addEventListener('init', function(event) {
           var additionalMember = document.createElement('li');
           var additionalMemberId = firstMemberItem[member];
           additionalMember.setAttribute('class', 'list-item list-item--nodivider');
-          additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + item.artists.artist0.members[additionalMemberId].part + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + item.artists.artist0.members[additionalMemberId].name + '</div></div>';
+          additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__label">' + item.artists.artist0.members[additionalMemberId].part + '</div></div><div class="list-item__right list-item--nodivider__right">' + item.artists.artist0.members[additionalMemberId].name + '</div>';
           firstArtistList.appendChild(additionalMember);
         }
       }
@@ -261,7 +262,7 @@ document.addEventListener('init', function(event) {
         //次のアーティスト名の下にセットリスト欄を追加
         var nextSetlistTitle = document.createElement('li');
         nextSetlistTitle.setAttribute('class', 'list-item list-item--nodivider');
-        nextSetlistTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title">SETLIST</div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable setlist-button" data-artist="artist' + i + '"></ons-icon></div></div>';
+        nextSetlistTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title"><div class="list-item__label">SETLIST</div></div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable setlist-button" data-artist="artist' + i + '"></ons-icon></div></div>';
         nextArtistList.appendChild(nextSetlistTitle);
 
         //次のアーティストのツイート文言用の変数を生成
@@ -271,10 +272,10 @@ document.addEventListener('init', function(event) {
         //セットリストが登録されていたら、セットリストの内容をリスト表示
         if (nextSetlistNum > 0) {
           for (track in nextSetlistItem) {
-            var trackId = track.replace('track', '');
+            var trackId = Number(track.replace('track', ''));
             var additionalTrack = document.createElement('li');
             additionalTrack.setAttribute('class', 'list-item list-item--nodivider');
-            additionalTrack.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + trackId + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + nextSetlistItem[track] + '</div></div>';
+            additionalTrack.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__label">' + (trackId + 1) + '</div></div><div class="list-item__right list-item--nodivider__right">' + nextSetlistItem[track] + '</div>';
             nextArtistList.appendChild(additionalTrack);
             //ツイート文言用の変数にもセットリストを追加
             nextTwTxt2 += nextSetlistItem[track] + '%0d%0a';
@@ -283,6 +284,7 @@ document.addEventListener('init', function(event) {
           var nextSetlistTweet = document.createElement('a');
           nextSetlistTweet.setAttribute('href', 'https://twitter.com/intent/tweet?text=' + nextTwTxt1 + nextTwTxt2 + nextTwTxt3);
           nextSetlistTweet.setAttribute('target', '_blank');
+          nextSetlistTweet.setAttribute('class', 'icon-link');
           nextSetlistTweet.innerHTML = '<ons-icon icon="md-twitter" size="20px" class="icon--tappable"></ons-icon>';
           nextSetlistTitle.getElementsByTagName('div')[3].appendChild(nextSetlistTweet);
         }
@@ -293,7 +295,7 @@ document.addEventListener('init', function(event) {
         //次のアーティスト名の下にメンバー欄を追加
         var nextMemberTitle = document.createElement('li');
         nextMemberTitle.setAttribute('class', 'list-item list-item--nodivider');
-        nextMemberTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title">MEMBER</div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable member-button" data-artist="artist' + i + '"></ons-icon></div></div>';
+        nextMemberTitle.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__title"><div class="list-item__label">MEMBER</div></div></div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label"><ons-icon icon="md-edit" size="20px" class="icon--tappable member-button" data-artist="artist' + i + '"></ons-icon></div></div>';
         nextArtistList.appendChild(nextMemberTitle);
         //メンバーが登録されていたら、メンバーの内容をリスト表示
         if (nextMemberNum > 0) {
@@ -301,7 +303,7 @@ document.addEventListener('init', function(event) {
             var additionalMember = document.createElement('li');
             var additionalMemberId = nextMemberItem[member];
             additionalMember.setAttribute('class', 'list-item list-item--nodivider');
-            additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center">' + item.artists[nextArtistId].members[additionalMemberId].part + '</div><div class="list-item__right list-item--nodivider__right"><div class="list-item__label">' + item.artists[nextArtistId].members[additionalMemberId].name + '</div></div>';
+            additionalMember.innerHTML = '<div class="list-item__center list-item--nodivider__center"><div class="list-item__label">' + item.artists[nextArtistId].members[additionalMemberId].part + '</div></div><div class="list-item__right list-item--nodivider__right">' + item.artists[nextArtistId].members[additionalMemberId].name + '</div>';
             nextArtistList.appendChild(additionalMember);
           }
         }

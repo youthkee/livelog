@@ -64,6 +64,7 @@
     font-size: 20px;
     height: 56px;
     line-height: 56px;
+    background-image: url(../img/select-allow-white.svg);
 }
 
 #error .list-item,
@@ -78,4 +79,8 @@
     background-position: bottom;
     background-image: -webkit-linear-gradient(bottom, #ccc, #ccc 100%);
     background-image: linear-gradient(0deg, #ccc, #ccc 100%);
+}
+
+.icon-link {
+    color: #787879;
 }
