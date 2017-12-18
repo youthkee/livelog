@@ -1075,19 +1075,15 @@ document.addEventListener('init', function(event) {
 
       //テキストエリアにエクスポート用データを挿入
       $('copyArea').value = saveData;
-
+      
     } else {
 
     }
 
     page.querySelector('#copy-button').onclick = function() {
 
-      //テキストエリアに入力された文字列を選択
-      $('copyArea').select();
-      //iOSの場合うまく選択できないのでその対応
-      //$('copyArea').get(0).setSelectionRange(0,9999);
-      //選択された内容をクリップボードへコピー
-      document.execCommand('copy');
+      var copyArea = $('copyArea');
+      clipboardCopy(copyArea);
 
     };
 
@@ -1661,4 +1657,18 @@ function openAppinBrowser(obj) {
 function openLiveDetail(obj) {
   var liveId = obj.getAttribute('data-live');
   document.querySelector('#myNavigator').pushPage('detail.html', {data: {live: liveId}});
+}
+
+//☆フォーム要素の内容をクリップボードにコピーする関数
+function clipboardCopy(element){
+
+  // コピーさせたいテキストの選択
+  element.focus();
+  element.setSelectionRange(0, 999999);
+
+  // クリップボードにコピー
+  document.execCommand('copy');
+
+  // コピーさせたいテキストの選択を解除
+  element.blur();
 }
