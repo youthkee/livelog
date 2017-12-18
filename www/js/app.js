@@ -1085,6 +1085,13 @@ document.addEventListener('init', function(event) {
       var copyArea = $('copyArea');
       clipboardCopy(copyArea);
 
+      ons.notification.alert({
+        message: 'クリップボードにコピーしました。',
+        title: '',
+        buttonLabel: 'OK',
+        modifier: 'material',
+      });
+
     };
 
   } else if (page.id === 'import') {
