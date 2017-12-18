@@ -113,46 +113,41 @@ document.addEventListener('init', function(event) {
         if ((item.date).indexOf(selectedYear) >= 0) return true;
       });
 
-      //プルダウンで選択された年にライブが登録されていたら、日付が新しい順に一覧表示
-      for(var i=0; i<currentItem.length; i++) {
+      var infiniteList = document.getElementById('infinite-list');
 
-        //artist0〜artist*の値を配列で取得
-        var artistsItemLabel = Object.keys(currentItem[i].artists);
+      infiniteList.delegate = {
+        createItemContent: function(i) {
 
-        //アーティスト名一覧を格納するための配列を作成
-        var artistsItem = [];
+          //artist0〜artist*の値を配列で取得
+          var artistsItemLabel = Object.keys(currentItem[i].artists);
 
-        //アーティスト用の配列に登録されている分だけのアーティスト名を入力
-        for (j = 0; j < artistsItemLabel.length; j++) {
-          var currentArtsitLabel = 'artist' + j;
-          artistsItem[j] = currentItem[i].artists[currentArtsitLabel].name;
+          //アーティスト名一覧を格納するための配列を作成
+          var artistsItem = [];
+
+          //アーティスト用の配列に登録されている分だけのアーティスト名を入力
+          for (j = 0; j < artistsItemLabel.length; j++) {
+            var currentArtsitLabel = 'artist' + j;
+            artistsItem[j] = currentItem[i].artists[currentArtsitLabel].name;
+          }
+
+          //アーティスト名の配列をつなげて文字列に変換
+          var artistsItemJoin = arrayJoin(', ', artistsItem);
+
+          //日付から年号を削除して変数に代入
+          var currentDay = currentItem[i].date.slice(5, 10);
+
+          return ons.createElement('<ons-list-item class="live-list-item" data-live="live' + currentItem[i].id + '" tappable onclick="openLiveDetail(this);"><div class="center"><span class="list-item__title">' + currentItem[i].title + '＠' + currentItem[i].area + ' ' + currentItem[i].place + '</span><span class="list-item__subtitle"><ons-icon icon="md-time"></ons-icon> ' + currentDay + ' OPEN ' + currentItem[i].open + ' / START ' + currentItem[i].start + '<br><ons-icon icon="md-face"></ons-icon> ' + artistsItemJoin + '<br><ons-icon icon="md-ticket-star"></ons-icon> ' + currentItem[i].ticket + ' <span class="attendance">' + currentItem[i].attendance + '</span></span></div></ons-list-item>');
+
+        },
+        countItems: function() {
+          return currentItem.length;
         }
-
-        //アーティスト名の配列をつなげて文字列に変換
-        var artistsItemJoin = arrayJoin(', ', artistsItem);
-        
-        //日付から年号を削除して変数に代入
-        var currentDay = currentItem[i].date.slice(5, 10);
-
-        $('live-list').innerHTML += '<ons-list-item class="live-list-item" data-live="live' + currentItem[i].id + '" tappable><div class="center"><span class="list-item__title">' + currentItem[i].title + '＠' + currentItem[i].area + ' ' + currentItem[i].place + '</span><span class="list-item__subtitle"><ons-icon icon="md-time"></ons-icon> ' + currentDay + ' OPEN ' + currentItem[i].open + ' / START ' + currentItem[i].start + '<br><ons-icon icon="md-face"></ons-icon> ' + artistsItemJoin + '<br><ons-icon icon="md-ticket-star"></ons-icon> ' + currentItem[i].ticket + ' <span class="attendance">' + currentItem[i].attendance + '</span></span></div></ons-list-item>';
-
-      }
+      };
 
     } else {
       //データが登録されていなかったら文言を表示
       $('list-title').innerHTML = 'Livelog';
       $('live-list').innerHTML = '<ons-list-item><div class="center">ライブが登録されていません。</div></ons-list-item>';
-    }
-
-    //一覧リストの項目を配列として取得
-    var listItems = page.getElementsByClassName('live-list-item');
-    for (item in listItems) {
-      //一覧リストの各項目をタップしたらライブIDを渡してdetail.htmlへ遷移
-      var currentListItem = listItems[item];
-      currentListItem.onclick = function() {
-        var currentListId = this.getAttribute('data-live');
-        document.querySelector('#myNavigator').pushPage('detail.html', {data: {live: currentListId}});
-      }
     }
 
   } else if (page.id === 'detail') {
@@ -1661,3 +1656,9 @@ function openAppinBrowser(obj) {
   var url = obj.getAttribute('data-url');
   window.open(url, '_blank');
 };
+
+//☆ライブ一覧のリスト項目をタップしたら該当のライブ詳細を開く関数
+function openLiveDetail(obj) {
+  var liveId = obj.getAttribute('data-live');
+  document.querySelector('#myNavigator').pushPage('detail.html', {data: {live: liveId}});
+}
