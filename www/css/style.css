@@ -29,7 +29,12 @@
     margin-bottom: 8px;
 }
 
+.button--light--livelog {
+    color: #E91E63;
+}
+
 .button--light--livelog:active {
+    color: #E91E63;
     background-color: rgba(0, 0, 0, .05);
     opacity: 1;
 }
