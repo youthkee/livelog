@@ -46,6 +46,10 @@
     margin-left: 5px;
 }
 
+.text-input {
+    width: 100%;
+}
+
 .text-input--half {
     width: 100px;
 }
