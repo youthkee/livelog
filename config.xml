@@ -48,12 +48,12 @@
     <splash src="/res/ios/screen/Default@2x~iphone.png" width="640" height="960"/>
     <splash src="/res/ios/screen/Default-568h@2x~iphone.png" width="640" height="1136"/>
     <splash src="/res/ios/screen/Default-667h.png" width="750" height="1334"/>
-    <splash src="/res/ios/screen/Default-736h.png" width="1242" height="2208"/>
     <splash src="/res/ios/screen/Default-Landscape-736h.png" width="2208" height="1242"/>
     <splash src="/res/ios/screen/Default-Portrait~ipad.png" width="768" height="1024"/>
     <splash src="/res/ios/screen/Default-Landscape~ipad.png" width="1024" height="768"/>
     <splash src="/res/ios/screen/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
     <splash src="/res/ios/screen/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
+    <splash src="/res/ios/screen/Default-736h.png" width="1242" height="2208"/>
     <config-file platform="ios" parent="CFBundleLocalizations" target="*-Info.plist">
       <array>
         <string>ja</string>
@@ -86,16 +86,16 @@
   </platform>
   <preference name="WindowsStorePublisherName" value="My Name"/>
   <preference name="WindowsStoreIdentityName" value="ccce69f1-a36f-464d-2896-8685315369bf"/>
+  <preference name="KeepRunning" value="true"/>
+  <preference name="monaca:AndroidIsPackageNameSeparate" value="false"/>
+  <preference name="Orientation" value="default"/>
+  <preference name="SplashScreenDelay" value="1000"/>
+  <preference name="Fullscreen" value="false"/>
   <preference name="ios-XCBuildConfiguration-TARGETED_DEVICE_FAMILY" value="1,2"/>
   <preference name="AutoHideSplashScreen" value="true"/>
   <preference name="FadeSplashScreen" value="true"/>
   <preference name="ShowSplashScreenSpinner" value="false"/>
-  <preference name="EnableViewportScale" value="false"/>
   <access origin="*"/>
-  <preference name="KeepRunning" value="true"/>
-  <preference name="monaca:AndroidIsPackageNameSeparate" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
-  <preference name="Orientation" value="default"/>
-  <preference name="SplashScreenDelay" value="1000"/>
-  <preference name="Fullscreen" value="false"/>
+  <preference name="EnableViewportScale" value="false"/>
 </widget>
