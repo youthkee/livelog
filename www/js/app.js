@@ -910,7 +910,7 @@ document.addEventListener('init', function(event) {
         //次の番号のメンバー欄と「+」「-」ボタンを生成し、一つ前のメンバーの下段に挿入
         var nextMemberForm = document.createElement('li');
         nextMemberForm.setAttribute('class', 'list-item');
-        nextMemberForm.innerHTML = '<div class="list-item__left list-item__left--livelog"><input type="text" class="text-input text-input--half part" id="part' + i + '" placeholder="PART' + (i + 1) + '"></div><div class="list-item__center"><input type="text" class="text-input text-input--half member" id="member' + i + '" placeholder="MEMBER' + (i + 1) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="memberInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="memberInputDelete(this);"></ons-icon></div></div>';
+        nextMemberForm.innerHTML = '<div class="list-item__left list-item__left--livelog"><input type="text" class="text-input text-input--half part" id="part' + i + '" placeholder="PART' + (i + 1) + '"></div><div class="list-item__center"><input type="text" class="text-input text-input--half2 member" id="member' + i + '" placeholder="MEMBER' + (i + 1) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="memberInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="memberInputDelete(this);"></ons-icon></div></div>';
         currentMemberInput.parentNode.parentNode.parentNode.appendChild(nextMemberForm);
         //一つ前のメンバー横の「+」ボタンを削除
         currentMemberInput.parentNode.nextElementSibling.firstElementChild.removeChild(memberAddButton);
@@ -1376,7 +1376,7 @@ function memberInputAdd(obj) {
   //次の番号の入力欄と「+」ボタンを生成し、下の段に挿入
   var nextMemberInput = document.createElement('li');
   nextMemberInput.setAttribute('class', 'list-item');
-  nextMemberInput.innerHTML = '<div class="list-item__left list-item__left--livelog"><input type="text" class="text-input text-input--half part" id="part' + (currentMemberNum + 1) + '" placeholder="PART' + (currentMemberNum + 2) + '"></div><div class="list-item__center"><input type="text" class="text-input text-input--half member" id="member' + (currentMemberNum + 1) + '" placeholder="MEMBER' + (currentMemberNum + 2) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="memberInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="memberInputDelete(this);"></ons-icon></div></div>';
+  nextMemberInput.innerHTML = '<div class="list-item__left list-item__left--livelog"><input type="text" class="text-input text-input--half part" id="part' + (currentMemberNum + 1) + '" placeholder="PART' + (currentMemberNum + 2) + '"></div><div class="list-item__center"><input type="text" class="text-input text-input--half2 member" id="member' + (currentMemberNum + 1) + '" placeholder="MEMBER' + (currentMemberNum + 2) + '"></div><div class="list-item__right"><div class="list-item__label"><ons-icon icon="md-plus" size="20px" class="icon--tappable" onclick="memberInputAdd(this);"></ons-icon><ons-icon icon="md-minus" size="20px" class="icon--tappable" onclick="memberInputDelete(this);"></ons-icon></div></div>';
   obj.parentNode.parentNode.parentNode.parentNode.appendChild(nextMemberInput);
   //2回目以降については「+」ボタンの右横の「-」ボタンも削除する
   var currentInputDelete = obj.nextElementSibling;

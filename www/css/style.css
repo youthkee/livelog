@@ -59,6 +59,10 @@
     width: 100px;
 }
 
+.text-input--half2 {
+    width: 165px;
+}
+
 .textarea--livelog {
     width: 100%; 
 }
