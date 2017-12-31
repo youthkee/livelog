@@ -1,0 +1,33 @@
+
+body {
+  font-family: sans-serif;
+  line-height: 1;
+  background: #E91E63;
+}
+
+.main {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.main__logo {
+  width: 160px;
+  margin-bottom: 1rem;
+}
+
+.main__title {
+  font-family: 'Comfortaa', cursive;
+  color: #FFC107;
+  font-size: 4.5rem;
+  margin: 0;
+}
+
+.main__text2 {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.footer {
+  text-align: center;
+  font-size: .75rem;
+}
