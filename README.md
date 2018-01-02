@@ -1,5 +1,7 @@
 # Livelog
 
+![](screenshot.png?raw=true)
+
 Livelogは、ライブ情報をメモするためのアプリです。  
 App StoreとGoogle Playストアにて配信予定です。  
 Monaca ＆ Onsen UIを使って、HTML/CSS/JavaScriptのみで構築されています。
