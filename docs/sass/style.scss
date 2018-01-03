@@ -9,6 +9,14 @@ $red:     #E91E63;
 $yellow:  #FFC107;
 $blue:    #0A0C71;
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 769px,
+  lg: 992px,
+  xl: 1200px
+);
+
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";

@@ -29,7 +29,7 @@
   --dark: #343a40;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
+  --breakpoint-md: 769px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -503,7 +503,7 @@ mark,
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .container {
     max-width: 720px;
   }
@@ -864,7 +864,7 @@ mark,
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .col-md {
     flex-basis: 0;
     flex-grow: 1;
@@ -2088,7 +2088,7 @@ input[type="button"].btn-block {
   }
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .navbar-expand-md > .container,
   .navbar-expand-md > .container-fluid {
     padding-right: 0;
@@ -2096,7 +2096,7 @@ input[type="button"].btn-block {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .navbar-expand-md {
     flex-flow: row nowrap;
     justify-content: flex-start;
@@ -2640,7 +2640,7 @@ button.bg-dark:hover {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .d-md-none {
     display: none !important;
   }
@@ -3015,7 +3015,7 @@ button.bg-dark:hover {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .flex-md-row {
     flex-direction: row !important;
   }
@@ -3309,7 +3309,7 @@ button.bg-dark:hover {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .float-md-left {
     float: left !important;
   }
@@ -4013,7 +4013,7 @@ button.bg-dark:hover {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .m-md-0 {
     margin: 0 !important;
   }
@@ -4801,7 +4801,7 @@ button.bg-dark:hover {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .text-md-left {
     text-align: left !important;
   }
@@ -5034,13 +5034,13 @@ body {
   background-repeat: no-repeat;
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .main {
     background-position: center top;
   }
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .main__image {
     width: 250px;
   }
@@ -5056,7 +5056,7 @@ body {
   margin-top: 13rem;
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .main__text {
     margin-top: 1rem;
     font-size: 1.5rem;
@@ -5068,7 +5068,7 @@ body {
   color: #FFC107;
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .sub__text {
     font-size: 1rem;
   }
@@ -5082,13 +5082,13 @@ body {
   color: #E91E63;
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .feature__title {
     font-size: 1.25rem;
   }
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .feature__image {
     width: 150px;
   }
@@ -5102,25 +5102,25 @@ body {
   width: 148px;
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .download__icon {
     width: 120px;
   }
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .download__text {
     font-size: 1.25rem;
   }
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .download__btn {
     width: 40%;
   }
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .download__btn2 {
     width: 48%;
   }
@@ -5134,7 +5134,7 @@ body {
   color: #E91E63;
 }
 
-@media (max-width: 767.99px) {
+@media (max-width: 768.99px) {
   .info__title {
     font-size: 1.25rem;
   }
