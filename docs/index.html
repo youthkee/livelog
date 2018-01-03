@@ -4,24 +4,160 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Livelog</title>
-  <meta name="description" content="ライブのスケジュールやチケットの入手状況、セットリストなどの情報をメモするためのスマホアプリです。">
+  <title>Livelog - ライブ情報をメモして簡単スケジュール管理</title>
+  <meta name="description" content="ライブのスケジュールやチケット、出演アーティストやセットリストなどの情報を記録するためのモバイルアプリです。">
+  <meta name="keywords" content="livelog,live,log,music,concert,ライブログ,ライブ,ライブハウス,コンサート,スケジュール,チケット,セットリスト,セトリ,アーティスト,インディーズ,音楽,記録,無料">
   <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://use.fontawesome.com/daf820146c.js"></script>
 </head>
 <body>
   <div class="wrapper">
-    <div class="content">
-      <div class="main">
-        <img class="main__logo" src="img/logo.png" alt="Livelog">
-        <h1 class="main__title">Livelog</h1>
-        <p class="main__text">ライブの想い出は、ライブログに残そう。</p>
-        <p class="main__text2">Coming Soon...</p>
+
+    <header class="header">
+      <nav class="navbar navbar-dark bg-danger d-block text-center">
+        <h1>
+          <img src="img/logo.png" alt="Livelog" class="header__logo">
+          <span class="header__title">Livelog</span>
+        </h1>
+      </nav>
+    </header>
+
+    <div class="main pt-4 pb-4">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-5 text-center order-md-2">
+            <img src="img/screenshot1.png" class="main__image" alt="Livelog">
+          </div>
+          <div class="col-md-7 text-center order-md-1 align-middle">
+            <p class="h1 text-primary main__text">ライブの思い出は、<br>
+            ライブログに残そう。</p>
+            <p class="mt-4">
+              <a href="https://itunes.apple.com/jp/app/livelog-%E3%83%A9%E3%82%A4%E3%83%96%E6%83%85%E5%A0%B1%E3%82%92%E3%83%A1%E3%83%A2%E3%81%97%E3%81%A6%E7%B0%A1%E5%8D%98%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E7%AE%A1%E7%90%86/id1330442649?mt=8" target="_blank"><img src="img/btn_appstore.png" alt="App Storeからダウンロード" class="download__btn"></a>
+              <!-- <a href="#" target="_blank"><img src="img/btn_googleplay.png" alt="Google Playで手に入れよう" class="download__btn2"></a> -->
+            </p>
+          </div>
+        </div>
       </div>
+
     </div>
-    <div class="footer">
-      <p class="copyright">&copy; littlebird</p>
+
+    <div class="sub">
+
+      <div class="container">
+        <div class="row">
+          <p class="sub__text h5 p-3">Livelog（ライブログ）は、参加したいライブの日程や出演アーティスト、チケット情報などをメモして、手軽にスケジュール管理できるアプリです。</p>
+        </div>
+      </div>
+
     </div>
+
+    <div class="feature pt-4">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-sm-5 text-center">
+                <img src="img/screenshot2.png" alt="Livelog（ライブログ） - 参加予定＆気になるライブが一目瞭然！" class="feature__image">
+              </div>
+              <div class="col-sm-7">
+                <h2 class="feature__title h3"><i class="fa fa-microphone" aria-hidden="true"></i> 参加予定＆気になるライブが一目瞭然！</h2>
+                <p>好きなアーティストのライブが発表されたら、まずはLivelogに登録。<br>
+                追加されたライブは日付順に一覧表示されるので、今後のスケジュールがひと目でチェックできます。<br>
+                どのライブに参加するか、じっくり計画を立てましょう。</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-sm-5 text-center">
+                <img src="img/screenshot3.png" alt="Livelog（ライブログ） - 「あのライブ、予約したっけ？」うっかり忘れも安心" class="feature__image">
+              </div>
+              <div class="col-sm-7">
+                <h2 class="feature__title h3"><i class="fa fa-check-circle" aria-hidden="true"></i> 「あのライブ、予約したっけ？」うっかり忘れも安心</h2>
+                <p>ライブのチケットを注文したり、予約したら、Livelogのデータを更新しましょう。<br>
+                「予約済」「注文済」「入手済」など、細かくステータスを変更できるので、備忘録としても最適。<br>
+                予約したのをうっかり忘れてダブル・ブッキングなんて心配ももうありません。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-sm-5 text-center">
+                <img src="img/screenshot4.png" alt="Livelog（ライブログ） - セットリストもその場で記録＆即共有" class="feature__image">
+              </div>
+              <div class="col-sm-7">
+                <h2 class="feature__title h3"><i class="fa fa-music" aria-hidden="true"></i> セットリストもその場で記録＆即共有</h2>
+                <p>ライブが終わったら、忘れないうちにセットリストも書き残そう。<br>
+                直感的で分かりやすい操作で、セットリストやメンバー情報なども追加できます。<br>
+                保存したセットリストは、ワンタップでTwitterにもシェアできるのでとっても便利です。</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-sm-5 text-center">
+                <img src="img/screenshot5.png" alt="Livelog（ライブログ） - あなただけの参戦記録を作り上げよう" class="feature__image">
+              </div>
+              <div class="col-sm-7">
+                <h2 class="feature__title h3"><i class="fa fa-file-text" aria-hidden="true"></i> あなただけの参戦記録を作り上げよう</h2>
+                <p>ライブの情報はどんどん追加していくと、後から振り返る楽しみもUP！<br>
+                このライブでどんな事があったかメモしたり、ブログに上げたレポートのアドレスなども合わせて保存できます。<br>
+                エクスポート／インポート機能があるので、機種変後のデータ引き継ぎもバッチリです。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="download pt-3 pb-3">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <img src="img/livelog_appicon.png" alt="Livelog" class="download__icon float-left mr-3">
+            <p class="download__text h3 mt-4">Livelog - ライブ情報をメモして簡単スケジュール管理</p>
+          </div>
+          <div class="col-md-6">
+            <p class="mt-4 text-center">
+              <a href="https://itunes.apple.com/jp/app/livelog-%E3%83%A9%E3%82%A4%E3%83%96%E6%83%85%E5%A0%B1%E3%82%92%E3%83%A1%E3%83%A2%E3%81%97%E3%81%A6%E7%B0%A1%E5%8D%98%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E7%AE%A1%E7%90%86/id1330442649?mt=8" target="_blank"><img src="img/btn_appstore.png" alt="App Storeからダウンロード" class="download__btn"></a>
+              <!-- <a href="#" target="_blank"><img src="img/btn_googleplay.png" alt="Google Playで手に入れよう" class="download__btn2"></a> -->
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info pt-3 pb-3">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="info__title h3 text-center"><i class="fa fa-comments" aria-hidden="true"></i> お問い合わせ</h2>
+            <p>Livelog（ライブログ）に関するお問い合わせや、不具合報告、ご意見・ご感想などがありましたら、以下のお問い合わせフォームまでご連絡ください。</p>
+            <p class="text-center"><a href="https://docs.google.com/forms/d/e/1FAIpQLScWpJARHYZehUnYSNMcuMGZAPTQuqdE0G4_wHdkkAAML6NkLg/viewform" target="_blank" class="btn btn-warning"><i class="fa fa-envelope-o" aria-hidden="true"></i> お問い合わせフォーム</a></p>
+          </div>
+          <div class="col-md-6">
+            <h2 class="info__title h3 text-center"><i class="fa fa-wrench" aria-hidden="true"></i> 開発者の方へ</h2>
+            <p>Livelogは、Monaca＆Onsen UIを使ってオープンソースで開発しています。機能追加や改修のご提案などありましたら、GitHubリポジトリへプルリクをお待ちしております。</p>
+            <p class="text-center"><a href="https://github.com/youthkee/livelog" target="_blank" class="btn btn-warning"><i class="fa fa-github" aria-hidden="true"></i> GitHubを見る</a></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="footer pt-3">
+      <p class="copyright">&copy; <a href="http://littlebird.mobi/" target="_blank">littlebird</a></p>
+    </footer>
+
   </div>
 </body>
 </html>

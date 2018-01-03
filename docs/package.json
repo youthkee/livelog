@@ -1,0 +1,26 @@
+{
+  "name": "livelog",
+  "version": "1.0.0",
+  "description": "Mobile app for logging information of live concerts.",
+  "author": "Yusuke Takahashi <youthkee@gmail.com>",
+  "homepage": "https://youthkee.github.io/livelog/",
+  "license": "MIT",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youthkee/livelog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/youthkee/livelog/issues"
+  },
+  "scripts": {
+    "css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 sass/style.scss css/style.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bootstrap": "4.0.0-beta.3"
+  },
+  "devDependencies": {
+    "node-sass": "^4.7.2"
+  }
+}
