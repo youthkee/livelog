@@ -5040,6 +5040,10 @@ body {
   }
 }
 
+.main__image {
+  width: 325px;
+}
+
 @media (max-width: 1199.99px) {
   .main__image {
     width: 250px;
@@ -5096,6 +5100,10 @@ body {
   }
 }
 
+.feature__image {
+  width: 197px;
+}
+
 @media (max-width: 1199.99px) {
   .feature__image {
     width: 150px;
@@ -5132,10 +5140,18 @@ body {
   }
 }
 
+.download__btn {
+  width: 219px;
+}
+
 @media (max-width: 768.99px) {
   .download__btn {
     width: 40%;
   }
+}
+
+.download__btn2 {
+  width: 266px;
 }
 
 @media (max-width: 768.99px) {

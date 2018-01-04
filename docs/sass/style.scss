@@ -81,6 +81,7 @@ body {
 }
 
 .main__image {
+  width: 325px;
   @include media-breakpoint-down(lg) {
     width: 250px;
   }
@@ -125,6 +126,7 @@ body {
 }
 
 .feature__image {
+  width: 197px;
   @include media-breakpoint-down(lg) {
     width: 150px;
   }
@@ -152,12 +154,14 @@ body {
 }
 
 .download__btn {
+  width: 219px;
   @include media-breakpoint-down(sm) {
     width: 40%;
   }
 }
 
 .download__btn2 {
+  width: 266px;
   @include media-breakpoint-down(sm) {
     width: 48%;
   }
