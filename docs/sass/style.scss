@@ -81,16 +81,20 @@ body {
 }
 
 .main__image {
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(lg) {
     width: 250px;
   }
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(md) {
     width: 200px;
   }
 }
 
 .main__text {
   margin-top: 13rem;
+  @include media-breakpoint-down(md) {
+    margin-top: 8rem;
+    font-size: 2rem;
+  }
   @include media-breakpoint-down(sm) {
     margin-top: 1rem;
     font-size: 1.5rem;
@@ -103,7 +107,7 @@ body {
 }
 
 .sub__text {
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(lg) {
     font-size: 1rem;
   }
 }
@@ -114,13 +118,13 @@ body {
 
 .feature__title {
   color: $red;
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(lg) {
     font-size: 1.25rem;
   }
 }
 
 .feature__image {
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(lg) {
     width: 150px;
   }
 }
@@ -137,8 +141,12 @@ body {
 }
 
 .download__text {
-  @include media-breakpoint-down(sm) {
+  line-height: 1.6;
+  @include media-breakpoint-down(lg) {
     font-size: 1.25rem;
+  }
+  @include media-breakpoint-down(xs) {
+    font-size: 1rem;
   }
 }
 
