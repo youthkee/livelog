@@ -5110,6 +5110,10 @@ body {
   }
 }
 
+.feature__caution {
+  color: #ced4da;
+}
+
 .download {
   background: #212529;
 }
