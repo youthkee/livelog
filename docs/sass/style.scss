@@ -90,6 +90,7 @@ body {
 }
 
 .main__text {
+  line-height: 1.6;
   margin-top: 13rem;
   @include media-breakpoint-down(md) {
     margin-top: 8rem;
