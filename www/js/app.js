@@ -193,7 +193,7 @@ document.addEventListener('init', function(event) {
       //1人目のセットリストのツイート文言用の変数を生成
       var firstTwTxt1 = item.title + '＠' + item.area + item.place + '%0d%0a%23' + item.artists.artist0.name + '%20さんのセットリスト' + '%0d%0a%0d%0a';
       var firstTwTxt2 = '';
-      var firstTwTxt3 = '%0d%0a%23ライブ%20%23' + item.genre;
+      var firstTwTxt3 = '%0d%0a%23ライブ%20%23' + item.genre +'%20%23livelog';
       
       //セットリストが登録されていたら、セットリストの内容をリスト表示
       if (firstSetlistNum > 0) {
@@ -263,7 +263,7 @@ document.addEventListener('init', function(event) {
         //次のアーティストのツイート文言用の変数を生成
         var nextTwTxt1 = item.title + '＠' + item.area + item.place + '%0d%0a%23' + item.artists[nextArtistId].name + '%20さんのセットリスト' + '%0d%0a%0d%0a';
         var nextTwTxt2 = '';
-        var nextTwTxt3 = '%0d%0a%23ライブ%20%23' + item.genre;
+        var nextTwTxt3 = '%0d%0a%23ライブ%20%23' + item.genre +'%20%23livelog';
         //セットリストが登録されていたら、セットリストの内容をリスト表示
         if (nextSetlistNum > 0) {
           for (track in nextSetlistItem) {
