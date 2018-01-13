@@ -5144,11 +5144,23 @@ body {
   }
 }
 
+.download__text2 {
+  color: #FFC107;
+  font-size: 80%;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 769px) and (max-width: 991.99px) {
+  .download__text2 {
+    margin-top: 2rem;
+  }
+}
+
 .download__btn {
   width: 219px;
 }
 
-@media (max-width: 768.99px) {
+@media (max-width: 1199.99px) {
   .download__btn {
     width: 40%;
   }
@@ -5158,7 +5170,7 @@ body {
   width: 266px;
 }
 
-@media (max-width: 768.99px) {
+@media (max-width: 1199.99px) {
   .download__btn2 {
     width: 48%;
   }

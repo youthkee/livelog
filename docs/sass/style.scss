@@ -157,16 +157,25 @@ body {
   }
 }
 
+.download__text2 {
+  color: $yellow;
+  font-size: 80%;
+  margin-top: 0.5rem;
+  @include media-breakpoint-only(md) {
+    margin-top: 2rem;
+  }
+}
+
 .download__btn {
   width: 219px;
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(lg) {
     width: 40%;
   }
 }
 
 .download__btn2 {
   width: 266px;
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(lg) {
     width: 48%;
   }
 }
