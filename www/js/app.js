@@ -310,7 +310,7 @@ document.addEventListener('init', function(event) {
     $('genre').innerHTML = item.genre;
     $('ticket').innerHTML = item.ticket;
     $('attendance').innerHTML = item.attendance;
-    $('memo').innerHTML = item.memo;
+    $('memo').innerHTML = item.memo.replace(/\n/g, '<br>');
     $('report').innerHTML = item.report;
 
     //編集ボタンをタップしたらライブIDを渡してedit.htmlへ遷移
