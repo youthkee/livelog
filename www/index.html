@@ -33,11 +33,11 @@
         </ons-list>
         <div class="list-title"><ons-icon icon="md-info-outline"> Info</div>
         <ons-list>
-          <!--<ons-list-item onclick="" tappable>
-            おすすめライブ情報
-          </ons-list-item>-->
           <ons-list-item onclick="fn.load('about.html')" tappable>
             Livelogについて
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('livehouse.html')" tappable>
+            おすすめライブハウス
           </ons-list-item>
         </ons-list>
       </ons-page>
@@ -650,6 +650,63 @@
       <li class="list-item">
         <div class="list-item__center">
             <div class="list-item__subtitle">このアプリに関するご質問やご意見・ご感想は、以下のお問い合わせフォームまでご連絡ください。</div>
+        </div>
+      </li>
+    </ul>
+    <div class="center" style="padding: 8px">
+      <ons-button modifier="large" class="button--livelog button--resist" data-url="https://docs.google.com/forms/d/e/1FAIpQLScWpJARHYZehUnYSNMcuMGZAPTQuqdE0G4_wHdkkAAML6NkLg/viewform" onclick="openAppinBrowser(this);">お問い合わせフォームへ</ons-icon></ons-button>
+    </div>
+  </ons-page>
+  </ons-template>
+
+  <ons-template id="livehouse.html">
+  <ons-page id="livehouse">
+    <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
+      <div class="left">
+        <ons-toolbar-button class="toolbar-button--material" onclick="fn.open()">
+          <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">おすすめライブハウス</div>
+    </ons-toolbar>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">
+            <div class="list-item__subtitle">Livelogおすすめのライブハウスをご紹介します。ぜひ各店舗のWebサイトから、ライブスケジュールをチェックしてみてください。</div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">東京都</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable" data-url="http://www.morph-tokyo.com/live_schedule/" onclick="openAppinBrowser(this);">
+        <div class="list-item__center">
+            六本木 morph-tokyo
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-collection-item"></ons-icon>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">神奈川県</div>
+    <ul class="list">
+      <li class="list-item list-item--tappable" data-url="http://shibuya-o.com/osite/schedule/" onclick="openAppinBrowser(this);">
+        <div class="list-item__center">
+            横浜 O-SITE
+        </div>
+        <div class="list-item__right">
+          <div class="list-item__label">
+            <ons-icon icon="md-collection-item"></ons-icon>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="list-title">フライヤー設置店舗募集中！</div>
+    <ul class="list">
+      <li class="list-item">
+        <div class="list-item__center">
+            <div class="list-item__subtitle">Livelogのフライヤーを設置していただけるライブハウスを募集しています。設置にご協力いただいたライブハウス様は、アプリ内の「おすすめライブハウス」にてリンクを掲載させていただいておりますので、ぜひ以下のお問い合わせフォームまでご連絡ください。</div>
         </div>
       </li>
     </ul>
