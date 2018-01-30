@@ -340,7 +340,7 @@ document.addEventListener('init', function(event) {
       currentSetlistButton.onclick = function() {
         var currentArtistId = this.getAttribute('data-artist');
         document.querySelector('#myNavigator').pushPage('setlist.html', {data: {live: liveId, artist: currentArtistId}});
-      }
+      };
     }
 
     //一覧リストの項目を配列として取得
@@ -351,7 +351,7 @@ document.addEventListener('init', function(event) {
       currentSetlistButton.onclick = function() {
         var currentArtistId = this.getAttribute('data-artist');
         document.querySelector('#myNavigator').pushPage('member.html', {data: {live: liveId, artist: currentArtistId}});
-      }
+      };
     }
 
   } else if (page.id === 'edit') {
