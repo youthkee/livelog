@@ -1078,6 +1078,8 @@ document.addEventListener('init', function(event) {
       
     } else {
 
+      $('copyArea').value = 'ライブが登録されていません。';
+        
     }
 
     page.querySelector('#copy-button').onclick = function() {
