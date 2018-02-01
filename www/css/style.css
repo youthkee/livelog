@@ -97,3 +97,7 @@
 .icon-link {
     color: #787879;
 }
+
+select.polyfilling {
+  position: static !important;
+}

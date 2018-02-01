@@ -1,4 +1,5 @@
 function $(id){return document.getElementById(id);}
+jQuery.noConflict();
 
 ons.ready(function() {
   console.log("Onsen UI is ready!");
@@ -465,6 +466,16 @@ document.addEventListener('init', function(event) {
       //ライブIDがなかったら、登録用のオブジェクトを初期化
       var item = {};
     }
+
+      var artistList = [
+        '初音',
+        '斉藤麻里',
+        '辻詩音'
+      ];
+
+      jQuery('#artist-input0').autocomplete({
+        source: artistList
+      });
 
     //☆「登録」ボタンが押された時の処理
     page.querySelector('#resist-button').onclick = function() {
