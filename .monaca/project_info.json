@@ -1,7 +1,8 @@
 {
     "plugins": [
         "mobi.monaca.plugins.Monaca",
-        "cordova-custom-config@2.0.3"
+        "cordova-custom-config@2.0.3",
+        "mobi.monaca.plugins.datepicker@1.0.1"
     ],
     "framework_version": "3.5",
     "xcode_version": "8",
