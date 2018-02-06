@@ -1,8 +1,74 @@
 function $(id){return document.getElementById(id);}
 
+document.addEventListener('deviceready', onDeviceReady, false);
+var datePicker;
+var now = new Date();
+
+function onDeviceReady() {
+    // datepicker
+    console.log('cordova is ready');
+    datePicker = window.plugins.datePicker;
+}
+
 ons.ready(function() {
-  console.log("Onsen UI is ready!");
+  console.log('Onsen UI is ready!');
 });
+
+function getDate(){
+    datePicker.show({
+         'mode' : 'date',
+         'date' : now
+    }, function(a){
+      var y = a.getFullYear();
+      var m = a.getMonth() + 1;
+      var d = a.getDate();
+      // 「月」と「日」で1桁だったときに頭に 0 をつける
+      if (m < 10) {
+        m = '0' + m;
+      }
+      if (d < 10) {
+        d = '0' + d;
+      }
+      var date = y + '/' + m + '/' + d;
+      document.getElementById('date-input').value = date;
+    });
+}
+
+function getTime(){
+    datePicker.show({
+         'mode' : 'time',
+         'date' : now
+    }, function(a){
+      var h = a.getHours();
+      var m = a.getMinutes();
+      if (h < 10) {
+        h = '0' + h;
+      }
+      if (m < 10) {
+        m = '0' + m;
+      }
+      var time = h + '/' + m;
+      document.getElementById('open-input').value = time;
+    });
+}
+
+function getTime2(){
+    datePicker.show({
+         'mode' : 'time',
+         'date' : now
+    }, function(a){
+      var h = a.getHours();
+      var m = a.getMinutes();
+      if (h < 10) {
+        h = '0' + h;
+      }
+      if (m < 10) {
+        m = '0' + m;
+      }
+      var time = h + '/' + m;
+      document.getElementById('start-input').value = time;
+    });
+}
 
 window.fn = {};
 window.fn.open = function() {
@@ -464,6 +530,19 @@ document.addEventListener('init', function(event) {
     } else {
       //ライブIDがなかったら、登録用のオブジェクトを初期化
       var item = {};
+      var now = new Date();
+      var y = now.getFullYear();
+      var m = now.getMonth() + 1;
+      var d = now.getDate();
+      // 「月」と「日」で1桁だったときに頭に 0 をつける
+      if (m < 10) {
+        m = '0' + m;
+      }
+      if (d < 10) {
+        d = '0' + d;
+      }
+      var initialDate = y + '/' + m + '/' + d;
+      $('date-input').innerHTML = initialDate;
     }
 
     //☆「登録」ボタンが押された時の処理
