@@ -7,6 +7,10 @@ var now = new Date();
 function onDeviceReady() {
     // datepicker
     console.log('cordova is ready');
+    console.log(device.model);
+    if(monaca.isAndroid === true || (monaca.isIOS === true && device.model.indexOf('iPad') == -1)){
+      console.log('AndroidまたはiPad以外のiOS');
+    }
     datePicker = window.plugins.datePicker;
 }
 
