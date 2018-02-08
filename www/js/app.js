@@ -477,6 +477,7 @@ document.addEventListener('init', function(event) {
 
     //AndroidまたはiPhoneだったらDatepickerを表示
     if(monaca.isAndroid === true || (monaca.isIOS === true && device.model.indexOf('iPad') == -1)){
+    //if(monaca.isAndroid === true || monaca.isIOS === true){
 
       console.log('AndroidまたはiPad以外のiOS');
 
