@@ -2,77 +2,16 @@ function $(id){return document.getElementById(id);}
 
 document.addEventListener('deviceready', onDeviceReady, false);
 var datePicker;
-var now = new Date();
 
 function onDeviceReady() {
-    // datepicker
     console.log('cordova is ready');
     console.log(device.model);
-    if(monaca.isAndroid === true || (monaca.isIOS === true && device.model.indexOf('iPad') == -1)){
-      console.log('AndroidまたはiPad以外のiOS');
-    }
     datePicker = window.plugins.datePicker;
 }
 
 ons.ready(function() {
   console.log('Onsen UI is ready!');
 });
-
-function getDate(){
-    datePicker.show({
-         'mode' : 'date',
-         'date' : now
-    }, function(a){
-      var y = a.getFullYear();
-      var m = a.getMonth() + 1;
-      var d = a.getDate();
-      // 「月」と「日」で1桁だったときに頭に 0 をつける
-      if (m < 10) {
-        m = '0' + m;
-      }
-      if (d < 10) {
-        d = '0' + d;
-      }
-      var date = y + '/' + m + '/' + d;
-      document.getElementById('date-input').value = date;
-    });
-}
-
-function getTime(){
-    datePicker.show({
-         'mode' : 'time',
-         'date' : now
-    }, function(a){
-      var h = a.getHours();
-      var m = a.getMinutes();
-      if (h < 10) {
-        h = '0' + h;
-      }
-      if (m < 10) {
-        m = '0' + m;
-      }
-      var time = h + '/' + m;
-      document.getElementById('open-input').value = time;
-    });
-}
-
-function getTime2(){
-    datePicker.show({
-         'mode' : 'time',
-         'date' : now
-    }, function(a){
-      var h = a.getHours();
-      var m = a.getMinutes();
-      if (h < 10) {
-        h = '0' + h;
-      }
-      if (m < 10) {
-        m = '0' + m;
-      }
-      var time = h + '/' + m;
-      document.getElementById('start-input').value = time;
-    });
-}
 
 window.fn = {};
 window.fn.open = function() {
@@ -534,19 +473,135 @@ document.addEventListener('init', function(event) {
     } else {
       //ライブIDがなかったら、登録用のオブジェクトを初期化
       var item = {};
-      var now = new Date();
-      var y = now.getFullYear();
-      var m = now.getMonth() + 1;
-      var d = now.getDate();
-      // 「月」と「日」で1桁だったときに頭に 0 をつける
-      if (m < 10) {
-        m = '0' + m;
+    }
+
+    //AndroidまたはiPhoneだったらDatepickerを表示
+    if(monaca.isAndroid === true || (monaca.isIOS === true && device.model.indexOf('iPad') == -1)){
+
+      console.log('AndroidまたはiPad以外のiOS');
+
+      $('date-button-wrap').innerHTML = '<ons-icon icon="md-calendar" size="20px" class="icon--tappable" id="date-button"></ons-icon>';
+      $('open-button-wrap').innerHTML = '<ons-icon icon="md-time" size="20px" class="icon--tappable" id="open-button"></ons-icon>';
+      $('start-button-wrap').innerHTML = '<ons-icon icon="md-time" size="20px" class="icon--tappable" id="start-button"></ons-icon>';
+
+      //☆DATEのdatepickerボタンが押された時の処理
+      page.querySelector('#date-button').onclick = function() {
+
+        //日付の型チェックをして戻り値を変数に格納
+        var dateFormat = ckDate($('date-input').value);
+
+        if (!dateFormat) {
+          //DATEのフォーマットが不正だったら、現在時刻を設定
+          var pickerDate = new Date();
+        } else {
+          var pickerDate = new Date($('date-input').value);
+        }
+
+        datePicker.show({
+             'mode' : 'date',
+             'date' : pickerDate,
+             'minDate' : new Date('1000/01/01'),
+             'maxDate' : new Date('9999/12/31')
+        }, function(returnDate){
+          if (typeof returnDate !== 'undefined') {
+            var newDate = new Date(returnDate);
+            var y = newDate.getFullYear();
+            var m = newDate.getMonth() + 1;
+            var d = newDate.getDate();
+            // 「年」で4桁以下だった時に頭に 0 をつける
+            if (y < 10) {
+              var y = '000' + y;
+            } else if (y < 100) {
+              var y = '00' + y;
+            } else if (y < 1000) {
+              var y = '0' + y;
+            }
+            // 「月」と「日」で1桁だった時に頭に 0 をつける
+            if (m < 10) {
+              var m = '0' + m;
+            }
+            if (d < 10) {
+              var d = '0' + d;
+            }
+            var inputDate = y + '/' + m + '/' + d;
+            $('date-input').value = inputDate;
+          }
+        });
+        
       }
-      if (d < 10) {
-        d = '0' + d;
+
+      //☆OPENのdatepickerボタンが押された時の処理
+      page.querySelector('#open-button').onclick = function() {
+
+        //時刻の型チェックをして戻り値を変数に格納
+        var openFormat = ckTime($('open-input').value);
+
+        if (!openFormat) {
+          //OPENのフォーマットが不正だったら、現在時刻を設定
+          var pickerDate = new Date();
+        } else {
+          var pickerDate = new Date('2018/08/26 ' + $('open-input').value);
+        }
+
+        datePicker.show({
+             'mode' : 'time',
+             'date' : pickerDate,
+             'minuteInterval' : 5
+        }, function(returnDate){
+          if (typeof returnDate !== 'undefined') {
+            var newDate = new Date(returnDate);
+            var H = newDate.getHours();
+            var M = newDate.getMinutes();
+            // 「時間」と「分」で1桁だった時に頭に 0 をつける
+            if (H < 10) {
+              var H = '0' + H;
+            }
+            if (M < 10) {
+              var M = '0' + M;
+            }
+            var inputDate = H + ':' + M;
+            $('open-input').value = inputDate;
+          }
+        });
+
       }
-      var initialDate = y + '/' + m + '/' + d;
-      $('date-input').innerHTML = initialDate;
+
+      //☆STARTのdatepickerボタンが押された時の処理
+      page.querySelector('#start-button').onclick = function() {
+
+        //時刻の型チェックをして戻り値を変数に格納
+        var startFormat = ckTime($('start-input').value);
+
+        if (!startFormat) {
+          //OPENのフォーマットが不正だったら、現在時刻を設定
+          var pickerDate = new Date();
+        } else {
+          var pickerDate = new Date('2018/08/26 ' + $('start-input').value);
+        }
+
+        datePicker.show({
+             'mode' : 'time',
+             'date' : pickerDate,
+             'minuteInterval' : 5
+        }, function(returnDate){
+          if (typeof returnDate !== 'undefined') {
+            var newDate = new Date(returnDate);
+            var H = newDate.getHours();
+            var M = newDate.getMinutes();
+            // 「時間」と「分」で1桁だった時に頭に 0 をつける
+            if (H < 10) {
+              var H = '0' + H;
+            }
+            if (M < 10) {
+              var M = '0' + M;
+            }
+            var inputDate = H + ':' + M;
+            $('start-input').value = inputDate;
+          }
+        });
+
+      }
+
     }
 
     //☆「登録」ボタンが押された時の処理
