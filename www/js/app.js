@@ -505,11 +505,12 @@ document.addEventListener('init', function(event) {
              'maxDate' : new Date('9999/12/31')
         }, function(returnDate){
           if (typeof returnDate !== 'undefined') {
+            //iOSだとCancel時にundefinedが返って来るので、それ以外の時に処理を実行
             var newDate = new Date(returnDate);
             var y = newDate.getFullYear();
             var m = newDate.getMonth() + 1;
             var d = newDate.getDate();
-            // 「年」で4桁以下だった時に頭に 0 をつける
+            //「年」で4桁以下だった時に頭に0をつける
             if (y < 10) {
               var y = '000' + y;
             } else if (y < 100) {
@@ -517,7 +518,7 @@ document.addEventListener('init', function(event) {
             } else if (y < 1000) {
               var y = '0' + y;
             }
-            // 「月」と「日」で1桁だった時に頭に 0 をつける
+            //「月」と「日」で1桁だった時に頭に0をつける
             if (m < 10) {
               var m = '0' + m;
             }
@@ -525,11 +526,22 @@ document.addEventListener('init', function(event) {
               var d = '0' + d;
             }
             var inputDate = y + '/' + m + '/' + d;
+            //AndroidだとCancel時にNaN/NaN/NaNで返ってくるので、それ以外の時に日付を挿入
+            if (isReallyNaN(y)) {
+            
+            } else if (isReallyNaN(m)) {
+                
+            } else if (isReallyNaN(d)) {
+                
+            } else  {
             $('date-input').value = inputDate;
+            }
+          } else {
+              
           }
         });
         
-      }
+      };
 
       //☆OPENのdatepickerボタンが押された時の処理
       page.querySelector('#open-button').onclick = function() {
@@ -550,10 +562,11 @@ document.addEventListener('init', function(event) {
              'minuteInterval' : 5
         }, function(returnDate){
           if (typeof returnDate !== 'undefined') {
+            //iOSだとCancel時にundefinedが返って来るので、それ以外の時に処理を実行
             var newDate = new Date(returnDate);
             var H = newDate.getHours();
             var M = newDate.getMinutes();
-            // 「時間」と「分」で1桁だった時に頭に 0 をつける
+            // 「時間」と「分」で1桁だった時に頭に0をつける
             if (H < 10) {
               var H = '0' + H;
             }
@@ -561,11 +574,18 @@ document.addEventListener('init', function(event) {
               var M = '0' + M;
             }
             var inputDate = H + ':' + M;
+            //AndroidだとCancel時にNaN/NaN/NaNで返ってくるので、それ以外の時に時間を挿入
+            if (isReallyNaN(H)) {
+            
+            } else if (isReallyNaN(M)) {
+                
+            } else  {
             $('open-input').value = inputDate;
+            }
           }
         });
 
-      }
+      };
 
       //☆STARTのdatepickerボタンが押された時の処理
       page.querySelector('#start-button').onclick = function() {
@@ -586,10 +606,11 @@ document.addEventListener('init', function(event) {
              'minuteInterval' : 5
         }, function(returnDate){
           if (typeof returnDate !== 'undefined') {
+            //iOSだとCancel時にundefinedが返って来るので、それ以外の時に処理を実行
             var newDate = new Date(returnDate);
             var H = newDate.getHours();
             var M = newDate.getMinutes();
-            // 「時間」と「分」で1桁だった時に頭に 0 をつける
+            // 「時間」と「分」で1桁だった時に頭に0をつける
             if (H < 10) {
               var H = '0' + H;
             }
@@ -597,11 +618,18 @@ document.addEventListener('init', function(event) {
               var M = '0' + M;
             }
             var inputDate = H + ':' + M;
+            //AndroidだとCancel時にNaN/NaN/NaNで返ってくるので、それ以外の時に時間を挿入
+            if (isReallyNaN(H)) {
+            
+            } else if (isReallyNaN(M)) {
+                
+            } else  {
             $('start-input').value = inputDate;
+            }
           }
         });
 
-      }
+      };
 
     }
 
@@ -1415,6 +1443,11 @@ function isUrl(str) {
   } else {
     return true;
   }
+}
+
+//NaNであるかどうかを判定する関数
+function isReallyNaN(x) {
+  return x !== x;    // xがNaNであればtrue, それ以外ではfalse
 }
 
 //☆年のプルダウンを選択した時の処理
