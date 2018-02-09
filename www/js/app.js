@@ -1,5 +1,11 @@
 function $(id){return document.getElementById(id);}
 
+document.addEventListener('deviceready', onDeviceReady, false);
+
+function onDeviceReady() {
+    window.open = cordova.InAppBrowser.open;
+}
+
 ons.ready(function() {
   console.log("Onsen UI is ready!");
 });
@@ -321,14 +327,14 @@ document.addEventListener('init', function(event) {
     //INFOにURLが登録されていたら、タップ時にInAppBrowserで開く
     if (item.info) {
       page.querySelector('#info-link').onclick = function() {
-        window.open(item.info, '_blank');
+        window.open(item.info, '_system');
       };
     }
 
     //REPORTにURLが登録されていたら、タップ時にInAppBrowserで開く
     if (item.report) {
       page.querySelector('#report-link').onclick = function() {
-        window.open(item.report, '_blank');
+        window.open(item.report, '_system');
       };
     }
 
@@ -340,7 +346,7 @@ document.addEventListener('init', function(event) {
       currentSetlistButton.onclick = function() {
         var currentArtistId = this.getAttribute('data-artist');
         document.querySelector('#myNavigator').pushPage('setlist.html', {data: {live: liveId, artist: currentArtistId}});
-      };
+      }
     }
 
     //一覧リストの項目を配列として取得
@@ -351,7 +357,7 @@ document.addEventListener('init', function(event) {
       currentSetlistButton.onclick = function() {
         var currentArtistId = this.getAttribute('data-artist');
         document.querySelector('#myNavigator').pushPage('member.html', {data: {live: liveId, artist: currentArtistId}});
-      };
+      }
     }
 
   } else if (page.id === 'edit') {
@@ -1078,8 +1084,6 @@ document.addEventListener('init', function(event) {
       
     } else {
 
-      $('copyArea').value = 'ライブが登録されていません。';
-        
     }
 
     page.querySelector('#copy-button').onclick = function() {
@@ -1659,7 +1663,7 @@ function displayError() {
 //☆URLリンクをクリックした時にアプリ内ブラウザを開く関数
 function openAppinBrowser(obj) {
   var url = obj.getAttribute('data-url');
-  window.open(url, '_blank');
+  window.open(url, '_system');
 };
 
 //☆ライブ一覧のリスト項目をタップしたら該当のライブ詳細を開く関数
