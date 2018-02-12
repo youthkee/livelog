@@ -1,5 +1,11 @@
 function $(id){return document.getElementById(id);}
 
+document.addEventListener('deviceready', onDeviceReady, false);
+
+function onDeviceReady() {
+    window.open = cordova.InAppBrowser.open;
+}
+
 ons.ready(function() {
   console.log("Onsen UI is ready!");
 });
@@ -194,7 +200,7 @@ document.addEventListener('init', function(event) {
       var firstTwTxt1 = item.title + '＠' + item.area + item.place + '%0d%0a%23' + item.artists.artist0.name + '%20さんのセットリスト' + '%0d%0a%0d%0a';
       var firstTwTxt2 = '';
       var firstTwTxt3 = '%0d%0a%23ライブ%20%23' + item.genre +'%20%23livelog';
-      
+
       //セットリストが登録されていたら、セットリストの内容をリスト表示
       if (firstSetlistNum > 0) {
         for (track in firstSetlistItem) {
@@ -321,14 +327,14 @@ document.addEventListener('init', function(event) {
     //INFOにURLが登録されていたら、タップ時にInAppBrowserで開く
     if (item.info) {
       page.querySelector('#info-link').onclick = function() {
-        window.open(item.info, '_blank');
+        window.open(item.info, '_system');
       };
     }
 
     //REPORTにURLが登録されていたら、タップ時にInAppBrowserで開く
     if (item.report) {
       page.querySelector('#report-link').onclick = function() {
-        window.open(item.report, '_blank');
+        window.open(item.report, '_system');
       };
     }
 
@@ -355,7 +361,7 @@ document.addEventListener('init', function(event) {
     }
 
   } else if (page.id === 'edit') {
-      
+
     //ページ遷移時に受け取ったライブIDを変数に代入
     var liveId = page.data.live;
 
@@ -458,7 +464,7 @@ document.addEventListener('init', function(event) {
       // itemオブジェクトの内容を取り出して各フォームに入力状態にする
       $('memo-input').value = item.memo;
       $('report-input').value = item.report;
-      
+
       $('delete').innerHTML = '<ons-button modifier="large light" class="button--light--livelog" id="delete-button">ライブ情報を削除</ons-button>';
 
     } else {
@@ -472,7 +478,7 @@ document.addEventListener('init', function(event) {
       //エラーメッセージの要素とその要素数を取得
       var messageNum = document.getElementsByClassName('message').length;
       var messageList = document.getElementsByClassName('message');
-        
+
       //エラーメッセージが表示されていたら最初に全て消す（登録ボタンを複数回御した時の対策）
       if (messageNum > 0) {
           for(var i=0; i<messageNum; i++) {
@@ -719,7 +725,7 @@ document.addEventListener('init', function(event) {
     if (liveId) {
         //☆「ライブ情報を削除」ボタンが押された時の処理
         page.querySelector('#delete-button').onclick = function() {
-    
+
           ons.notification.confirm({
             message: 'ライブ情報を削除してよろしいですか？',
             title: '',
@@ -737,7 +743,7 @@ document.addEventListener('init', function(event) {
                 }
             }
           });
-    
+
         };
     }
 
@@ -753,7 +759,7 @@ document.addEventListener('init', function(event) {
     );
 
     var dataSetlistNum = Object.keys(item.artists[artistId].setlist).length;
-    
+
     //セットリストが1つ以上登録されていたら、1つ目の入力欄に値を挿入
     if (dataSetlistNum > 0) {
       $('track0').value = item.artists[artistId].setlist.track0;
@@ -1049,7 +1055,7 @@ document.addEventListener('init', function(event) {
       });
 
     };
-    
+
   } else if (page.id === 'export') {
 
     //☆localStorageにデータが登録されていたらエクスポート用のリンクを表示する処理
@@ -1075,11 +1081,11 @@ document.addEventListener('init', function(event) {
 
       //テキストエリアにエクスポート用データを挿入
       $('copyArea').value = saveData;
-      
+
     } else {
 
       $('copyArea').value = 'ライブが登録されていません。';
-        
+
     }
 
     page.querySelector('#copy-button').onclick = function() {
@@ -1659,7 +1665,7 @@ function displayError() {
 //☆URLリンクをクリックした時にアプリ内ブラウザを開く関数
 function openAppinBrowser(obj) {
   var url = obj.getAttribute('data-url');
-  window.open(url, '_blank');
+  window.open(url, '_system');
 };
 
 //☆ライブ一覧のリスト項目をタップしたら該当のライブ詳細を開く関数
