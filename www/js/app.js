@@ -476,8 +476,8 @@ document.addEventListener('init', function(event) {
     }
 
     //AndroidまたはiPhoneだったらDatepickerを表示
-    if(monaca.isAndroid === true || (monaca.isIOS === true && device.model.indexOf('iPad') == -1)){
-    //if(monaca.isAndroid === true || monaca.isIOS === true){
+    //if(monaca.isAndroid === true || (monaca.isIOS === true && device.model.indexOf('iPad') == -1)){
+    if(monaca.isAndroid === true || monaca.isIOS === true){
 
       console.log('AndroidまたはiPad以外のiOS');
 
@@ -502,7 +502,9 @@ document.addEventListener('init', function(event) {
              'mode' : 'date',
              'date' : pickerDate,
              'minDate' : new Date('1000/01/01'),
-             'maxDate' : new Date('9999/12/31')
+             'maxDate' : new Date('9999/12/31'),
+             'x' : 150,
+             'y' : 175
         }, function(returnDate){
           if (typeof returnDate !== 'undefined') {
             //iOSだとCancel時にundefinedが返って来るので、それ以外の時に処理を実行
@@ -559,7 +561,9 @@ document.addEventListener('init', function(event) {
         datePicker.show({
              'mode' : 'time',
              'date' : pickerDate,
-             'minuteInterval' : 5
+             'minuteInterval' : 5,
+             'x' : 150,
+             'y' : 225
         }, function(returnDate){
           if (typeof returnDate !== 'undefined') {
             //iOSだとCancel時にundefinedが返って来るので、それ以外の時に処理を実行
@@ -603,7 +607,9 @@ document.addEventListener('init', function(event) {
         datePicker.show({
              'mode' : 'time',
              'date' : pickerDate,
-             'minuteInterval' : 5
+             'minuteInterval' : 5,
+             'x' : 150,
+             'y' : 285
         }, function(returnDate){
           if (typeof returnDate !== 'undefined') {
             //iOSだとCancel時にundefinedが返って来るので、それ以外の時に処理を実行
