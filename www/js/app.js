@@ -5,7 +5,6 @@ var datePicker;
 
 function onDeviceReady() {
     console.log('cordova is ready');
-    console.log(device.model);
     datePicker = window.plugins.datePicker;
 }
 
@@ -478,8 +477,6 @@ document.addEventListener('init', function(event) {
     //AndroidまたはiPhoneだったらDatepickerを表示
     //if(monaca.isAndroid === true || (monaca.isIOS === true && device.model.indexOf('iPad') == -1)){
     if(monaca.isAndroid === true || monaca.isIOS === true){
-
-      console.log('AndroidまたはiPad以外のiOS');
 
       $('date-button-wrap').innerHTML = '<ons-icon icon="md-calendar" size="20px" class="icon--tappable" id="date-button"></ons-icon>';
       $('open-button-wrap').innerHTML = '<ons-icon icon="md-time" size="20px" class="icon--tappable" id="open-button"></ons-icon>';
