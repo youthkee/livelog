@@ -470,6 +470,7 @@ document.addEventListener('init', function(event) {
     } else {
       //ライブIDがなかったら、登録用のオブジェクトを初期化
       var item = {};
+      $('title-input').focus();
     }
 
     //☆「登録」ボタンが押された時の処理
