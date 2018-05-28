@@ -1,4 +1,5 @@
 function $(id){return document.getElementById(id);}
+jQuery.noConflict();
 
 document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -470,7 +471,12 @@ document.addEventListener('init', function(event) {
     } else {
       //ライブIDがなかったら、登録用のオブジェクトを初期化
       var item = {};
-      $('title-input').focus();
+      var focused = jQuery('input:first');
+      jQuery('#title-input').on('touchstart', function() {
+        jQuery(this).focus();
+        focused = jQuery(this);
+      });
+      jQuery('#title-input').trigger('touchstart');
     }
 
     //☆「登録」ボタンが押された時の処理
