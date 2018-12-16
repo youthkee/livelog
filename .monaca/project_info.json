@@ -1,16 +1,5 @@
 {
-    "plugins": [
-        "mobi.monaca.plugins.Monaca",
-        "cordova-custom-config@2.0.3"
-    ],
     "framework_version": "3.5",
-    "xcode_version": "8",
-    "cordova_version": "6.5",
-    "plugin_settings": [],
-    "external_plugins": [
-        "cordova-plugin-whitelist@1.3.1",
-        "cordova-plugin-splashscreen@4.0.3",
-        "cordova-plugin-inappbrowser@1.7.1",
-        "cordova-plugin-file@4.3.3"
-    ]
+    "xcode_version": "9",
+    "cordova_version": "7.1"
 }
