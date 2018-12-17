@@ -1273,18 +1273,18 @@ document.addEventListener('init', function(event) {
         totalGenreList[i] = currentItem[i].genre;
       }
 
-      if (totalGenreList.length > 0) {
+      //全ジャンルの重複数をカウントする配列を作成
+      var totalGenreCounts = {};
 
-        //全ジャンルの重複数をカウントする配列を作成
-        var totalGenreCounts = {};
-  
-        //{ジャンル名:重複数}の形で値を格納
-        for(var i=0;i< totalGenreList.length;i++) {
-          var key = totalGenreList[i];
-          if (totalGenreList[i] != '') {
-            totalGenreCounts[key] = (totalGenreCounts[key])? totalGenreCounts[key] + 1 : 1 ;
-          }
+      //{ジャンル名:重複数}の形で値を格納
+      for(var i=0;i< totalGenreList.length;i++) {
+        var key = totalGenreList[i];
+        if (totalGenreList[i] != '') {
+          totalGenreCounts[key] = (totalGenreCounts[key])? totalGenreCounts[key] + 1 : 1 ;
         }
+      }
+ 
+      if (Object.keys(totalGenreCounts).length > 0) {
 
         //ジャンルとその件数をランキング形式で格納する連想配列を作成
         var totalGenreRank = [];
@@ -1317,79 +1317,83 @@ document.addEventListener('init', function(event) {
 
       }
 
-      //参加済ライブの全アーティストを格納する配列を作成
-      var totalArtistList = new Array();
+      if (totalCount > 0) {
 
-      for(var i=0; i<currentItem.length; i++) {
-        
-        //各ライブに登録されているアーティストの数を取得
-        var eachArtistsNum = Object.keys(currentItem[i].artists).length;
+        //参加済ライブの全アーティストを格納する配列を作成
+        var totalArtistList = new Array();
 
-        //各ライブに登録されているアーティスト一覧を格納する配列を作成
-        var eachArtistList = new Array();
+        for(var i=0; i<currentItem.length; i++) {
+          
+          //各ライブに登録されているアーティストの数を取得
+          var eachArtistsNum = Object.keys(currentItem[i].artists).length;
 
-        //各ライブに登録されているアーティスト一覧をeachArtistListに格納
-        for(var j=0; j<eachArtistsNum; j++) {
-          var eachArtistId = 'artist' + j;
-          eachArtistList[j] = currentItem[i].artists[eachArtistId].name;
+          //各ライブに登録されているアーティスト一覧を格納する配列を作成
+          var eachArtistList = new Array();
+
+          //各ライブに登録されているアーティスト一覧をeachArtistListに格納
+          for(var j=0; j<eachArtistsNum; j++) {
+            var eachArtistId = 'artist' + j;
+            eachArtistList[j] = currentItem[i].artists[eachArtistId].name;
+          }
+
+          //各ライブ毎に抽出したアーティスト一覧をtotalArtistListに結合
+          Array.prototype.push.apply(totalArtistList, eachArtistList);
+
         }
 
-        //各ライブ毎に抽出したアーティスト一覧をtotalArtistListに結合
-        Array.prototype.push.apply(totalArtistList, eachArtistList);
+        //全アーティストの重複数をカウントする配列を作成
+        var totalArtistCounts = {};
 
-      }
-
-      //全アーティストの重複数をカウントする配列を作成
-      var totalArtistCounts = {};
-
-      //{アーティスト名:重複数}の形で値を格納
-      for(var i=0;i< totalArtistList.length;i++) {
-        var key = totalArtistList[i];
-        totalArtistCounts[key] = (totalArtistCounts[key])? totalArtistCounts[key] + 1 : 1 ;
-      }
-
-      // アーティストとその件数をランキング形式で格納する連想配列を作成
-      var totalArtistRank = [];
-
-      //{name:ジャンル名, count:件数}の形で値を格納
-      for(var i=0;i< Object.keys(totalArtistCounts).length;i++) {
-        totalArtistRank[i] = {};
-        totalArtistRank[i].name = Object.keys(totalArtistCounts)[i];
-        totalArtistRank[i].count = Object.values(totalArtistCounts)[i];
-      }
-
-      //countを第1キー、nameを第2キーとしてtotalArtistRankをソート
-      ObjArraySort2(totalArtistRank, 'count', 'desc', 'name', 'asc');
-
-      //アーティスト別サマリーのタイトルを表示
-      var artistSummaryTitle = document.createElement('div');
-      artistSummaryTitle.setAttribute('class', 'list-title');
-      artistSummaryTitle.innerText = 'ARTIST';
-      $('summary-content').appendChild(artistSummaryTitle);
-
-      //アーティスト別サマリーのリストを表示
-      var artistSummaryList = document.createElement('ul');
-      artistSummaryList.setAttribute('class', 'list');
-      $('summary-content').appendChild(artistSummaryList);
-
-      //アーティスト別サマリーのリピート領域を作成
-      var artistSummaryRepeat = document.createElement('ons-lazy-repeat');
-      artistSummaryRepeat.setAttribute('id', 'artist-summary-list');
-      artistSummaryList.appendChild(artistSummaryRepeat);
-
-      var infiniteList2 = artistSummaryRepeat;
-
-      //アーティスト別ランキングを表示
-      infiniteList2.delegate = {
-        createItemContent: function(i) {
-
-          return ons.createElement('<li class="list-item"><div class="list-item__center"><div class="list-item__label">' + totalArtistRank[i].name + '</div></div><div class="list-item__right">' + totalArtistRank[i].count + '</div></li>');
-
-        },
-        countItems: function() {
-          return totalArtistRank.length;
+        //{アーティスト名:重複数}の形で値を格納
+        for(var i=0;i< totalArtistList.length;i++) {
+          var key = totalArtistList[i];
+          totalArtistCounts[key] = (totalArtistCounts[key])? totalArtistCounts[key] + 1 : 1 ;
         }
-      };
+
+        // アーティストとその件数をランキング形式で格納する連想配列を作成
+        var totalArtistRank = [];
+
+        //{name:ジャンル名, count:件数}の形で値を格納
+        for(var i=0;i< Object.keys(totalArtistCounts).length;i++) {
+          totalArtistRank[i] = {};
+          totalArtistRank[i].name = Object.keys(totalArtistCounts)[i];
+          totalArtistRank[i].count = Object.values(totalArtistCounts)[i];
+        }
+
+        //countを第1キー、nameを第2キーとしてtotalArtistRankをソート
+        ObjArraySort2(totalArtistRank, 'count', 'desc', 'name', 'asc');
+
+        //アーティスト別サマリーのタイトルを表示
+        var artistSummaryTitle = document.createElement('div');
+        artistSummaryTitle.setAttribute('class', 'list-title');
+        artistSummaryTitle.innerText = 'ARTIST';
+        $('summary-content').appendChild(artistSummaryTitle);
+
+        //アーティスト別サマリーのリストを表示
+        var artistSummaryList = document.createElement('ul');
+        artistSummaryList.setAttribute('class', 'list');
+        $('summary-content').appendChild(artistSummaryList);
+
+        //アーティスト別サマリーのリピート領域を作成
+        var artistSummaryRepeat = document.createElement('ons-lazy-repeat');
+        artistSummaryRepeat.setAttribute('id', 'artist-summary-list');
+        artistSummaryList.appendChild(artistSummaryRepeat);
+
+        var infiniteList2 = artistSummaryRepeat;
+
+        //アーティスト別ランキングを表示
+        infiniteList2.delegate = {
+          createItemContent: function(i) {
+
+            return ons.createElement('<li class="list-item"><div class="list-item__center"><div class="list-item__label">' + totalArtistRank[i].name + '</div></div><div class="list-item__right">' + totalArtistRank[i].count + '</div></li>');
+
+          },
+          countItems: function() {
+            return totalArtistRank.length;
+          }
+        };
+
+      }
 
     } else {
       //データが登録されていなかったら文言を表示
