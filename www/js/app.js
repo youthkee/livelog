@@ -1164,6 +1164,243 @@ document.addEventListener('init', function(event) {
 
     };
 
+  } else if (page.id === 'summary') {
+
+    //☆localStorageにデータが登録されていたら集計結果を表示する処理
+    if(localStorage.length > 0) {
+
+      //localStorageのKey-Valueを格納するための配列を生成
+      var key = new Array();
+      var allItem = new Array();
+
+      for(var i=0; i<localStorage.length; i++) {
+        //localStorageのKey-Value値を各配列に代入
+        key[i] = localStorage.key(i);
+        allItem[i] = JSON.parse(
+          localStorage.getItem(key[i])
+        );
+      }
+
+      //allItemにdateとopen/startを繋げた日時の項目を追加
+      for (item in allItem) {
+        allItem[item].dateOpen = allItem[item].date + ' ' + allItem[item].open;
+        allItem[item].dateStart = allItem[item].date + ' ' + allItem[item].start;
+      }
+
+      //open日時を第1キー、start日時を第2キーとしてallItemを降順にソート
+      //ObjArraySort2(allItem, 'dateOpen', 'desc', 'dateStart', 'desc');
+
+      //localStorageに登録されている全ての年を格納する配列を生成
+      var allYearList = new Array();
+
+      //日時のうち年（YYYY）の部分だけ切り出してallYearListに格納
+      for(var i=0; i<allItem.length; i++) {
+        var dateString = allItem[i].date;
+        var yearString = dateString.slice(0, 4);
+        allYearList[i] = yearString;
+      }
+
+      //allYearListから重複分を除いてユニークな年の一覧を取得
+      var yearList = allYearList.filter(function (x, i, self) {
+        return self.indexOf(x) === i;
+      });
+
+      //年の一覧をソートして、逆順に並べ替え
+      yearList.sort();
+      yearList.reverse();
+
+      //登録されている年の中から一番新しい年を取得
+      var maxYear = Math.max.apply(null, yearList);
+
+      //現在の年を取得
+      var now = new Date();
+      var currentYear = now.getFullYear();
+
+      if (page.data.year) {
+        //年パラメータが指定されていたら、それをselectedYearにする
+        var selectedYear = page.data.year;
+      } else if (maxYear >= currentYear) {
+        //現在よりも未来の年が登録されている場合は、今年をselectedYearにする
+        var selectedYear = currentYear;
+      } else {
+        //現在よりも過去の年しか登録されていない場合は、その中で一番新しい年をselectedYearにする
+        var selectedYear = maxYear;
+      }
+
+      //年のプルダウンを格納するためのセレクトボックスを生成
+      var yearSelect = document.createElement('ons-select');
+      yearSelect.setAttribute('class', 'select--livelog');
+      yearSelect.setAttribute('id', 'select-summary-year');
+      yearSelect.setAttribute('onChange', 'changeSummaryYear(this);');
+      $('summary-title').appendChild(yearSelect);
+
+      //セレクトボックスの中に登録されている年のプルダウンを追加
+      for(var i=0; i<yearList.length; i++) {
+        var yearOption = document.createElement('option');
+        yearOption.innerText = yearList[i];
+        yearOption.setAttribute('value', yearList[i]);
+        //selectedYearと同じ値があったら選択状態にする
+        if (yearList[i] == selectedYear) {
+          yearOption.setAttribute('selected', 'selected');
+        }
+        yearSelect.appendChild(yearOption);
+      }
+
+      //localStorageから読み込んだデータから、選択中の年のデータだけ抽出
+      var currentItem = allItem.filter(function(item, index){
+        if ((item.date).indexOf(selectedYear) >= 0) return true;
+      });
+
+      //選択中の年のデータから「参加済」のものだけ抽出
+      var currentItem = currentItem.filter(function(item, index){
+        if ((item.attendance).indexOf('参加済') >= 0) return true;
+      });
+
+      //トータルのライブ参加本数を取得
+      var totalCount = currentItem.length;
+
+      //トータルのライブ参加本数を表示
+      var totalSumaryList = document.createElement('ul');
+      totalSumaryList.setAttribute('class', 'list');
+      totalSumaryList.innerHTML = '<li class="list-item"><div class="list-item__center"><div class="list-item__label">ライブ参加本数</div></div><div class="list-item__right">' + totalCount + '</div></li></ul>';
+      $('summary-content').appendChild(totalSumaryList);
+
+      //参加済ライブの全ジャンルを格納する配列を作成
+      var totalGenreList = new Array();
+
+      //各ライブに登録されているジャンル名を格納
+      for(var i=0; i<currentItem.length; i++) {
+        totalGenreList[i] = currentItem[i].genre;
+      }
+
+      //全ジャンルの重複数をカウントする配列を作成
+      var totalGenreCounts = {};
+
+      //{ジャンル名:重複数}の形で値を格納
+      for(var i=0;i< totalGenreList.length;i++) {
+        var key = totalGenreList[i];
+        if (totalGenreList[i] != '') {
+          totalGenreCounts[key] = (totalGenreCounts[key])? totalGenreCounts[key] + 1 : 1 ;
+        }
+      }
+ 
+      if (Object.keys(totalGenreCounts).length > 0) {
+
+        //ジャンルとその件数をランキング形式で格納する連想配列を作成
+        var totalGenreRank = [];
+  
+        //{name:ジャンル名, count:件数}の形で値を格納
+        for(var i=0;i< Object.keys(totalGenreCounts).length;i++) {
+          totalGenreRank[i] = {};
+          totalGenreRank[i].name = Object.keys(totalGenreCounts)[i];
+          totalGenreRank[i].count = Object.values(totalGenreCounts)[i];
+        }
+
+        //countを第1キー、nameを第2キーとしてtotalGenreRankを降順にソート
+        ObjArraySort2(totalGenreRank, 'count', 'desc', 'name', 'desc');
+
+        //ジャンル別サマリーのタイトルを表示
+        var genreSummaryTitle = document.createElement('div');
+        genreSummaryTitle.setAttribute('class', 'list-title');
+        genreSummaryTitle.innerText = 'GENRE';
+        $('summary-content').appendChild(genreSummaryTitle);
+
+        //ジャンル別サマリーのリストを表示
+        var genreSummaryList = document.createElement('ul');
+        genreSummaryList.setAttribute('class', 'list');
+        $('summary-content').appendChild(genreSummaryList);
+
+        //ジャンル別ランキングを表示
+        for(var i=0;i< totalGenreRank.length;i++) {
+          genreSummaryList.innerHTML += '<li class="list-item"><div class="list-item__center"><div class="list-item__label">' + totalGenreRank[i].name + '</div></div><div class="list-item__right">' + totalGenreRank[i].count + '</div></li>';
+        }
+
+      }
+
+      if (totalCount > 0) {
+
+        //参加済ライブの全アーティストを格納する配列を作成
+        var totalArtistList = new Array();
+
+        for(var i=0; i<currentItem.length; i++) {
+          
+          //各ライブに登録されているアーティストの数を取得
+          var eachArtistsNum = Object.keys(currentItem[i].artists).length;
+
+          //各ライブに登録されているアーティスト一覧を格納する配列を作成
+          var eachArtistList = new Array();
+
+          //各ライブに登録されているアーティスト一覧をeachArtistListに格納
+          for(var j=0; j<eachArtistsNum; j++) {
+            var eachArtistId = 'artist' + j;
+            eachArtistList[j] = currentItem[i].artists[eachArtistId].name;
+          }
+
+          //各ライブ毎に抽出したアーティスト一覧をtotalArtistListに結合
+          Array.prototype.push.apply(totalArtistList, eachArtistList);
+
+        }
+
+        //全アーティストの重複数をカウントする配列を作成
+        var totalArtistCounts = {};
+
+        //{アーティスト名:重複数}の形で値を格納
+        for(var i=0;i< totalArtistList.length;i++) {
+          var key = totalArtistList[i];
+          totalArtistCounts[key] = (totalArtistCounts[key])? totalArtistCounts[key] + 1 : 1 ;
+        }
+
+        // アーティストとその件数をランキング形式で格納する連想配列を作成
+        var totalArtistRank = [];
+
+        //{name:ジャンル名, count:件数}の形で値を格納
+        for(var i=0;i< Object.keys(totalArtistCounts).length;i++) {
+          totalArtistRank[i] = {};
+          totalArtistRank[i].name = Object.keys(totalArtistCounts)[i];
+          totalArtistRank[i].count = Object.values(totalArtistCounts)[i];
+        }
+
+        //countを第1キー、nameを第2キーとしてtotalArtistRankをソート
+        ObjArraySort2(totalArtistRank, 'count', 'desc', 'name', 'asc');
+
+        //アーティスト別サマリーのタイトルを表示
+        var artistSummaryTitle = document.createElement('div');
+        artistSummaryTitle.setAttribute('class', 'list-title');
+        artistSummaryTitle.innerText = 'ARTIST';
+        $('summary-content').appendChild(artistSummaryTitle);
+
+        //アーティスト別サマリーのリストを表示
+        var artistSummaryList = document.createElement('ul');
+        artistSummaryList.setAttribute('class', 'list');
+        $('summary-content').appendChild(artistSummaryList);
+
+        //アーティスト別サマリーのリピート領域を作成
+        var artistSummaryRepeat = document.createElement('ons-lazy-repeat');
+        artistSummaryRepeat.setAttribute('id', 'artist-summary-list');
+        artistSummaryList.appendChild(artistSummaryRepeat);
+
+        var infiniteList2 = artistSummaryRepeat;
+
+        //アーティスト別ランキングを表示
+        infiniteList2.delegate = {
+          createItemContent: function(i) {
+
+            return ons.createElement('<li class="list-item"><div class="list-item__center"><div class="list-item__label">' + totalArtistRank[i].name + '</div></div><div class="list-item__right">' + totalArtistRank[i].count + '</div></li>');
+
+          },
+          countItems: function() {
+            return totalArtistRank.length;
+          }
+        };
+
+      }
+
+    } else {
+      //データが登録されていなかったら文言を表示
+      $('summary-title').innerHTML = 'SUMMARY';
+      $('summary-content').innerHTML = '<ons-list><ons-list-item><div class="center">ライブが登録されていません。</div></ons-list-item></ons-list>';
+    }
+
   }
 
 });
@@ -1284,9 +1521,14 @@ function isUrl(str) {
   }
 }
 
-//☆年のプルダウンを選択した時の処理
+//☆ライブ一覧で年のプルダウンを選択した時の処理
 function changeYear(obj){
   document.querySelector('#myNavigator').resetToPage('list.html', {data: {year: obj.value}});
+}
+
+//☆データ集計で年のプルダウンを選択した時の処理
+function changeSummaryYear(obj){
+  document.querySelector('#myNavigator2').resetToPage('summary.html', {data: {year: obj.value}});
 }
 
 //☆アーティストの「+」ボタンが押された時の処理

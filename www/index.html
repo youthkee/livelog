@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <meta name="format-detection" content="telephone=no">
 
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
@@ -29,6 +30,9 @@
           </ons-list-item>
           <ons-list-item onclick="allDataClear()" tappable>
             データクリア
+          </ons-list-item>
+          <ons-list-item onclick="fn.load('summary-home.html')" tappable>
+            データ集計
           </ons-list-item>
         </ons-list>
         <div class="list-title"><ons-icon icon="md-info-outline"></ons-icon> Info</div>
@@ -815,6 +819,28 @@
     </div>
   </ons-page>
   </ons-template>
+
+  <ons-template id="summary-home.html">
+    <ons-page id="summary-home">
+      <ons-navigator id="myNavigator2" page="summary.html"></ons-navigator>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="summary.html">
+    <ons-page id="summary">
+      <ons-toolbar modifier="material" class="toolbar--material toolbar--livelog">
+        <div class="left">
+          <ons-toolbar-button class="toolbar-button--material" onclick="fn.open()">
+            <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center" id="summary-title">
+        </div>
+      </ons-toolbar>
+      <div id="summary-content">
+      </div>
+    </ons-page>
+    </ons-template>
 
 <script src="components/loader.js"></script>
 <script src="lib/onsenui/js/onsenui.min.js"></script>
