@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="mobi.littlebird.livelog" version="1.0.5">
+<widget xmlns="http://www.w3.org/ns/widgets" id="mobi.littlebird.livelog" version="1.1.0">
   <name>Livelog</name>
   <description>Made with Monaca (http://monaca.mobi)</description>
   <author/>
@@ -54,6 +54,7 @@
     <splash src="/res/ios/screen/Default-Landscape~ipad.png" width="1024" height="768"/>
     <splash src="/res/ios/screen/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
     <splash src="/res/ios/screen/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
+    <icon src="/res/ios/icon/icon-1024.png" width="1024" height="1024"/>
     <config-file platform="ios" parent="CFBundleLocalizations" target="*-Info.plist">
       <array>
         <string>ja</string>
@@ -73,7 +74,7 @@
     <splash src="/res/android/screen/splash-port-xhdpi.9.png" density="port-xhdpi"/>
     <splash src="/res/android/screen/splash-port-xxhdpi.9.png" density="port-xxhdpi"/>
     <splash src="/res/android/screen/splash-port-xxxhdpi.9.png" density="port-xxxhdpi"/>
-    <preference name="android-targetSdkVersion" value="26" />
+    <preference name="android-targetSdkVersion" value="26"/>
   </platform>
   <platform name="windows">
     <icon src="/res/winrt/icon/package_logo_winrt.png" target="StoreLogo"/>
