@@ -79,6 +79,7 @@ document.addEventListener('init', function(event) {
 
       //登録されている年の中から一番新しい年を取得
       var maxYear = Math.max.apply(null, yearList);
+      var minYear = Math.min.apply(null, yearList);
 
       //現在の年を取得
       var now = new Date();
@@ -87,12 +88,28 @@ document.addEventListener('init', function(event) {
       if (page.data.year) {
         //年パラメータが指定されていたら、それをselectedYearにする
         var selectedYear = page.data.year;
-      } else if (maxYear >= currentYear) {
-        //現在よりも未来の年が登録されている場合は、今年をselectedYearにする
-        var selectedYear = currentYear;
       } else {
-        //現在よりも過去の年しか登録されていない場合は、その中で一番新しい年をselectedYearにする
-        var selectedYear = maxYear;
+        if (yearList.indexOf(String(currentYear)) >= 0){
+          //yearListに今年が含まれている時、今年をselectedYearにする
+          var selectedYear = currentYear;
+        } else {
+          //yearListに今年が含まれていない時
+          if (minYear > currentYear) {
+            //yearListの最小値が今年より大きい時、最小値をselectedYearにする
+            var selectedYear = minYear;
+          } else {
+            if (maxYear < currentYear) {
+              //yearListの最大値が今年より小さい時、最大値をselectedYearにする
+              var selectedYear = maxYear;
+            } else {
+              //yearListの最大値が今年より大きい時、今年より大きな値のみ抽出し、その最小値をselectedYearにする
+              var futureList = yearList.filter(function (element) {
+                return element > currentYear;
+              });
+              var selectedYear = Math.min.apply(null, futureList);
+            }
+          }
+        }
       }
 
       //年のプルダウンを格納するためのセレクトボックスを生成
@@ -1211,6 +1228,7 @@ document.addEventListener('init', function(event) {
 
       //登録されている年の中から一番新しい年を取得
       var maxYear = Math.max.apply(null, yearList);
+      var minYear = Math.min.apply(null, yearList);
 
       //現在の年を取得
       var now = new Date();
@@ -1219,12 +1237,28 @@ document.addEventListener('init', function(event) {
       if (page.data.year) {
         //年パラメータが指定されていたら、それをselectedYearにする
         var selectedYear = page.data.year;
-      } else if (maxYear >= currentYear) {
-        //現在よりも未来の年が登録されている場合は、今年をselectedYearにする
-        var selectedYear = currentYear;
       } else {
-        //現在よりも過去の年しか登録されていない場合は、その中で一番新しい年をselectedYearにする
-        var selectedYear = maxYear;
+        if (yearList.indexOf(String(currentYear)) >= 0){
+          //yearListに今年が含まれている時、今年をselectedYearにする
+          var selectedYear = currentYear;
+        } else {
+          //yearListに今年が含まれていない時
+          if (minYear > currentYear) {
+            //yearListの最小値が今年より大きい時、最小値をselectedYearにする
+            var selectedYear = minYear;
+          } else {
+            if (maxYear < currentYear) {
+              //yearListの最大値が今年より小さい時、最大値をselectedYearにする
+              var selectedYear = maxYear;
+            } else {
+              //yearListの最大値が今年より大きい時、今年より大きな値のみ抽出し、その最小値をselectedYearにする
+              var futureList = yearList.filter(function (element) {
+                return element > currentYear;
+              });
+              var selectedYear = Math.min.apply(null, futureList);
+            }
+          }
+        }
       }
 
       //年のプルダウンを格納するためのセレクトボックスを生成
