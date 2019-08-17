@@ -1,7 +1,7 @@
 {
-    "name": "Livelog",
-    "short_name": "Livelog",
-    "description": "Mobile app for logging information of live concerts.",
+    "name": null,
+    "short_name": null,
+    "description": null,
     "icons": [
         {
             "src": "images/icons/icon-48x48.png",
@@ -49,12 +49,12 @@
             "type": "image/png"
         }
     ],
-    "lang": "ja",
-    "dir": "ltr",
-    "scope": "./",
-    "start_url": "./",
-    "display": "standalone",
-    "orientation": "any",
-    "background_color": "#fff",
-    "theme_color": "#E91E63"
+    "lang": null,
+    "dir": null,
+    "scope": null,
+    "start_url": null,
+    "display": null,
+    "orientation": null,
+    "background_color": null,
+    "theme_color": null
 }
